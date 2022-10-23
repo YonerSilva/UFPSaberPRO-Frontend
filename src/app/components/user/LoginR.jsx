@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "../../../index.css";
 import * as authService from '../../auth/auth.service.js';
-import toast,{Toaster} from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { alert_error } from '../../util/functions';
 
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
       const response = await authService.sign_in(usuario);
       toast.promise(new Promise((resolve, reject) => {
         if (response.token === null || response.token === undefined) {
-          setTimeout(() => {reject(response.error)}, 2000);
+          setTimeout(() => { reject(response.error) }, 2000);
           alert_error(response.message);
         } else {
           authService.userConected(response).then(() => {
@@ -56,19 +56,18 @@ const Login = () => {
       password: user.password,
     };
     return valores_iniciales;
-  };  
+  };
 
-  return (                      
-    <div className="maincontainer">
+  return (
+    <div>
       <Toaster />
       <div className="container-fluid">
-        <div className="row no-gutter">
-          <div className="col-md-6 d-none d-md-flex bg-image"></div>
-          <div className="col-md-6 bg-light">
-            <div className="login d-flex align-items-center py-3">
+        <div className="login row no-gutter bg-fondo d-flex justify-content-center">
+          <div className="col-md-4 bg-light fondo-form my-auto">
+            <div className="py-5">
               <div className="container">
-                <div className="row">
-                  <div className="col-lg-10 col-xl-7 mx-auto">
+                <div className="row py-5">
+                  <div className="col-lg-10 col-xl-12 mx-auto">
                     <h3 className="text-center">U F P S a b e r P R O</h3>
                     <p className="text-muted mb-4 py-3 text-center">
                       Ingresa tus datos para iniciar sesión
@@ -79,11 +78,12 @@ const Login = () => {
                           id="codigo"
                           type="number"
                           placeholder="Codigo"
-                          autoFocus=""
-                          className="form-control rounded-pill border-0 shadow-sm px-4"
-                          name="codigo" value={user.codigo} onChange={handleInputChange} required
-                          maxLength={7}
-                          minLength={7}
+                          className="form-control rounded-pill border-1 shadow-md shadow-ms px-4"
+                          name="codigo" value={user.codigo} onChange={handleInputChange}
+                          onInput={(e) => e.target.value = e.target.value.slice(0, 7)}
+                          maxLength="7"
+                          minLength="7"
+                          required
                         />
                       </div>
                       <div className="mb-3">
@@ -92,7 +92,7 @@ const Login = () => {
                           type="email"
                           placeholder="Correo Electronico"
                           autoFocus=""
-                          className="form-control rounded-pill border-0 shadow-sm px-4"
+                          className="form-control rounded-pill borde-1 shadow-md shadow-ms px-4"
                           name="username" value={user.username} onChange={handleInputChange} required
                         />
                       </div>
@@ -101,12 +101,12 @@ const Login = () => {
                           id="password"
                           type="password"
                           placeholder="Contraseña"
-                          className="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
+                          className="form-control rounded-pill border-1 shadow-md shadow-ms px-4"
                           name="password" value={user.password} onChange={handleInputChange} required
                         />
                       </div>
                       <div className="form-check">
-                        <input    
+                        <input
                           id="customCheck1"
                           type="checkbox"
                           className="form-check-input"
@@ -120,20 +120,20 @@ const Login = () => {
                             }
                           }}
                         />
-                        <label htmlFor="customCheck1" className="form-check-label">
+                        <label htmlFor="customCheck1" className="form-check-label ">
                           Mostrar Contraseña
                         </label>
                       </div>
                       <div className="row row-cols-2 justify-content-evenly mt-4">
                         <button
                           type="submit"
-                          className="col-5 btn btn-success btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                          className="col-5 btn btn-danger btn-block  mb-2 rounded-pill shadow-sm"
                         >
                           Entrar
                         </button>
                         <button
                           type="button"
-                          className="col-5 col-sm-5 btn btn-success btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                          className="col-5 col-sm-5 btn btn-danger btn-block  mb-2 rounded-pill shadow-sm"
                           onClick={() => navigate(`/sign_up`)}
                         >
                           Registrarse
@@ -147,7 +147,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default Login;

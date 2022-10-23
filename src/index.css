@@ -1,14 +1,9 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+  font-family: 'Alegreya Sans'!important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: 'Roboto',serif,
     monospace;
 }
 
@@ -25,28 +20,42 @@ input[type="number"] {
 
 .login,
 .image {
+  background-image: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0.8)
+  ), url("https://www.laopinion.com.co/sites/default/files/2020/12/15/imagen/1.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
   min-height: 100vh;
 }
 
-.bg-image {
-  background-color: rgb(0, 255, 255);
-  border-style: solid;
-  border-image-outset: 2px;
-  border-color: cyan;
-  /*background-image: url("../public/images/portada.jpg");*/
-  background-size: cover;
-  background-position: center center;
-  filter: blur(3px);
+.login .fondo-form{
+  border-radius: 7%
 }
+
+
+.form-check-input:checked {
+  background-color: #fd0d0d;
+  border-color: #fd0d0d;
+} 
+
+input {
+  margin: 1rem 0rem 0.8rem 0rem;
+}
+
 
 /*Registro Usuario*/
 
 body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   display: flex;
   font-weight: 400;
-  font-family: "Fira Sans", sans-serif;
 }
+
 h1,
 h2,
 h3,
@@ -56,8 +65,12 @@ h6,
 label,
 span {
   font-weight: 500;
-  font-family: "Fira Sans", sans-serif;
 }
+
+input{
+  font-family: 'Roboto'!important;
+}
+
 body,
 html,
 .App,
@@ -65,6 +78,11 @@ html,
 .auth-wrapper {
   width: 100%;
   height: 100%;
+}
+
+h3{
+font-weight: bold;
+font-size: 42px;
 }
 .navbar-light {
   background-color: #ffffff;
@@ -100,7 +118,16 @@ html,
 }
 
 /*Campo Requerido * */
-.required:after {
-  content: "(*)";
-  color: red;
+input:invalid:required {
+  background-color: #ec4848;
 }
+
+.form-control::placeholder{
+  color: rgb(255, 255, 255);
+}
+
+.invalid-select{
+  background-color: #ec4848;
+  color: rgb(255, 255, 255);
+}
+

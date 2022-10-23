@@ -35,14 +35,18 @@ export function alert_error(error, message) {
 export function verificarCamposRegister() {
      let nombre = document.getElementById("nombre").value;
      let apellido = document.getElementById("apellido").value;
+     let codigo = document.getElementById("codigo").value;
+     let programa = document.getElementById("programa").value;
      let email = document.getElementById("email").value;
      let password = document.getElementById("password").value;
-     if (nombre === "" || apellido === "" || email === "" || password === "") {
+     if (nombre === "" || apellido === "" || codigo === "" || programa ==="" || email === "" || password === "") {
           alert_error("Oops...!", "Los campos no pueden estar vacios.");
      } else {
-          if (verificarContraseña()) {
+          if (verificarContraseña() && codigo.toString().length==7) {
                let button = document.getElementById("btn_register_user");
                button.setAttribute('type', 'submit');
+          }else{
+               alert_error("¡Error!", "Verifique los campos e intente nuevamente.");
           }
      }
 };
@@ -97,9 +101,4 @@ export function firstCharUpper(cadena) {
           }
      }
      return cadena;
-}
-
-export function generateClick() {
-     let element = document.getElementById("btn_register");
-     element.click();
 }

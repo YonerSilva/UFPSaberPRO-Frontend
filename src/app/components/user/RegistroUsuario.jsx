@@ -41,7 +41,18 @@ function RegistroUsuario() {
   };
 
   const handleInputChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    const name = e.target.name;
+    const value = e.target.value;
+    setUser(prevUser=>({ ...prevUser, [name]: value }));
+    console.log(name);
+    if (name === "programa") {
+      let select = document.getElementById("programa");
+      if (value === "") {
+        select.classList.add("invalid-select");
+      } else {
+        select.classList.remove("invalid-select");
+      }
+    }
   };
 
   function upperCase() {
@@ -61,135 +72,130 @@ function RegistroUsuario() {
     <div className="maincontainer">
       <Toaster />
       <div className="container-fluid">
-        <div className="row no-gutter">
-          <div className="col-md-6 d-none d-md-flex bg-image"></div>
-          <div className="col-md-6 bg-light">
-            <div className="login d-flex align-items-center py-3">
+        <div className="login row no-gutter bg-fondo d-flex justify-content-center">
+          <div className="col-md-4 bg-light fondo-form my-auto">
+            <div className="bform" row no-gutter bg-fondo d-flex justify-content-center>
               <div className="container">
-                <div className="row">
-                  <div className="col-lg-10 col-xl-7 mx-auto">
-                    <h3 className="display-4 text-center">Registrarse</h3>
-                    <form onSubmit={handleSubmit} >
-                      <div className="form-group">
-                        <label className="required">Nombres</label>
-                        <input
-                          id="nombre"
-                          type="text"
-                          className="form-control"
-                          placeholder="Nombres"
-                          name="nombre"
-                          value={user.nombre}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label className="required">Apellidos</label>
-                        <input
-                          id="apellido"
-                          type="text"
-                          className="form-control"
-                          placeholder="Apellidos"
-                          name="apellido"
-                          value={user.apellido}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label className="required">Codigo</label>
-                        <input
-                          id="codigo"
-                          type="number"
-                          className="form-control"
-                          placeholder="Codigo"
-                          name="codigo"
-                          value={user.codigo}
-                          onChange={handleInputChange}
-                          required
-                          maxLength={7}
-                          minLength={7}
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label className="required">Programa</label>
-                        <select
-                          id="programa"
-                          className="form-select"
-                          name="programa"
-                          value={user.programa}
-                          onChange={handleInputChange}
-                          required
-                        >
-                          <option defaultValue={""} hidden value="">Programa</option>
-                          <option value="Original">Original</option>
-                          <option value="Generico">Generico</option>
-                          <option value="Alternativo">Alternativo</option>
-                        </select>
-                      </div>
-                      <div className="form-group">
-                        <label className="required">Email</label>
-                        <input
-                          id="email"
-                          type="email"
-                          className="form-control"
-                          placeholder="Email"
-                          name="username"
-                          value={user.username}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="form-group">
-                        <label className="required">Contraseña</label>
-                        <input
-                          id="password"
-                          type="password"
-                          className="form-control"
-                          placeholder="Contraseña"
-                          name="password"
-                          value={user.password}
-                          onChange={handleInputChange}
-                          required
-                        />
-                      </div>
-                      <div className="form-check">
-                        <input
-                          id="customCheck1"
-                          type="checkbox"
-                          className="form-check-input"
-                          onClick={() => {
-                            let password = document.getElementById("password");
-                            let checkbox = document.getElementById("customCheck1");
-                            if (checkbox.checked === true) {
-                              password.setAttribute("type", "text")
-                            } else {
-                              password.setAttribute("type", "password")
-                            }
-                          }}
-                        />
-                        <label htmlFor="customCheck1" className="form-check-label">
-                          Mostrar Contraseña
-                        </label>
-                      </div>
-                      <div className="d-flex justify-content-center">
-                        <button
-                          id="btn_register_user"
-                          type="button"
-                          className="btn btn-success btn-block my-2"
-                          onClick={() => { verificarCamposRegister() }}
-                        >
-                          Registrarse
-                        </button>
-                      </div>
-                      <p className="forgot-password text-right">
-                        Ya está registrado{" "}
-                        <a type="button" href="/">
-                          iniciar sesión?
-                        </a>
-                      </p>
-                    </form>
-                  </div>
+                <div className="row py-3"></div>
+                <div className="col-lg-10 col-xl-12 mx-auto">
+                  <h3 className="text-center">U F P S a b e r P R O</h3>
+                  <p className="text-muted mb-4 py-3 text-center">
+                      Ingresa tus datos para registrarte
+                    </p>
+                  <form onSubmit={handleSubmit} >
+                    <div className="form-group">
+                      <input
+                        id="nombre"
+                        type="text"
+                        className="form-control rounded-pill"
+                        placeholder="Nombres"
+                        name="nombre"
+                        value={user.nombre}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        id="apellido"
+                        type="text"
+                        className="form-control rounded-pill"
+                        placeholder="Apellidos"
+                        name="apellido"
+                        value={user.apellido}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        id="codigo"
+                        type="number"
+                        className="form-control rounded-pill"
+                        placeholder="Codigo"
+                        name="codigo"
+                        value={user.codigo}
+                        onChange={handleInputChange}
+                        onInput={(e) => e.target.value = e.target.value.slice(0, 7)}
+                        required
+                        maxLength={7}
+                        minLength={7}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <select
+                        id="programa"
+                        className="form-select rounded-pill invalid-select"
+                        name="programa"
+                        value={user.programa}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option defaultValue={""} hidden value="">Programa</option>
+                        <option value="Original">Original</option>
+                      </select>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        id="email"
+                        type="email"
+                        className="form-control rounded-pill"
+                        placeholder="Email"
+                        name="username"
+                        value={user.username}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        id="password"
+                        type="password"
+                        className="form-control rounded-pill"
+                        placeholder="Contraseña"
+                        name="password"
+                        value={user.password}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="form-check">
+                      <input
+                        id="customCheck1"
+                        type="checkbox"
+                        className="form-check-input"
+                        onClick={() => {
+                          let password = document.getElementById("password");
+                          let checkbox = document.getElementById("customCheck1");
+                          if (checkbox.checked === true) {
+                            password.setAttribute("type", "text")
+                          } else {
+                            password.setAttribute("type", "password")
+                          }
+                        }}
+                      />
+                      <label htmlFor="customCheck1" className="form-check-label">
+                        Mostrar Contraseña
+                      </label>
+                    </div>
+                    <div className="row row-cols-2 justify-content-evenly mt-4 py-3">
+                      <button
+                        id="btn_register_user"
+                        type="button"
+                        className="col-5 btn btn-danger btn-block  mb-2 rounded-pill shadow-sm"
+                        onClick={() => { verificarCamposRegister() }}
+                      >
+                        Registrarse
+                      </button>
+                      <button
+                        type="button"
+                        className="col-5 col-sm-5 btn btn-danger btn-block  mb-2 rounded-pill shadow-sm"
+                        onClick={() => navigate(`/`)}
+                      >
+                        Volver
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
