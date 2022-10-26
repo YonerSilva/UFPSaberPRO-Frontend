@@ -3,41 +3,48 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "../../../index.css";
-import * as authService from '../../auth/auth.service.js';
+import * as service from '../../store/services/UsuarioService';
 import toast, { Toaster } from 'react-hot-toast';
 import { alert_error } from '../../util/functions';
+import useAuth from '../auth/useAuth';
 
 const Login = () => {
   const navigate = useNavigate();
 
   const valores_iniciales = {
-    codigo: "",
-    email: "",
-    password: "",
+    codigo: "1151833",
+    email: "yonerarbeysl@ufps.edu.co",
+    password: "Roger123",
   };
 
   const [user, setUser] = useState(valores_iniciales);
+  const { setAuth, setActive } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const usuario = upperCase();
-      const response = await authService.sign_in(usuario);
+      const response = await service.sign_in(usuario);
       toast.promise(new Promise((resolve, reject) => {
         if (response.token === null || response.token === undefined) {
           setTimeout(() => { reject(response.error) }, 2000);
-          alert_error(response.message);
+          alert_error("¡Error!",response.message);
         } else {
-          authService.userConected(response).then(() => {
+          service.userConected(response).then(() => {
+            setAuth({
+              usuario: response.usuario,
+              token: response.token
+            });
+            setActive(true);
             setTimeout(() => {
-              //navigate("/productos");
+              navigate("/UFPSaberPRO/inicio");
               resolve();
             }, 2000);
           });
         }
       }), {
         loading: "Cargando...",
-        error: "Error! \n" + response.error,
+        error: "¡Error! \n" + response.error,
         success: response.message,
       });
     } catch (error) {
@@ -93,7 +100,7 @@ const Login = () => {
                           placeholder="Correo Electronico"
                           autoFocus=""
                           className="form-control rounded-pill borde-1 shadow-md shadow-ms px-4"
-                          name="username" value={user.username} onChange={handleInputChange} required
+                          name="email" value={user.email} onChange={handleInputChange} required
                         />
                       </div>
                       <div className="mb-3">

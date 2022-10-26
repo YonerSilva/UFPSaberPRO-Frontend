@@ -1,25 +1,25 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import * as authService from '../auth/auth.service'
+import * as service from '../store/services/UsuarioService'
 import { alert_error, alert_logout } from "../util/functions";
 
 const ProtectedRoutes = () => {
 
   async function validateToken() {
     try {
-      let token = authService.getUserToken();
+      let token = service.getUserToken();
       if (token != null && token !== "" && token !== 'null' && token !== undefined) {
-        const response = await authService.validateToken(token);
-        if(parseInt(response.status)===202){
+        const response = await service.validateToken(token);
+        if(parseInt(response.status)===200){
           return true;
         }
       }
-      throw "Acceso Denegado";
     } catch (error) {
-      alert_error("Error!", "Inicie sesión de nuevo.");
-      authService.logout();
-      alert_logout();
+      console.log(error);
     }
+    service.logout();
+    alert_error("¡Error!", "Sesión expirada.");
+    return false;
   };
 
   const useAuth = () => {

@@ -5,7 +5,8 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import { alert_success, alert_error, verificarCamposRegister, firstCharUpper } from "../../util/functions.js";
 import "../../../index.css";
 
-import * as authService from "../../auth/auth.service";
+import * as service from "../../store/services/UsuarioService";
+import { useAppContext } from "../../store/reducers/DatosGlobales";
 import { Toaster } from 'react-hot-toast';
 
 function RegistroUsuario() {
@@ -18,21 +19,24 @@ function RegistroUsuario() {
     programa: "",
     email: "",
     password: "",
-    roles: []
+    rol: ""
   };
 
   const [user, setUser] = useState(valores_iniciales);
+  const {state} = useAppContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const usuario = upperCase();
-      authService.sign_up(usuario).then(response => {
-        if (parseInt(response.status) === 201) {
+      service.sign_up(usuario).then(response => {
+        if (response.error!==null || response.error !== undefined) {
           alert_success(response.message, "Bienvenido " + usuario.nombres + " " + usuario.apellidos + ".");
-          navigate("/");
+          setTimeout(()=>{
+            navigate("/")
+          },5000);
         } else {
-          alert_error("Error!", "No se pudo crear el usuario.");
+          alert_error("¡Error!", response.error);
         }
       });
     } catch (error) {
@@ -44,9 +48,17 @@ function RegistroUsuario() {
     const name = e.target.name;
     const value = e.target.value;
     setUser(prevUser=>({ ...prevUser, [name]: value }));
-    console.log(name);
     if (name === "programa") {
       let select = document.getElementById("programa");
+      if (value === "") {
+        select.classList.add("invalid-select");
+      } else {
+        select.classList.remove("invalid-select");
+      }
+    }
+
+    if (name === "rol") {
+      let select = document.getElementById("rol");
       if (value === "") {
         select.classList.add("invalid-select");
       } else {
@@ -63,7 +75,7 @@ function RegistroUsuario() {
       programa: user.programa,
       email: user.email.toUpperCase(),
       password: user.password,
-      roles: user.roles
+      rol: user.rol
     };
     return valores_iniciales;
   };
@@ -74,12 +86,12 @@ function RegistroUsuario() {
       <div className="container-fluid">
         <div className="login row no-gutter bg-fondo d-flex justify-content-center">
           <div className="col-md-4 bg-light fondo-form my-auto">
-            <div className="bform" row no-gutter bg-fondo d-flex justify-content-center>
+            <div className="bform">
               <div className="container">
                 <div className="row py-3"></div>
                 <div className="col-lg-10 col-xl-12 mx-auto">
                   <h3 className="text-center">U F P S a b e r P R O</h3>
-                  <p className="text-muted mb-4 py-3 text-center">
+                  <p className="text-muted text-center">
                       Ingresa tus datos para registrarte
                     </p>
                   <form onSubmit={handleSubmit} >
@@ -131,8 +143,29 @@ function RegistroUsuario() {
                         onChange={handleInputChange}
                         required
                       >
-                        <option defaultValue={""} hidden value="">Programa</option>
-                        <option value="Original">Original</option>
+                        <option key="0" defaultValue={""} hidden value="">Programa</option>
+                        {
+                          state.lista_programas.map((programa, index)=>(
+                            <option key={(index+1)} value={programa.prg_codigo}>{programa.prg_codigo+"-"+programa.prg_nombre}</option>
+                          ))
+                        }
+                      </select>
+                    </div>
+                    <div className="form-group mt-3">
+                      <select
+                        id="rol"
+                        className="form-select rounded-pill invalid-select"
+                        name="rol"
+                        value={user.rol}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option key="0" defaultValue={""} hidden value="">Rol</option>
+                        {
+                          state.lista_roles.map((rol, index)=>(
+                            <option key={(index+1)} value={rol.id_rol}>{rol.rol_nombre?rol.rol_nombre.split("_")[1]:""}</option>
+                          ))
+                        }
                       </select>
                     </div>
                     <div className="form-group">
@@ -141,8 +174,8 @@ function RegistroUsuario() {
                         type="email"
                         className="form-control rounded-pill"
                         placeholder="Email"
-                        name="username"
-                        value={user.username}
+                        name="email"
+                        value={user.email}
                         onChange={handleInputChange}
                         required
                       />
@@ -178,7 +211,7 @@ function RegistroUsuario() {
                         Mostrar Contraseña
                       </label>
                     </div>
-                    <div className="row row-cols-2 justify-content-evenly mt-4 py-3">
+                    <div className="row row-cols-2 justify-content-evenly py-3">
                       <button
                         id="btn_register_user"
                         type="button"

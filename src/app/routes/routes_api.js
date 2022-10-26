@@ -2,7 +2,7 @@ import React from "react";
 
 const API = {
      GENERAL: {
-          DATOS_GENERALES: "api/getGeneral"
+          DATOS_GENERALES: "auth/api/general/getDatos"
      },
      AUTH: {
           SIGN_UP: "auth/register",

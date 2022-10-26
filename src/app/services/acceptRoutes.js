@@ -10,8 +10,8 @@ const Rutas = () => {
           <Router>
                <Routes>
                     <Route element={<ProtectedRoutes/>}>
-                         {routes.private.map(({ path, element, name}) => (
-                              <Route exact key={name} path={path} element={element} />
+                         {routes.private.map((element) => (
+                              element
                          ))}
                     </Route>
 

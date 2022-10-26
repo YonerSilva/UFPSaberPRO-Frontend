@@ -1,11 +1,9 @@
 //Alertas Bonitas
 import toast from 'react-hot-toast';
 
-import { useState } from "react";
-
 export function alert_success(success, message) {
      toast.success(success + "\n" + message, {
-          duration: 1500,
+          duration: 3000,
           position: "bottom-right",
      });
 };
@@ -13,9 +11,9 @@ export function alert_success(success, message) {
 export function alert_logout() {
      toast.promise(
           new Promise((resolve, reject) => {
-               setTimeout(()=>{
+               setTimeout(() => {
                     resolve();
-                    setTimeout(()=>window.location.href="/", 1500);
+                    setTimeout(() => window.location.href = "/", 1500);
                }, 2000)
           }),
           {
@@ -27,32 +25,48 @@ export function alert_logout() {
 }
 
 export function alert_error(error, message) {
-     toast.error(error + "\n" + message,{
+     toast.error(error + "\n" + message, {
           position: "bottom-right",
      });
 };
 
 export function verificarCamposRegister() {
-     let nombre = document.getElementById("nombre").value;
-     let apellido = document.getElementById("apellido").value;
-     let codigo = document.getElementById("codigo").value;
-     let programa = document.getElementById("programa").value;
-     let email = document.getElementById("email").value;
-     let password = document.getElementById("password").value;
-     if (nombre === "" || apellido === "" || codigo === "" || programa ==="" || email === "" || password === "") {
-          alert_error("Oops...!", "Los campos no pueden estar vacios.");
-     } else {
-          if (verificarContraseña() && codigo.toString().length==7) {
-               let button = document.getElementById("btn_register_user");
-               button.setAttribute('type', 'submit');
-          }else{
-               alert_error("¡Error!", "Verifique los campos e intente nuevamente.");
+     try {
+          let nombre = document.getElementById("nombre").value;
+          let apellido = document.getElementById("apellido").value;
+          let codigo = document.getElementById("codigo").value;
+          let programa = document.getElementById("programa").value;
+          let email = document.getElementById("email").value;
+          let password = document.getElementById("password").value;
+          let rol = document.getElementById("rol").value;
+          if (nombre === "" || apellido === "" || codigo === "" || rol === "" || programa === "" || email === "" || password === "") {
+               throw new Error("Los campos no pueden estar vacios.");
+          } else {
+               if (verificarContraseña(password) && verificarCodigo(codigo, programa)) {
+                    let button = document.getElementById("btn_register_user");
+                    button.setAttribute('type', 'submit');
+               }
           }
+     } catch (error) {
+          alert_error("¡Error!", error);
      }
 };
 
-function verificarContraseña() {
-     let password = document.getElementById('password').value;
+function verificarCodigo(codigo, programa) {
+     let cod = new String(codigo);
+     if (cod.length === 7) {
+          let prg = cod.substring(0, 3);
+          if (prg===programa.toString()) {
+               return true;
+          }else{
+               throw new Error("El codigo no coincide con el programa seleccionado.");
+          }
+     } else {
+          throw new Error("El codigo debe tener 7 numeros.");
+     }
+}
+
+function verificarContraseña(password) {
      if (password.length >= 8) {
           let codigo, mayus, mini, num;
           mayus = false;
@@ -77,8 +91,7 @@ function verificarContraseña() {
                return true;
           }
      } else {
-          alert_error("Error!", "La contraseña debe tener como minimo 8 caracteres. \n Además, la contraseña debe tener al menos una letra mayuscula, una minuscula y un numero.");
-          return false;
+          throw new Error("La contraseña debe tener como minimo 8 caracteres. \n Además, la contraseña debe tener al menos una letra mayuscula, una minuscula y un numero.");
      }
 }
 

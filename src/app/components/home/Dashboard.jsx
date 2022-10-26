@@ -14,7 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogOutIcon from "@mui/icons-material/Logout";
 import MenuList from "./MenuHome";
-import * as authService from "../../auth/auth.service";
+import * as service from "../../store/services/UsuarioService";
 import { alert_logout } from "../../util/functions";
 import { Toaster } from 'react-hot-toast';
 
@@ -109,7 +109,7 @@ function DashboardContent({ contenedor }) {
             <IconButton
               color="inherit"
               onClick={() => {
-                authService.logout();
+                service.logout();
                 alert_logout();
               }}
             >
