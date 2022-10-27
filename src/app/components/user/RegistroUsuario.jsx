@@ -31,7 +31,7 @@ function RegistroUsuario() {
       const usuario = upperCase();
       service.sign_up(usuario).then(response => {
         if (response.error!==null || response.error !== undefined) {
-          alert_success(response.message, "Bienvenido " + usuario.nombres + " " + usuario.apellidos + ".");
+          alert_success(response.message, "Bienvenido (a)" + usuario.nombre + " " + usuario.apellido + ".");
           setTimeout(()=>{
             navigate("/")
           },5000);

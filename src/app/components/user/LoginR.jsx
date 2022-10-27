@@ -12,9 +12,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   const valores_iniciales = {
-    codigo: "1151833",
-    email: "yonerarbeysl@ufps.edu.co",
-    password: "Roger123",
+    codigo: "",
+    email: "",
+    password: "",
   };
 
   const [user, setUser] = useState(valores_iniciales);
