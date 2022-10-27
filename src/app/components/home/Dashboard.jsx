@@ -82,7 +82,7 @@ function DashboardContent({ contenedor }) {
           <Toolbar
             sx={{
               pr: "24px", // keep right padding when drawer closed
-              background:"green",
+              background:"#DD4B39",
             }}
           >
             <IconButton
@@ -104,7 +104,7 @@ function DashboardContent({ contenedor }) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              SUPERMERCADO
+              UFPSaberPRO
             </Typography>
             <IconButton
               color="inherit"

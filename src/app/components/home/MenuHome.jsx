@@ -3,7 +3,20 @@ import { useNavigate } from "react-router-dom";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InventoryIcon from '@mui/icons-material/Inventory';
+//*
+//* Icon Home
+import HomeIcon from '@mui/icons-material/Home';
+//* Icon Convocatoria
+import CampaignIcon from '@mui/icons-material/Campaign';
+//*Icon Simulacro
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+//*Icon Subir Preguntas
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+//*Icon Revisar Preguntas
+import FindInPageIcon from '@mui/icons-material/FindInPage';
+//*Icon Resultados Simulacros
+import AssignmentIcon from '@mui/icons-material/Assignment';
+//*
 import useAuth from "../auth/useAuth";
 
 
@@ -43,12 +56,13 @@ export default function MenuList() {
 
      return (
           <React.Fragment>
+          
                {
                     role_admin || role_docente || role_estudiante
                          ?
                          <ListItemButton onClick={() => { navigate('/UFPSaberPRO/inicio') }}>
                               <ListItemIcon>
-                                   <InventoryIcon sx={{ color: "red" }} />
+                                   <HomeIcon sx={{ color: "red" }} />
                               </ListItemIcon>
                               <ListItemText primary="Inicio" />
                          </ListItemButton>
@@ -56,13 +70,44 @@ export default function MenuList() {
                          <div hidden></div>
                }
                {
-                    role_docente || role_estudiante
+                    role_admin
                          ?
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/inicio') }}>
+
+                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/convocatorias'); } }>
                               <ListItemIcon>
-                                   <InventoryIcon sx={{ color: "red" }} />
+                                   <CampaignIcon sx={{ color: "red" }} />
                               </ListItemIcon>
-                              <ListItemText primary="Simulacros" />
+                              <ListItemText primary="Convocatorias" />
+                         </ListItemButton>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/simulacros'); } }>
+                                   <ListItemIcon>
+                                        <MenuBookIcon sx={{ color: "red" }} />
+                                   </ListItemIcon>
+                                   <ListItemText primary="Simulacros" />
+                              </ListItemButton>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/resultados_simulacros'); } }>
+                                   <ListItemIcon>
+                                        <AssignmentIcon sx={{ color: "red" }} />
+                                   </ListItemIcon>
+                                   <ListItemText primary="Resultados Simulacros" />
+                              </ListItemButton>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/revisar_preguntas'); } }>
+                                   <ListItemIcon>
+                                        <FindInPageIcon sx={{ color: "red" }} />
+                                   </ListItemIcon>
+                                   <ListItemText primary="Revisar Preguntas" />
+                              </ListItemButton></>
+                         :
+                         <div hidden></div>
+               }
+               {
+                    role_docente || role_admin
+                         ?
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/subir_preguntas'); } }>
+                                   <ListItemIcon>
+                                        <CloudUploadIcon sx={{ color: "red" }} />
+                                   </ListItemIcon>
+                                   <ListItemText primary="Subir Preguntas" />
                          </ListItemButton>
                          :
                          <div hidden></div>
