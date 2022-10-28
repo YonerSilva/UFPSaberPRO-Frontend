@@ -3,10 +3,15 @@ import { Route } from 'react-router-dom';
 import LoginR from '../components/user/LoginR';
 import RegistroUsuario from '../components/user/RegistroUsuario';
 
+//Simulacros
+import ListaSimulacros from '../components/simulacros/SimulacrosLista';
+
 import Dashboard from '../components/home/Dashboard';
+
 
 import PersistAuth from '../components/auth/PersistentAuth';
 import RequireAuth from '../components/auth/RequireAuth';
+
 
 const ROLES = {
      'ADMIN': "ROLE_ADMINISTRADOR",
@@ -25,7 +30,7 @@ const routes =  {
                          <Route path="/UFPSaberPRO/convocatorias" key="conv" element={<Dashboard contenedor={<div>Convocatorias</div>} />} />
                     </Route>, 
                     <Route key="simulacros" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/simulacros" key="sims" element={<Dashboard contenedor={<div>Simulacros</div>} />} />
+                         <Route path="/UFPSaberPRO/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
                     </Route>
                     <Route key="resultados_simulacros" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/resultados_simulacros" key="resimu" element={<Dashboard contenedor={<div>Resultados Simulacros</div>} />} />

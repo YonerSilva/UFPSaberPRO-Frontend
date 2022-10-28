@@ -16,12 +16,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import SellIcon from '@mui/icons-material/Sell';
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
-import * as authService from '../../auth/auth.service';
+import * as service from '../../store/services/UsuarioService';
 import { alert_error, alert_success } from '../../util/functions';
 
 
 
-const TableDesign = ({ datos, columnsIgnore, columnCount, columnOption, optionSell }) => {
+const TableDesign = ({ datos, columnsIgnore, columnCount, columnOption }) => {
      const navigate = useNavigate();
      const [page, setPage] = React.useState(0);
      const [rowsPerPage, setRowsPerPage] = React.useState(3);
@@ -48,36 +48,6 @@ const TableDesign = ({ datos, columnsIgnore, columnCount, columnOption, optionSe
                fontSize: 10,
           },
      }));
-
-     function handleVender(producto) {
-          Swal.fire({
-               title: 'Vender Producto',
-               html:"<div class='form-group'>\
-                         <input id='cant_sell' type='number' placeholder='Cantidad' class='form-control'/>\
-                         <input id='date_sell' type='date' placeholder='Fecha de Venta' class='form-control mt-2'/>\
-                    </div>",
-               width:300,
-               showCancelButton: true,
-               
-          }).then(function (result) {
-               if (result.isConfirmed) {
-                    let cantidad = document.getElementById("cant_sell").value;
-                    let fecha = document.getElementById("date_sell").value;
-                    authService.venderProducto({
-                         cantidad:cantidad,
-                         fecha_venta: fecha.toString(), 
-                         id_producto: producto.id_producto, 
-                    }).then(response=>{
-                         if(response.error===""){
-                              alert_success("Exito!", "Producto Vendido");
-                              setTimeout(()=>{navigate("/reportes")}, 2000)
-                         }else{
-                              alert_error("Error!", "No se pudo vender, verifique e intente nuevamente.");                           }
-                         });
-               }
-          });
-
-     }
 
      function columnas() {
           let array = [];
@@ -136,7 +106,7 @@ const TableDesign = ({ datos, columnsIgnore, columnCount, columnOption, optionSe
 
                                                        {
                                                             (() => {
-                                                                 if (columnOption || optionSell) {
+                                                                 if (columnOption) {
                                                                       return (
                                                                            <StyledTableCell key={"opcion"} align='center'>OPCIONES</StyledTableCell>
                                                                       )
@@ -170,51 +140,6 @@ const TableDesign = ({ datos, columnsIgnore, columnCount, columnOption, optionSe
                                                                       </TableCell>
                                                                  ))
                                                             }
-                                                            {
-                                                                 (() => {
-                                                                      if (columnOption) {
-                                                                           return (
-                                                                                <TableCell key={"opcion1"} align='center'>
-                                                                                     <IconButton onClick={() => { 
-                                                                                          authService.getUsuarioProducto(dato.id_producto).then(response=>{
-                                                                                               if(response!==null){
-                                                                                                    Swal.fire({
-                                                                                                         title: "Informacion acerca del Producto",
-                                                                                                         html:"<div class='form-group'>\
-                                                                                                                   <p><b>Usuario Creador: </b>"+response.id_usuario.nombres+' '+response.id_usuario.apellidos+"</p>\
-                                                                                                                   <p><b>Fecha Creacion: </b>"+response.fecha_accion.split("T")[0]+"</p>\
-                                                                                                              </div>",
-                                                                                                         width:300
-                                                                                                    });
-                                                                                               }else{
-                                                                                                    alert_error("Error!","No se pudo encontrar.")
-                                                                                               }
-                                                                                          })
-                                                                                     }} title='Ver Informacion.' style={{ color: "green" }}><RemoveRedEyeIcon /></IconButton>,
-                                                                                     <IconButton onClick={() => { navigate("/productos/" + dato.id_producto + "/editar_producto") }} title='Editar producto.' style={{ color: "blue" }}><EditIcon /></IconButton>,
-                                                                                     <IconButton onClick={()=>{
-                                                                                          authService.deleteProducto(dato.id_producto).then(response=>{
-                                                                                               if(parseInt(response.status)===200){
-                                                                                                    alert_success("Éxito!", "Producto eliminado correctamente.");
-                                                                                                    navigate("/home");
-                                                                                               }else{
-                                                                                                    alert_error("Error!", "El Producto no se pudo eliminar.");
-                                                                                               }
-                                                                                          });
-                                                                                     }} title='Eliminar producto.' style={{ color: "red" }}><DeleteForever /></IconButton>
-                                                                                </TableCell>
-                                                                           )
-                                                                      }
-                                                                      if (optionSell) {
-                                                                           return (
-                                                                                <TableCell key={"opcion2"} align='center'>
-                                                                                     <IconButton onClick={() => { handleVender(dato) }} title='Vender producto.' style={{ color: "green" }}><SellIcon /></IconButton>,
-                                                                                </TableCell>
-                                                                           )
-                                                                      }
-                                                                 })()
-                                                            }
-
                                                        </TableRow>
                                                   ))}
 
