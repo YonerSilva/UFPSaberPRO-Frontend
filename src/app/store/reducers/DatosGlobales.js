@@ -8,6 +8,7 @@ export const DatosGReducer = (state, action) => {
 
      switch (type) {
           case ACCION.LISTAR_ITEM:
+               console.log(action);
                var data = [];
                state.lista_programas = payload.programas;
                state.lista_roles = payload.roles;
@@ -15,10 +16,11 @@ export const DatosGReducer = (state, action) => {
                     ...state,
                     data: data,
                }
-          case ACCION.SET_LISTA_CONVOCATORIAS_PROGRAMAS:
+          case ACCION.SET_LISTA_CONVOCATORIAS_PROGRAMA:
+               console.log(action);
                return {
                     ...state,
-                    lista_convocatorias_programa: payload.lista_convocatorias_programa,
+                    lista_convocatorias_programa: payload.convocatorias_programa,
                }
           default:
                return state;

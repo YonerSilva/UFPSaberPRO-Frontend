@@ -1,40 +1,47 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TableDesign from '../extra/Table';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
-import { Spinner } from 'react-bootstrap';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-import IconButton from "@mui/material/IconButton";
 import * as service from '../../store/services/ConvocatoriaService';
-import {useAppContext} from '../../store/reducers/DatosGlobales';
+import { useAppContext } from '../../store/reducers/DatosGlobales';
+import { alert_error } from '../../util/functions';
+import Barra from '../extra/BarraBusqueda';
+import Cargador from '../extra/CargadorEventos';
 
-const ListaConvocatorias = ()=>{
+const ListaConvocatorias = () => {
 
-     const {state,setConvocatoriasPrg} = useAppContext();
-     const [loading,setLoading] = useState(null);
+     const { state, setConvocatoriasPrg } = useAppContext();
+     const [convocatorias, setConvocatorias] = useState([]);
+     const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
-     const navigate = useNavigate();         
+     const navigate = useNavigate();
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
-               return state.lista_convocatorias_programa;
+               return convocatorias;
           } else {
                return data.filter(
                     (item) =>
-                         item.simu_nombre.toString().toUpperCase().includes(busqueda.toUpperCase())
+                         item.convo_nombre.toString().toUpperCase().includes(busqueda.toUpperCase())
                );
           }
      }
 
-     const getDatos = async()=>{
-          const response = await service.getDatosGenerales();
-          if(response.error!==null && response !== undefined){
-               setConvocatoriasPrg(response.general);
+     const getDatos = async () => {
+          try {
+               const response = await service.getDatosGenerales();
+               if (response.error === null) {
+                    setConvocatoriasPrg(response.general);
+                    setConvocatorias(response.general.convocatorias_programa);
+               } else {
+                    alert_error("¡Error!", response.message);
+               }
+               setLoading(true);
+          } catch (error) {
+               console.error(error);
           }
-          setLoading(true);
      }
 
      const columnsIgnore = [
@@ -44,9 +51,13 @@ const ListaConvocatorias = ()=>{
           "usuarios"
      ]
 
-     useEffect(()=>{
-          getDatos();
-     },[])
+     useEffect(() => {
+          if(state.lista_convocatorias_programa[0]===""){
+               getDatos();
+          }else{
+               setConvocatorias(state.lista_convocatorias_programa);
+          }
+     }, [])
 
      return (
           <React.Fragment>
@@ -57,43 +68,35 @@ const ListaConvocatorias = ()=>{
                          </Typography>
                          {
                               (() => {
-                                   if (state.lista_convocatorias_programa.length !== 0) {
+                                   if (convocatorias.length!==0) {
                                         return (
-                                             <nav className="navbar navbar-light bg-light rounded">
-                                                  <div className="container-fluid">
-                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/convocatorias/crear_convocatorias') }} className='btn btn-danger m-2'>Crear Conovocatoria</button>
-                                                       <div className="d-flex">
-                                                            <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />
-                                                       </div>
-                                                  </div>
-                                             </nav> 
+                                             <Barra 
+                                             button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/convocatorias/crear_convocatorias') }} className='btn btn-danger m-2'>Crear Convocatoria</button>} 
+                                             input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Convocatoria' placeholder="Buscar Convocatoria" className="form-control me-2 border border-danger shadow" type="search" aria-label="Buscar" />}
+                                             />
                                         )
                                    }
                               })()
                          }
-
                          <hr />
-                         <div className="container-fluid">       
+                         <div className="container-fluid">
                               {
                                    (() => {
-                                        if (loading) {
-                                             if (state.lista_convocatorias_programa.length !== 0) {
+                                        console.log(convocatorias.length!==0)
+                                        if (!loading) {
+                                             if (convocatorias.length===0) {
                                                   return (
-                                                       <div className='text-center'>
-                                                            <h2>No hay datos.</h2>
+                                                       <div className='text-center my-auto'>
+                                                            <h2>No hay covocatorias.</h2>
                                                        </div>
                                                   )
                                              } else {
                                                   return (
-                                                       <TableDesign columnCount={true} datos={handleBuscar(state.lista_convocatorias_programa)} columnsIgnore={columnsIgnore} columnOption={false}/>
+                                                       <TableDesign columnCount={true} datos={handleBuscar(convocatorias)} columnsIgnore={columnsIgnore} columnOption={false} />
                                                   )
                                              }
                                         } else {
-                                             return (
-                                                  <div className='d-flex justify-content-center'>
-                                                       <Spinner animation="border" variant='primary' size='' role="status" style={{ marginTop: '25%', marginBottom: '25%'}} />
-                                                  </div>
-                                             )
+                                             return (<Cargador/>)
                                         }
                                    })()
                               }

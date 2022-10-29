@@ -65,7 +65,7 @@ const TableDesign = ({ datos, columnsIgnore, columnCount, columnOption }) => {
           let cadena = "";
           for (const [key, value] of Object.entries(datos[0])) {
                words = `${key}`.split("_");
-               for (let i = 0; i < words.length; i++) {
+               for (let i = 1; i < words.length; i++) {
                     cadena += words[i] + " ";
                }
                if (!columnsIgnore.includes(`${key}`)) {

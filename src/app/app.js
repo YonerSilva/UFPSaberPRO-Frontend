@@ -38,8 +38,9 @@ const Constructor= ()=>{
      }
 
      const setConvocatoriasPrg = (datos) => {
-          dispatch({ type: 'SET_LISTA_CONVOCATORIAS_PROGRAMAS', payload: datos })
+          dispatch({ type: 'SET_LISTA_CONVOCATORIAS_PROGRAMA', payload: datos })
      }
+     console.log(state)
 
      const value = useMemo(()=>{
           return ({

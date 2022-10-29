@@ -75,14 +75,14 @@ function DashboardContent({ contenedor }) {
 
   return (
     <ThemeProvider theme={mdTheme}>
-      <Toaster/>
+      <Toaster />
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
               pr: "24px", // keep right padding when drawer closed
-              background:"#DD4B39",
+              background: "#DD4B39",
             }}
           >
             <IconButton
@@ -104,7 +104,19 @@ function DashboardContent({ contenedor }) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              UFPSaberPRO
+              <div class="waviy">
+                <span style={{'--i':'1'}}>U</span>
+                <span style={{'--i':'2'}}>F</span>
+                <span style={{'--i':'2'}}>P</span>
+                <span style={{'--i':'3'}}>S</span>
+                <span style={{'--i':'4'}}>a</span>
+                <span style={{'--i':'5'}}>b</span>
+                <span style={{'--i':'6'}}>e</span>
+                <span style={{'--i':'7'}}>r</span>
+                <span style={{'--i':'8'}}>P</span>
+                <span style={{'--i':'9'}}>R</span>
+                <span style={{'--i':'10'}}>O</span>
+              </div>
             </Typography>
             <IconButton
               color="inherit"
