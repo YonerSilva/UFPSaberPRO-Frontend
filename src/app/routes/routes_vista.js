@@ -5,12 +5,19 @@ import RegistroUsuario from '../components/user/RegistroUsuario';
 
 //Simulacros
 import ListaSimulacros from '../components/simulacros/SimulacrosLista';
+import CrearSimulacro from '../components/simulacros/CrearSimulacro';
+
+//Convocatorias
+import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
+import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
+
 
 import Dashboard from '../components/home/Dashboard';
 
 
 import PersistAuth from '../components/auth/PersistentAuth';
 import RequireAuth from '../components/auth/RequireAuth';
+
 
 
 const ROLES = {
@@ -27,7 +34,7 @@ const routes =  {
                          <Route path="/UFPSaberPRO/inicio" key="home" element={<Dashboard contenedor={<div>Holaaaa</div>} />} />
                     </Route>, 
                     <Route key="convocatorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/convocatorias" key="conv" element={<Dashboard contenedor={<div>Convocatorias</div>} />} />
+                         <Route path="/UFPSaberPRO/convocatorias" key="conv" element={<Dashboard contenedor={<ListaConvocatorias/>} />} />
                     </Route>, 
                     <Route key="simulacros" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
@@ -40,6 +47,12 @@ const routes =  {
                     </Route>
                     <Route key="subir_preguntas" element={<RequireAuth allowedRoles={[ROLES.DOCENTE, ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/subir_preguntas" key="subpreg" element={<Dashboard contenedor={<div>Subir Preguntas</div>} />} />
+                    </Route>
+                    <Route key="crear_convocatorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/convocatorias/crear_convocatorias" key="creconv" element={<Dashboard contenedor={<CrearConvocatoria/>} />} />
+                    </Route>
+                    <Route key="crear_simulacro" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacro/>} />} />
                     </Route>
                </Route>
           ],

@@ -9,6 +9,9 @@ const API = {
           SIGN_IN: "auth/login",
           VALIDATE_TOKEN: "auth/validateToken",
      },
+     CONVOCATORIA: {
+          GENERAL: "api/convocatorias/general"
+     }
 }
 
 export default API;

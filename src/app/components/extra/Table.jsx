@@ -41,7 +41,7 @@ const TableDesign = ({ datos, columnsIgnore, columnCount, columnOption }) => {
 
      const StyledTableCell = styled(TableCell)(({ theme }) => ({
           [`&.${tableCellClasses.head}`]: {
-               backgroundColor: "green",
+               backgroundColor: "#DD4B39",
                color: theme.palette.common.white,
           },
           [`&.${tableCellClasses.body}`]: {

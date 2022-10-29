@@ -8,17 +8,19 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import IconButton from "@mui/material/IconButton";
+import * as service from '../../store/services/ConvocatoriaService';
+import {useAppContext} from '../../store/reducers/DatosGlobales';
 
-const ListaSimulacros = ()=>{
+const ListaConvocatorias = ()=>{
 
+     const {state,setConvocatoriasPrg} = useAppContext();
      const [loading,setLoading] = useState(null);
-     const [datos, setDatos] = useState([]);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();         
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
-               return datos;
+               return state.lista_convocatorias_programa;
           } else {
                return data.filter(
                     (item) =>
@@ -27,22 +29,19 @@ const ListaSimulacros = ()=>{
           }
      }
 
-
      const getDatos = async()=>{
-          await setTimeout(()=>{
-               setDatos([{
-               "id_simulacro": 1,
-               "Fecha de Inicio": "Simulacro",
-               "Fecha de Finalizacion": "Descripcion",
-               "Estado del Simulacro": "Activo",
-               "Acciones": <><IconButton><RemoveRedEyeIcon/></IconButton> <IconButton><DeleteForeverIcon/></IconButton></>
+          const response = await service.getDatosGenerales();
+          if(response.error!==null && response !== undefined){
+               setConvocatoriasPrg(response.general);
           }
-          ]);
           setLoading(true);
-     }, 5000);
      }
+
      const columnsIgnore = [
-          "id_simulacro"
+          "id_convocatoria",
+          "usu_creacion",
+          "programa",
+          "usuarios"
      ]
 
      useEffect(()=>{
@@ -54,15 +53,15 @@ const ListaSimulacros = ()=>{
                <ResponsiveContainer>
                     <div className="container">
                          <Typography component="h2" variant="h5" color="dark" gutterBottom>
-                              Lista de Simulacros
+                              Lista de Convocatorias
                          </Typography>
                          {
                               (() => {
-                                   if (datos.lengh !== 0) {
+                                   if (state.lista_convocatorias_programa.length !== 0) {
                                         return (
                                              <nav className="navbar navbar-light bg-light rounded">
                                                   <div className="container-fluid">
-                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>
+                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/convocatorias/crear_convocatorias') }} className='btn btn-danger m-2'>Crear Conovocatoria</button>
                                                        <div className="d-flex">
                                                             <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />
                                                        </div>
@@ -78,7 +77,7 @@ const ListaSimulacros = ()=>{
                               {
                                    (() => {
                                         if (loading) {
-                                             if (datos.length === 0) {
+                                             if (state.lista_convocatorias_programa.length !== 0) {
                                                   return (
                                                        <div className='text-center'>
                                                             <h2>No hay datos.</h2>
@@ -86,7 +85,7 @@ const ListaSimulacros = ()=>{
                                                   )
                                              } else {
                                                   return (
-                                                       <TableDesign columnCount={true} datos={handleBuscar(datos)} columnsIgnore={columnsIgnore} columnOption={false}/>
+                                                       <TableDesign columnCount={true} datos={handleBuscar(state.lista_convocatorias_programa)} columnsIgnore={columnsIgnore} columnOption={false}/>
                                                   )
                                              }
                                         } else {
@@ -105,4 +104,4 @@ const ListaSimulacros = ()=>{
      )
 }
 
-export default ListaSimulacros;
+export default ListaConvocatorias;
