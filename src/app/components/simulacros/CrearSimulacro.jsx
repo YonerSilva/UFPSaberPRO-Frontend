@@ -37,7 +37,7 @@ function getStepContent(step) {
     case 0:
       return <CategoriaSubC />;
     case 1:
-      return <NumPre />;
+      return <NumPre/>;
     case 2:
       return <SeleccionPreguntas     />;
     case 3:

@@ -85,29 +85,18 @@ export default function MenuList() {
                                    </ListItemIcon>
                                    <ListItemText primary="Simulacros" />
                               </ListItemButton>
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/resultados_simulacros'); } }>
-                                   <ListItemIcon>
-                                        <AssignmentIcon sx={{ color: "red" }} />
-                                   </ListItemIcon>
-                                   <ListItemText primary="Resultados Simulacros" />
-                              </ListItemButton>
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/revisar_preguntas'); } }>
-                                   <ListItemIcon>
-                                        <FindInPageIcon sx={{ color: "red" }} />
-                                   </ListItemIcon>
-                                   <ListItemText primary="Revisar Preguntas" />
-                              </ListItemButton></>
+                         </>
                          :
                          <div hidden></div>
                }
                {
                     role_docente || role_admin
                          ?
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/subir_preguntas'); } }>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/preguntas'); } }>
                                    <ListItemIcon>
                                         <CloudUploadIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
-                                   <ListItemText primary="Subir Preguntas" />
+                                   <ListItemText primary="Preguntas" />
                          </ListItemButton>
                          :
                          <div hidden></div>

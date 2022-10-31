@@ -10,6 +10,8 @@ import { alert_error } from '../../util/functions';
 import Barra from '../extra/BarraBusqueda';
 import Cargador from '../extra/CargadorEventos';
 
+import NoConvocatoria from '../convocatorias/NoConvocatoria'
+
 const ListaConvocatorias = () => {
 
      const { state, setConvocatoriasPrg } = useAppContext();
@@ -38,7 +40,7 @@ const ListaConvocatorias = () => {
                } else {
                     alert_error("¡Error!", response.message);
                }
-               setLoading(true);
+               setLoading(false);
           } catch (error) {
                console.error(error);
           }
@@ -82,13 +84,10 @@ const ListaConvocatorias = () => {
                          <div className="container-fluid">
                               {
                                    (() => {
-                                        console.log(convocatorias.length!==0)
                                         if (!loading) {
                                              if (convocatorias.length===0) {
                                                   return (
-                                                       <div className='text-center my-auto'>
-                                                            <h2>No hay covocatorias.</h2>
-                                                       </div>
+                                                       <NoConvocatoria/>
                                                   )
                                              } else {
                                                   return (

@@ -104,7 +104,7 @@ function DashboardContent({ contenedor }) {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              <div class="waviy">
+              <div className="waviy">
                 <span style={{'--i':'1'}}>U</span>
                 <span style={{'--i':'2'}}>F</span>
                 <span style={{'--i':'2'}}>P</span>

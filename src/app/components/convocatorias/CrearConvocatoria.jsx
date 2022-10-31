@@ -44,11 +44,17 @@ const theme = createTheme();
 
 export default function CrearConvocatoria() {
 
-    const [currency, setCurrency] = React.useState('');
+    const [convocatoria, setConvocatoria] = React.useState({
+        nombre: "",
+        descripcion: "",
+        fecha_inicial: "",
+        fecha_final: ""
+    });
 
-    const handleChange = (event) => {
-        setCurrency(event.target.value);
+    const handleChange = (e) => {
+        setConvocatoria({...convocatoria, [e.target.name]:e.target.value});
     }
+
     return (
         <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -61,18 +67,37 @@ export default function CrearConvocatoria() {
                 <Grid item xs={12}>
                     <TextField
                         required
-                        id="firstName"
-                        name="firstName"
+                        id="nombre"
+                        name="nombre"
                         label="Nombre"
                         multiline
                         fullWidth
                         autoComplete="given-name"
                         variant="outlined"
+                        maxlength="100"
+                        value={convocatoria.nombre}
                     />
                 </Grid>
+                <Grid item xs={12} >
+                    <TextField
+                        required
+                        id="descripcion"
+                        name="descripcion"
+                        label="Descripicion"
+                        rows={5}
+                        fullWidth
+                        multiline
+                        autoComplete="shipping postal-code"
+                        variant="outlined"
+                        maxlength="256"
+                        value={convocatoria.descripcion}
+                    />
+                </Grid> 
                 <Grid item xs={12}>
                     <TextField
-                        id="datetime-local"
+                         required
+                        id="fecha_inicio"
+                        name="fecha_inicio"
                         label="Fecha y Hora de Inicio"
                         type="datetime-local"
                         defaultValue="2017-05-24T10:30"
@@ -80,30 +105,14 @@ export default function CrearConvocatoria() {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        value={convocatoria.fecha_inicial}
+                        
                     />
-                </Grid>
-                <Grid item xs={12}>
-                    <TextField
-                        id="address2"
-                        name="address2"
-                        label="Programa"
-                        required
-                        select
-                        value={currency}
-                        onChange={handleChange}
-                        fullWidth
-                        autoComplete="shipping address-line2"
-                        variant="outlined">
-                        {currencies.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
                 </Grid>
                 <Grid item xs={12} >
                     <TextField
-                        id="datetime-local"
+                        id="fecha_final"
+                        name="fecha_final"
                         label="Fecha y Hora de Finalizacion"
                         type="datetime-local"
                         defaultValue="2017-05-24T10:30"
@@ -111,38 +120,22 @@ export default function CrearConvocatoria() {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        value={convocatoria.fecha_final}
+                        required
                     />
                 </Grid>
-                <Grid item xs={12} >
-                    <TextField
-                        required
-                        id="zip"
-                        name="zip"
-                        label="Descripicion"
-                        rows={5}
-                        fullWidth
-                        multiline
-                        autoComplete="shipping postal-code"
-                        variant="outlined"
-                    />
-                </Grid> 
                 <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button >
+                <Button size='medium' className='btn btn-danger m-2'>
                     Volver
                   </Button>
-                {/* <div className="container-fluid center" >
-                    <button type='button'  className='btn btn-danger'>Volver</button>
-                    <button type='button'  className='btn btn-danger'>Crear </button>
-                    </div> */}
                 </Grid>
                 <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                <Button size='medium'>
+                <Button size='medium' className='btn btn-danger m-2'>
                     Crear
                   </Button>
                 </Grid>
             </Grid>
             </Paper>
-        <Copyright />
       </Container>
     </ThemeProvider>
     );
