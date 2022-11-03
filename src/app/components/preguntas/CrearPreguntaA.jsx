@@ -72,20 +72,9 @@ const subcategorias = [
     },
 ]
 
-const tipopregunta = [
-    {
-        value: 'PA',
-        label: 'Pregunta Abierta'
-    },
-    {
-        value: 'PC',
-        label: 'Pregunta Cerrrada'
-    },
-]
-
 const theme = createTheme();
 
-export default function CrearConvocatoria() {
+export default function CrearPregunta() {
 
     const [currency, setCurrency] = React.useState('');
 
@@ -99,7 +88,7 @@ export default function CrearConvocatoria() {
             <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h4" align="center" p={2}>
-                        Crear Preguntas
+                        Crear Preguntas de Tipo Abierto
                     </Typography>
                     <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' }}>
                         <Grid item xs={12}>
@@ -140,25 +129,6 @@ export default function CrearConvocatoria() {
                                 ))}
                             </TextField>
                         </Grid>
-                        <Grid item xs={12} >
-                            <TextField
-                                id="address2"
-                                name="address2"
-                                label="Tipo de Pregunta"
-                                required
-                                select
-                                value={currency}
-                                onChange={handleChange}
-                                fullWidth
-                                autoComplete="shipping address-line2"
-                                variant="outlined">
-                                {tipopregunta.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 required
@@ -178,49 +148,7 @@ export default function CrearConvocatoria() {
                                 required
                                 id="opcion1"
                                 name="opcion1"
-                                label="Opcion A"
-                                rows={5}
-                                fullWidth
-                                multiline
-                                autoComplete="shipping postal-code"
-                                variant="outlined"
-                                maxlength="500"
-                            />
-                        </Grid>
-                        <Grid item xs={12} >
-                            <TextField
-                                required
-                                id="opcion2"
-                                name="opcion2"
-                                label="Opcion B"
-                                rows={5}
-                                fullWidth
-                                multiline
-                                autoComplete="shipping postal-code"
-                                variant="outlined"
-                                maxlength="500"
-                            />
-                        </Grid>
-                        <Grid item xs={12} >
-                            <TextField
-                                required
-                                id="opcion3"
-                                name="opcion3"
-                                label="Opcion C"
-                                rows={5}
-                                fullWidth
-                                multiline
-                                autoComplete="shipping postal-code"
-                                variant="outlined"
-                                maxlength="500"
-                            />
-                        </Grid>
-                        <Grid item xs={12} >
-                            <TextField
-                                required
-                                id="opcion4"
-                                name="opcion4"
-                                label="Opcion D"
+                                label="Palabra o Frase Correcta"
                                 rows={5}
                                 fullWidth
                                 multiline

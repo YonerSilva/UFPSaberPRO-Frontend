@@ -73,7 +73,7 @@ const Login = () => {
           <div className="col-md-4 bg-light fondo-form my-auto">
             <div className="py-5">
               <div className="container">
-                <div className="row py-5">
+                <div className="row">
                   <div className="col-lg-10 col-xl-12 mx-auto">
                     <h3 className="text-center">U F P S a b e r P R O</h3>
                     <p className="text-muted mb-4 py-3 text-center">
@@ -145,6 +145,9 @@ const Login = () => {
                         >
                           Registrarse
                         </button>
+                      </div>
+                      <div className="m-0 row justify-content-center">
+                      <a className="col-auto pt-5 text-center" href="">Olvidaste tu Contraseña Click Aqui</a>
                       </div>
                     </form>
                   </div>

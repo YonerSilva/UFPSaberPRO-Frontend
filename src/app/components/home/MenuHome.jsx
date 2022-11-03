@@ -16,6 +16,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import FindInPageIcon from '@mui/icons-material/FindInPage';
 //*Icon Resultados Simulacros
 import AssignmentIcon from '@mui/icons-material/Assignment';
+//*Icon User Manager
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 //*
 import useAuth from "../auth/useAuth";
 
@@ -56,7 +58,7 @@ export default function MenuList() {
 
      return (
           <React.Fragment>
-          
+
                {
                     role_admin || role_docente || role_estudiante
                          ?
@@ -73,17 +75,23 @@ export default function MenuList() {
                     role_admin
                          ?
 
-                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/convocatorias'); } }>
+                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/convocatorias'); }}>
                               <ListItemIcon>
                                    <CampaignIcon sx={{ color: "red" }} />
                               </ListItemIcon>
                               <ListItemText primary="Convocatorias" />
                          </ListItemButton>
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/simulacros'); } }>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/simulacros'); }}>
                                    <ListItemIcon>
                                         <MenuBookIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
                                    <ListItemText primary="Simulacros" />
+                              </ListItemButton>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/Usuarios'); }}>
+                                   <ListItemIcon>
+                                        <ManageAccountsIcon sx={{ color: "red" }} />
+                                   </ListItemIcon>
+                                   <ListItemText primary="Usuarios" />
                               </ListItemButton>
                          </>
                          :
@@ -92,11 +100,11 @@ export default function MenuList() {
                {
                     role_docente || role_admin
                          ?
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/preguntas'); } }>
-                                   <ListItemIcon>
-                                        <CloudUploadIcon sx={{ color: "red" }} />
-                                   </ListItemIcon>
-                                   <ListItemText primary="Preguntas" />
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/preguntas'); }}>
+                              <ListItemIcon>
+                                   <CloudUploadIcon sx={{ color: "red" }} />
+                              </ListItemIcon>
+                              <ListItemText primary="Preguntas" />
                          </ListItemButton>
                          :
                          <div hidden></div>

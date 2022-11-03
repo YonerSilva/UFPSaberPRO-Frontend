@@ -4,13 +4,13 @@ import TableDesign from '../extra/Table';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import { Spinner } from 'react-bootstrap';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
 
 import IconButton from "@mui/material/IconButton";
 
-const PreguntasList = ()=>{
+const ListaUsuarios = ()=>{
 
      const [loading,setLoading] = useState(null);
      const [datos, setDatos] = useState([]);
@@ -32,11 +32,10 @@ const PreguntasList = ()=>{
      const getDatos = async()=>{
           await setTimeout(()=>{
                setDatos([{
-                "id_simulacro": 1,
-                "Descripcion": "Leer cuento",
-                "Subcategoria:": "Lectura Critica",
-                "Tipo de Pregunta": "Seleccion Multiple",
-               "Acciones": <><IconButton><EditIcon/></IconButton> <IconButton><DeleteForeverIcon/></IconButton></>
+               "Codigo": "1151778",
+               "Email": "farid@ufps.edu.co",
+               "Rol": "Administrador",
+               "Acciones": <><IconButton onClick={() => { navigate("/UFPSaberPRO/editar-usuarios") }}><EditIcon/></IconButton> <IconButton><DeleteForeverIcon/></IconButton></>
           }
           ]);
           setLoading(true);
@@ -55,7 +54,7 @@ const PreguntasList = ()=>{
                <ResponsiveContainer>
                     <div className="container">
                          <Typography component="h2" variant="h5" color="dark" gutterBottom>
-                              Lista de Preguntas
+                              Administrador de Usuarios
                          </Typography>
                          {
                               (() => {
@@ -63,9 +62,8 @@ const PreguntasList = ()=>{
                                         return (
                                              <nav className="navbar navbar-light bg-light rounded">
                                                   <div className="container-fluid">
-                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/tipo_pregunta') }} className='btn btn-danger m-2'>Crear Pregunta</button>
                                                        <div className="d-flex">
-                                                            <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />
+                                                            <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Usuario" className="form-control me-2" type="search" aria-label="Buscar" />
                                                        </div>
                                                   </div>
                                              </nav> 
@@ -106,4 +104,4 @@ const PreguntasList = ()=>{
      )
 }
 
-export default PreguntasList;
+export default ListaUsuarios;

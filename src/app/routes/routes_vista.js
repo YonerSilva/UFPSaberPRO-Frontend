@@ -13,8 +13,14 @@ import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
 
 //Preguntas
 import PreguntasList from '../components/preguntas/PreguntasList';
-import CrearPreguntas from '../components/preguntas/CrearPreguntas.jsx';
+import CrearPreguntaSM from '../components/preguntas/CrearPreguntaSM.jsx';
+import SeleccionarTPregunta from '../components/preguntas/SelectTPregunta';
+import CrearPreguntaA from '../components/preguntas/CrearPreguntaA';
+import CrearPreguntaVF from '../components/preguntas/CrearPreguntaVF';
 
+//Usuarios
+import ListaUsuarios from '../components/usuarios/UsuariosList';
+import EditarUsuario from '../components/usuarios/EditarUsuario';
 
 import Dashboard from '../components/home/Dashboard';
 import Home from '../components/home/Home';
@@ -46,6 +52,12 @@ const routes =  {
                     <Route key="preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />
                     </Route>
+                    <Route key="usuarios" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/usuarios" key="preg" element={<Dashboard contenedor={<ListaUsuarios/>} />} />
+                    </Route>
+                    <Route key="editUser" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/editar-usuarios" key="editUser" element={<Dashboard contenedor={<EditarUsuario/>} />} />
+                    </Route>
                     <Route key="resultados_simulacros" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/resultados_simulacros" key="resimu" element={<Dashboard contenedor={<div>Resultados Simulacros</div>} />} />
                     </Route>
@@ -58,8 +70,20 @@ const routes =  {
                     <Route key="crear_simulacro" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacro/>} />} />
                     </Route>
-                    <Route key="crear_preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/preguntas/crear_preguntas" key="crepre" element={<Dashboard contenedor={<CrearPreguntas/>} />} />
+
+                    {/*  Links de Preguntas */}
+
+                    <Route key="seleccion_t_pregunta" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/preguntas/tipo_pregunta" key="tipoPregunta" element={<Dashboard contenedor={<SeleccionarTPregunta/>} />} />
+                    </Route>
+                    <Route key="crear_SeleccionM" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/preguntas/crear_SeleccionM" key="crepreSM" element={<Dashboard contenedor={<CrearPreguntaSM/>} />} />
+                    </Route>
+                    <Route key="crear_VoF" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/preguntas/crear_VoF" key="crepreVF" element={<Dashboard contenedor={<CrearPreguntaVF/>} />} />
+                    </Route>
+                    <Route key="crear_preguntaSM" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/preguntas/crear_Abierta" key="crepreA" element={<Dashboard contenedor={<CrearPreguntaA/>} />} />
                     </Route>
                </Route>
           ],
