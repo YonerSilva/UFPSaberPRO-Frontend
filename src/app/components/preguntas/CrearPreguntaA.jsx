@@ -2,37 +2,15 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from 'react-bootstrap';
 import CssBaseline from '@mui/material/CssBaseline';
 import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
-import Stack from '@mui/material/Stack';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { red } from '@mui/material/colors';
 import ImageSearchIcon from '@mui/icons-material/ImageSearch';
-
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://mui.com/">
-                Your Website
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
-const color = red[50];
 
 const currencies = [
     {
@@ -185,7 +163,6 @@ export default function CrearPregunta() {
                         </Grid>
                     </Grid>
                 </Paper>
-                <Copyright />
             </Container>
         </ThemeProvider>
     );

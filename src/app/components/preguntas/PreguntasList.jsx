@@ -4,10 +4,8 @@ import TableDesign from '../extra/Table';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import { Spinner } from 'react-bootstrap';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditIcon from '@mui/icons-material/Edit';
-
 import IconButton from "@mui/material/IconButton";
 
 const PreguntasList = ()=>{

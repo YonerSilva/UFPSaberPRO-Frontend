@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-//*
+
 //* Icon Home
 import HomeIcon from '@mui/icons-material/Home';
 //* Icon Convocatoria
@@ -12,13 +12,9 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 //*Icon Subir Preguntas
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-//*Icon Revisar Preguntas
-import FindInPageIcon from '@mui/icons-material/FindInPage';
-//*Icon Resultados Simulacros
-import AssignmentIcon from '@mui/icons-material/Assignment';
 //*Icon User Manager
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-//*
+
 import useAuth from "../auth/useAuth";
 
 

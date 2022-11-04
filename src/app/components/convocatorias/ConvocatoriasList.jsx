@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import TableDesign from '../extra/Table';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
-
 import * as service from '../../store/services/ConvocatoriaService';
 import { useAppContext } from '../../store/reducers/DatosGlobales';
 import { alert_error } from '../../util/functions';
 import Barra from '../extra/BarraBusqueda';
 import Cargador from '../extra/CargadorEventos';
 
+//Imports de Archivos
 import NoConvocatoria from '../convocatorias/NoConvocatoria'
 
 const ListaConvocatorias = () => {

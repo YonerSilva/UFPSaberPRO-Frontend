@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { alert_success, alert_error, verificarCamposRegister, firstCharUpper } from "../../util/functions.js";
 import "../../../index.css";
-
 import * as service from "../../store/services/UsuarioService";
 import { useAppContext } from "../../store/reducers/DatosGlobales";
 import { Toaster } from 'react-hot-toast';
