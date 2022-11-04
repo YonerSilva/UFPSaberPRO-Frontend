@@ -7,7 +7,8 @@ import * as service from './store/services/DatoGeneralService';
 const initialState = {
      lista_programas: [""],
      lista_roles: [""],
-     lista_convocatorias_programa: [""]
+     lista_convocatorias_programa: [""],
+     lista_simulacros_programa: [""]
 }
 
 const App = ()=> {
@@ -41,11 +42,16 @@ const Constructor= ()=>{
           dispatch({ type: 'SET_LISTA_CONVOCATORIAS_PROGRAMA', payload: datos })
      }
 
+     const setSimulacrosPrg = (datos) => {
+          dispatch({ type: 'SET_LISTA_SIMULACROS_PROGRAMA', payload: datos })
+     }
+
      const value = useMemo(()=>{
           return ({
                state,
                listarItem,
-               setConvocatoriasPrg
+               setConvocatoriasPrg,
+               setSimulacrosPrg
           })
      },[]);
 

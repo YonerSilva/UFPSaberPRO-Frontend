@@ -10,7 +10,12 @@ const API = {
           VALIDATE_TOKEN: "auth/validateToken",
      },
      CONVOCATORIA: {
-          GENERAL: "api/convocatorias/general"
+          GENERAL: "api/convocatorias/general",
+          GUARDAR: "api/convocatorias/guardarConvocatoria"
+     },
+     SIMULACRO: {
+          GENERAL: "api/simulacros/general",
+          GUARDAR: "api/simulacros/guardarSimulacro"
      }
 }
 

@@ -98,7 +98,7 @@ function RegistroUsuario() {
                       <input
                         id="nombre"
                         type="text"
-                        className="form-control rounded-pill"
+                        className="input_auth form-control rounded-pill"
                         placeholder="Nombres"
                         name="nombre"
                         value={user.nombre}
@@ -110,7 +110,7 @@ function RegistroUsuario() {
                       <input
                         id="apellido"
                         type="text"
-                        className="form-control rounded-pill"
+                        className="input_auth form-control rounded-pill"
                         placeholder="Apellidos"
                         name="apellido"
                         value={user.apellido}
@@ -122,7 +122,7 @@ function RegistroUsuario() {
                       <input
                         id="codigo"
                         type="number"
-                        className="form-control rounded-pill"
+                        className="input_auth form-control rounded-pill"
                         placeholder="Codigo"
                         name="codigo"
                         value={user.codigo}
@@ -136,7 +136,7 @@ function RegistroUsuario() {
                     <div className="form-group">
                       <select
                         id="programa"
-                        className="form-select rounded-pill invalid-select"
+                        className="input_auth form-select rounded-pill invalid-select"
                         name="programa"
                         value={user.programa}
                         onChange={handleInputChange}
@@ -153,7 +153,7 @@ function RegistroUsuario() {
                     <div className="form-group mt-3">
                       <select
                         id="rol"
-                        className="form-select rounded-pill invalid-select"
+                        className="input_auth form-select rounded-pill invalid-select"
                         name="rol"
                         value={user.rol}
                         onChange={handleInputChange}
@@ -171,7 +171,7 @@ function RegistroUsuario() {
                       <input
                         id="email"
                         type="email"
-                        className="form-control rounded-pill"
+                        className="input_auth form-control rounded-pill"
                         placeholder="Email"
                         name="email"
                         value={user.email}
@@ -183,7 +183,7 @@ function RegistroUsuario() {
                       <input
                         id="password"
                         type="password"
-                        className="form-control rounded-pill"
+                        className="input_auth form-control rounded-pill"
                         placeholder="Contraseña"
                         name="password"
                         value={user.password}

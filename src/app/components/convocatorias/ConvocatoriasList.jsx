@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TableDesign from '../extra/Table';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import * as service from '../../store/services/ConvocatoriaService';
@@ -14,11 +16,30 @@ import NoConvocatoria from '../convocatorias/NoConvocatoria'
 
 const ListaConvocatorias = () => {
 
-     const { state, setConvocatoriasPrg } = useAppContext();
+     const { state, setConvocatoriasPrg,setSimulacrosPrg } = useAppContext();
      const [convocatorias, setConvocatorias] = useState([]);
+     const [simulacros, setSimulacros] = useState([]);
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();
+
+     const columnas = [
+          {    
+               text: "NOMBRE",
+               dataField: "convo_nombre",
+               sort: true
+          },
+          {
+               text: "ACCIÓN",
+               dataField: "fd1",
+               isDummyField: true,
+               formatter: (cellContent, row)=>{
+                    return (
+                         <button type='button' className='btn btn-danger'>Hola</button>
+                    )
+               }
+          }
+     ]
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
@@ -36,6 +57,8 @@ const ListaConvocatorias = () => {
                const response = await service.getDatosGenerales();
                if (response.error === null) {
                     setConvocatoriasPrg(response.general);
+                    setSimulacrosPrg(response.general);
+                    setSimulacros(response.general.simulacros_programa);
                     setConvocatorias(response.general.convocatorias_programa);
                } else {
                     alert_error("¡Error!", response.message);
@@ -46,20 +69,15 @@ const ListaConvocatorias = () => {
           }
      }
 
-     const columnsIgnore = [
-          "id_convocatoria",
-          "usu_creacion",
-          "programa",
-          "usuarios"
-     ]
-
      useEffect(() => {
-          if(state.lista_convocatorias_programa[0]===""){
+          if(state.lista_convocatorias_programa[0]==="" || state.lista_simulacros_programa[0]===""){
                getDatos();
           }else{
                setConvocatorias(state.lista_convocatorias_programa);
+               setSimulacros(state.lista_simulacros_programa);
+               setLoading(false);
           }
-     }, [])
+     }, []);
 
      return (
           <React.Fragment>
@@ -91,7 +109,7 @@ const ListaConvocatorias = () => {
                                                   )
                                              } else {
                                                   return (
-                                                       <TableDesign columnCount={true} datos={handleBuscar(convocatorias)} columnsIgnore={columnsIgnore} columnOption={false} />
+                                                       <BootstrapTable bootstrap4 wrapperClasses='table-responsive' rowClasses="text-nowrap" striped bordered hover keyField='id_convocatoria' data={handleBuscar(convocatorias)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.'/>
                                                   )
                                              }
                                         } else {

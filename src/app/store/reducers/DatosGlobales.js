@@ -22,6 +22,12 @@ export const DatosGReducer = (state, action) => {
                     ...state,
                     lista_convocatorias_programa: payload.convocatorias_programa,
                }
+          case ACCION.SET_LISTA_SIMULACROS_PROGRAMA:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_simulacros_programa: payload.simulacros_programa,
+               }
           default:
                return state;
      }

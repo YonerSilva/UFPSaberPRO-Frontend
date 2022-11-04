@@ -85,7 +85,7 @@ const Login = () => {
                           id="codigo"
                           type="number"
                           placeholder="Codigo"
-                          className="form-control rounded-pill border-1 shadow-md shadow-ms px-4"
+                          className="input_auth form-control rounded-pill border-1 shadow-md shadow-ms px-4"
                           name="codigo" value={user.codigo} onChange={handleInputChange}
                           onInput={(e) => e.target.value = e.target.value.slice(0, 7)}
                           maxLength="7"
@@ -99,7 +99,7 @@ const Login = () => {
                           type="email"
                           placeholder="Correo Electronico"
                           autoFocus=""
-                          className="form-control rounded-pill borde-1 shadow-md shadow-ms px-4"
+                          className="input_auth form-control rounded-pill borde-1 shadow-md shadow-ms px-4"
                           name="email" value={user.email} onChange={handleInputChange} required
                         />
                       </div>
@@ -108,7 +108,7 @@ const Login = () => {
                           id="password"
                           type="password"
                           placeholder="Contraseña"
-                          className="form-control rounded-pill border-1 shadow-md shadow-ms px-4"
+                          className="input_auth form-control rounded-pill border-1 shadow-md shadow-ms px-4"
                           name="password" value={user.password} onChange={handleInputChange} required
                         />
                       </div>
