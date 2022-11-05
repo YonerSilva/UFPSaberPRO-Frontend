@@ -1,18 +1,46 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import { Spinner } from 'react-bootstrap';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import IconButton from "@mui/material/IconButton";
+import * as service from '../../store/services/SimulacroService';
+import { useAppContext } from '../../store/reducers/DatosGlobales';
+import { alert_error } from '../../util/functions';
 
 const ListaSimulacros = ()=>{
 
-     const [loading,setLoading] = useState(null);
-     const [datos, setDatos] = useState([]);
+     const [simulacros, setSimulacros] = useState([]); 
+     const { state,setSimulacrosPrg } = useAppContext();
+     const [loading,setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
-     const navigate = useNavigate();         
+     const navigate = useNavigate();  
+
+     const [datos, setDatos] = useState([]);
+
+
+     const columnas = [
+          {    
+               text: "NOMBRE",
+               dataField: "simu_nombre",
+               sort: true
+          },
+          {
+               text: "ACCIÓN",
+               dataField: "fd1",
+               isDummyField: true,
+               formatter: (cellContent, row)=>{
+                    return (
+                         <button type='button' className='btn btn-danger'>{row.simu_nombre}</button>
+                    )
+               }
+          }
+     ]
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
@@ -27,26 +55,28 @@ const ListaSimulacros = ()=>{
 
 
      const getDatos = async()=>{
-          await setTimeout(()=>{
-               setDatos([{
-               "id_simulacro": 1,
-               "dato_Fecha_De_Inicio": "Simulacro",
-               "Fecha_Finalizacion": "Descripcion",
-               "Estado_Simulacro": "Activo",
-               "Acciones": <><IconButton><RemoveRedEyeIcon/></IconButton> <IconButton><DeleteForeverIcon/></IconButton></>
+          try {
+               const response = await service.getDatosGenerales();
+               if (response.error === null) {
+                    setSimulacros(response.general);
+               } else {
+                    alert_error("¡Error!", response.message);
+               }
+               setLoading(false);
+          } catch (error) {
+               console.error(error);
           }
-          ]);
-          setLoading(true);
-     }, 5000);
      }
 
-     const columnsIgnore = [
-          "id_simulacro"
-     ]
 
      useEffect(()=>{
-          getDatos();
-     },[])
+          if(state.lista_simulacros_programa[0]===""){
+               getDatos();
+          }else{
+               setSimulacros(state.lista_simulacros_programa);
+               setLoading(false);
+          }
+     },[]);
 
      return (
           <React.Fragment>
@@ -57,7 +87,7 @@ const ListaSimulacros = ()=>{
                          </Typography>
                          {
                               (() => {
-                                   if (datos.lengh !== 0) {
+                                   if (simulacros.lengh !== 0) {
                                         return (
                                              <nav className="navbar navbar-light bg-light rounded">
                                                   <div className="container-fluid">
@@ -77,7 +107,7 @@ const ListaSimulacros = ()=>{
                               {
                                    (() => {
                                         if (loading) {
-                                             if (datos.length === 0) {
+                                             if (simulacros.length === 0) {
                                                   return (
                                                        <div className='text-center'>
                                                             <h2>No hay datos.</h2>
@@ -85,7 +115,7 @@ const ListaSimulacros = ()=>{
                                                   )
                                              } else {
                                                   return (
-                                                       <></>
+                                                       <BootstrapTable bootstrap4 wrapperClasses='table-responsive' rowClasses="text-nowrap" striped bordered hover keyField='id_simulacro' data={handleBuscar(simulacros)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.'/>
                                                   )
                                              }
                                         } else {
