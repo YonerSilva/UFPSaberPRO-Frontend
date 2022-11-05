@@ -129,11 +129,12 @@ font-size: 42px;
 /*Campo Requerido * */
 .input_auth:invalid:required {
   background-color: #ec4848;
+  color: rgb(255, 255, 255) !important;
 }
 
-/* .form-control::placeholder{
+.input_auth::placeholder{
   color: rgb(255, 255, 255);
-} */
+}
 
 .invalid-select{
   background-color: #ec4848;
@@ -186,4 +187,21 @@ button:focus {
   20% {
     transform: translateY(-10px)
   }
+}
+
+/*COLOR DEL ESTADO*/
+.estado-color-activo{
+  color: green;
+  font-weight: bolder;
+  text-shadow: 1px 1px;
+}
+.estado-color-inactivo{
+  color: orange;
+  font-weight: bolder;
+  text-shadow: 1px 1px;
+}
+.estado-color-bloqueado{
+  color: #ec4848;
+  font-weight: bolder;
+  text-shadow: 1px 1px;
 }
