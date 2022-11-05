@@ -23,7 +23,7 @@ function getStepContent(step) {
     case 1:
       return <NumPre/>;
     case 2:
-      return <SeleccionPreguntas     />;
+      return <SeleccionPreguntas/>;
     case 3:
       return <TiempoSimulacro/>; 
 
@@ -77,9 +77,10 @@ export default function CrearSimulacro() {
                 )}
 
                 <Button
+                  className='btn btn-danger m-2'
                   variant="contained"
                   onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
+                  sx={{ mt: 3, ml: 1}}
                 >
                   {activeStep === steps.length - 1 ? 'Crear Simulacro' : 'Next'}
                 </Button>

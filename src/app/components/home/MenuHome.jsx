@@ -54,7 +54,6 @@ export default function MenuList() {
 
      return (
           <React.Fragment>
-
                {
                     role_admin || role_docente || role_estudiante
                          ?
@@ -70,7 +69,6 @@ export default function MenuList() {
                {
                     role_admin
                          ?
-
                          <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/convocatorias'); }}>
                               <ListItemIcon>
                                    <CampaignIcon sx={{ color: "red" }} />
@@ -102,6 +100,25 @@ export default function MenuList() {
                               </ListItemIcon>
                               <ListItemText primary="Preguntas" />
                          </ListItemButton>
+                         :
+                         <div hidden></div>
+               }
+               {
+                    role_estudiante
+                         ?
+                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/convocatorias'); }}>
+                              <ListItemIcon>
+                                   <CampaignIcon sx={{ color: "red" }} />
+                              </ListItemIcon>
+                              <ListItemText primary="Convocatorias" />
+                         </ListItemButton>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/simulacros'); }}>
+                                   <ListItemIcon>
+                                        <MenuBookIcon sx={{ color: "red" }} />
+                                   </ListItemIcon>
+                                   <ListItemText primary="Simulacros" />
+                              </ListItemButton>
+                         </>
                          :
                          <div hidden></div>
                }

@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import TableDesign from '../extra/Table';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import { Spinner } from 'react-bootstrap';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
 import IconButton from "@mui/material/IconButton";
 
 const ListaSimulacros = ()=>{
@@ -32,15 +30,16 @@ const ListaSimulacros = ()=>{
           await setTimeout(()=>{
                setDatos([{
                "id_simulacro": 1,
-               "Fecha de Inicio": "Simulacro",
-               "Fecha de Finalizacion": "Descripcion",
-               "Estado del Simulacro": "Activo",
+               "dato_Fecha_De_Inicio": "Simulacro",
+               "Fecha_Finalizacion": "Descripcion",
+               "Estado_Simulacro": "Activo",
                "Acciones": <><IconButton><RemoveRedEyeIcon/></IconButton> <IconButton><DeleteForeverIcon/></IconButton></>
           }
           ]);
           setLoading(true);
      }, 5000);
      }
+
      const columnsIgnore = [
           "id_simulacro"
      ]
@@ -86,7 +85,7 @@ const ListaSimulacros = ()=>{
                                                   )
                                              } else {
                                                   return (
-                                                       <TableDesign columnCount={true} datos={handleBuscar(datos)} columnsIgnore={columnsIgnore} columnOption={false}/>
+                                                       <></>
                                                   )
                                              }
                                         } else {

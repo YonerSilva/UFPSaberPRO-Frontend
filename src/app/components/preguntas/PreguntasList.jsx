@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
-import TableDesign from '../extra/Table';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import { Spinner } from 'react-bootstrap';
@@ -61,7 +60,7 @@ const PreguntasList = ()=>{
                                         return (
                                              <nav className="navbar navbar-light bg-light rounded">
                                                   <div className="container-fluid">
-                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/tipo_pregunta') }} className='btn btn-danger m-2'>Crear Pregunta</button>
+                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_SeleccionM') }} className='btn btn-danger m-2'>Crear Pregunta</button>
                                                        <div className="d-flex">
                                                             <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />
                                                        </div>
@@ -85,7 +84,7 @@ const PreguntasList = ()=>{
                                                   )
                                              } else {
                                                   return (
-                                                       <TableDesign columnCount={true} datos={handleBuscar(datos)} columnsIgnore={columnsIgnore} columnOption={false}/>
+                                                       <></>
                                                   )
                                              }
                                         } else {

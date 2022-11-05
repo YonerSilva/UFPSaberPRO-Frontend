@@ -10,8 +10,6 @@ import { useAppContext } from '../../store/reducers/DatosGlobales';
 import { alert_error } from '../../util/functions';
 import Barra from '../extra/BarraBusqueda';
 import Cargador from '../extra/CargadorEventos';
-
-//Imports de Archivos
 import NoConvocatoria from '../convocatorias/NoConvocatoria'
 
 const ListaConvocatorias = () => {
@@ -35,7 +33,7 @@ const ListaConvocatorias = () => {
                isDummyField: true,
                formatter: (cellContent, row)=>{
                     return (
-                         <button type='button' className='btn btn-danger'>Hola</button>
+                         <button type='button' className='btn btn-danger'>{row.convo_nombre}</button>
                     )
                }
           }
@@ -44,7 +42,7 @@ const ListaConvocatorias = () => {
      const handleBuscar = (data) => {
           if (busqueda === "") {
                return convocatorias;
-          } else {
+          } else {  
                return data.filter(
                     (item) =>
                          item.convo_nombre.toString().toUpperCase().includes(busqueda.toUpperCase())
