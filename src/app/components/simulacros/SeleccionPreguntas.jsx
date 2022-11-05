@@ -3,13 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import { Spinner } from 'react-bootstrap';
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import IconButton from "@mui/material/IconButton";
+import Checkbox from '@mui/material/Checkbox';
 
-const ListaSimulacros = ()=>{
+const SeleccionPreguntas = ()=>{
 
-     const [loading,setLoading] = useState(null);
+     const [loading,setLoading] = useState(null); 
      const [datos, setDatos] = useState([]);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();         
@@ -30,16 +28,15 @@ const ListaSimulacros = ()=>{
           await setTimeout(()=>{
                setDatos([{
                "id_simulacro": 1,
-               "dato_Fecha_De_Inicio": "Simulacro",
-               "Fecha_Finalizacion": "Descripcion",
-               "Estado_Simulacro": "Activo",
-               "Acciones": <><IconButton><RemoveRedEyeIcon/></IconButton> <IconButton><DeleteForeverIcon/></IconButton></>
+               "Descripcion": "Leer cuento",
+               "Subcategoria:": "Lectura Critica",
+               "Tipo de Pregunta": "Seleccion Multiple",
+               "Acciones":  <Checkbox/>
           }
           ]);
           setLoading(true);
      }, 5000);
      }
-
      const columnsIgnore = [
           "id_simulacro"
      ]
@@ -53,7 +50,7 @@ const ListaSimulacros = ()=>{
                <ResponsiveContainer>
                     <div className="container">
                          <Typography component="h2" variant="h5" color="dark" gutterBottom>
-                              Lista de Simulacros
+                              Lista de Preguntas
                          </Typography>
                          {
                               (() => {
@@ -61,7 +58,6 @@ const ListaSimulacros = ()=>{
                                         return (
                                              <nav className="navbar navbar-light bg-light rounded">
                                                   <div className="container-fluid">
-                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>
                                                        <div className="d-flex">
                                                             <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />
                                                        </div>
@@ -71,7 +67,6 @@ const ListaSimulacros = ()=>{
                                    }
                               })()
                          }
-
                          <hr />
                          <div className="container-fluid">       
                               {
@@ -104,4 +99,4 @@ const ListaSimulacros = ()=>{
      )
 }
 
-export default ListaSimulacros;
+export default  SeleccionPreguntas;

@@ -1,39 +1,34 @@
-import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import SeleccionPreguntas,{ CategoriaSubC, NomDescSimulacro, NumPre, TiempoSimulacro } from "./ProcesosCrearSimulacro";
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CategoriaSubC from './CategoriaSubC';
+import NumPre from './NumPre';
+import SeleccionPreguntas from './SeleccionPreguntas';
+import TiempoSimulacro from './TiempoSimulacro';
 
-const steps = [
-  "Categorias y Subcategorias",
-  "Nombre y Descripcion",
-  "Carga de Preguntas",
-  "Seleccion de Preguntas",
-  "Tiempo del Simulacro",
-];
+const steps = ['Categorias y Subcategorias', 'Carga de Preguntas', 'Seleccion de Preguntas', 'Tiempo del Simulacro'];
 
 function getStepContent(step) {
   switch (step) {
     case 0:
       return <CategoriaSubC />;
     case 1:
-      return <NomDescSimulacro />;
+      return <NumPre/>;
     case 2:
-      return <NumPre />;
+      return <SeleccionPreguntas/>;
     case 3:
-      return <SeleccionPreguntas />;
-    case 4:
-      return <TiempoSimulacro />;
+      return <TiempoSimulacro/>; 
 
     default:
-      throw new Error("Unknown step");
+      throw new Error('Unknown step');
   }
 }
 
@@ -53,18 +48,15 @@ export default function CrearSimulacro() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-        >
+      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
             Datos del Simulacro
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
-              <Step  key={label}>
-                <StepLabel >{label}</StepLabel>
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
               </Step>
             ))}
           </Stepper>
@@ -77,7 +69,7 @@ export default function CrearSimulacro() {
           ) : (
             <React.Fragment>
               {getStepContent(activeStep)}
-              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
                     Back
@@ -85,12 +77,12 @@ export default function CrearSimulacro() {
                 )}
 
                 <Button
-                  className="btn btn-danger m-2"
+                  className='btn btn-danger m-2'
                   variant="contained"
                   onClick={handleNext}
-                  sx={{ mt: 3, ml: 1 }}
+                  sx={{ mt: 3, ml: 1}}
                 >
-                  {activeStep === steps.length - 1 ? "Crear Simulacro" : "Next"}
+                  {activeStep === steps.length - 1 ? 'Crear Simulacro' : 'Next'}
                 </Button>
               </Box>
             </React.Fragment>
