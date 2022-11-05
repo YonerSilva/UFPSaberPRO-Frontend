@@ -136,7 +136,7 @@ function RegistroUsuario() {
                     <div className="form-group">
                       <select
                         id="programa"
-                        className="input_auth form-select rounded-pill invalid-select"
+                        className="form-select rounded-pill invalid-select"
                         name="programa"
                         value={user.programa}
                         onChange={handleInputChange}
@@ -153,7 +153,7 @@ function RegistroUsuario() {
                     <div className="form-group mt-3">
                       <select
                         id="rol"
-                        className="input_auth form-select rounded-pill invalid-select"
+                        className="form-select rounded-pill invalid-select"
                         name="rol"
                         value={user.rol}
                         onChange={handleInputChange}
