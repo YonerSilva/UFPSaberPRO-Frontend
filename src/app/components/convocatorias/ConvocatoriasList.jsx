@@ -14,6 +14,7 @@ import Barra from '../extra/BarraBusqueda';
 import Cargador from '../extra/CargadorEventos';
 import NoConvocatoria from '../convocatorias/NoConvocatoria'
 import { IconButton } from '@mui/material';
+import { red } from '@mui/material/colors';
 
 const ListaConvocatorias = () => {
 
@@ -177,7 +178,7 @@ const ListaConvocatorias = () => {
                                                   )
                                              } else {
                                                   return (
-                                                       <BootstrapTable bootstrap4 wrapperClasses='table-responsive' rowClasses="text-nowrap" striped bordered hover keyField='id_convocatoria' data={handleBuscar(convocatorias)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.' />
+                                                       <BootstrapTable headerClasses='table-head' classes='table-design shadow' bootstrap4 wrapperClasses='table-responsive' striped hover keyField='id_convocatoria' data={handleBuscar(convocatorias)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.' defaultSorted />
                                                   )
                                              }
                                         } else {

@@ -205,3 +205,14 @@ button:focus {
   font-weight: bolder;
   text-shadow: 1px 1px;
 }
+
+/*TABLAS DISEÑO*/
+.table-design{
+  border: 5px;
+  border-color: #ec4848;
+}
+
+.table-head{
+  background-color: #ec4848;
+  text-align: center;
+}
