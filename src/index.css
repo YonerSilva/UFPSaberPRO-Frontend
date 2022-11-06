@@ -209,10 +209,20 @@ button:focus {
 /*TABLAS DISEÑO*/
 .table-design{
   border: 5px;
-  border-color: #ec4848;
+  border-color: #fff;
+}
+.table-design>:not(:first-child) {
+  border-top: 3px solid #fff;
+}
+
+.table-design, td{
+  text-align: center;
+  vertical-align: middle;
 }
 
 .table-head{
   background-color: #ec4848;
+  border-color: #fff;
+  color: #fff;
   text-align: center;
 }
