@@ -1,13 +1,18 @@
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import Subcategorias from "./Subcategorias";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ResponsiveContainer } from "recharts";
 import Typography from "@mui/material/Typography";
 import { Spinner } from "react-bootstrap";
 import Checkbox from "@mui/material/Checkbox";
+import Box from '@mui/material/Box';
+import FormLabel from '@mui/material/FormLabel';
+import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from "@mui/material/Button";
 
 const categorias = [
   {
@@ -22,12 +27,12 @@ const categorias = [
 
 const tipoPregunta = [
   {
-    value: "PA",
-    label: "Pregunta Abierta",
+    value: "SM",
+    label: "Seleccion Multiple",
   },
   {
-    value: "PC",
-    label: "Pregunta Cerrrada",
+    value: "VF",
+    label: "Verdadero o Falso",
   },
 ];
 
@@ -171,6 +176,8 @@ export function CategoriaSubC() {
         <Grid item xs={12} sm={6}>
           <Subcategorias />
         </Grid>
+        <Grid item xs={12}>
+        </Grid>
       </Grid>
     </React.Fragment>
   );
@@ -206,7 +213,6 @@ export function NomDescSimulacro() {
             autoComplete="shipping postal-code"
             variant="outlined"
             maxLength="256"
-            value=""
           />
         </Grid>
       </Grid>
@@ -303,5 +309,51 @@ export function TiempoSimulacro() {
         </Grid>
       </Grid>
     </React.Fragment>
+  );
+}
+
+export function Subcategorias() {
+  const [state, setState] = React.useState({
+    comEscri: false,
+    razCuanti: false,
+    lecCri: false,
+  });
+
+  const handleChange = (event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  const { comEscri, razCuanti, lecCri } = state;
+  const error = [comEscri, razCuanti, lecCri].filter((v) => v).length !== 2;
+
+  return (
+    <Box sx={{ display: 'flex' }}>
+      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+        <FormLabel component="legend">Subcategoria:</FormLabel>
+        <FormGroup>
+          <FormControlLabel
+            control={
+              <Checkbox checked={comEscri} onChange={handleChange} name="comEscri" />
+            }
+            label="Comunicacion Escrita"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox checked={razCuanti} onChange={handleChange} name="razCuanti" />
+            }
+            label="Razonamiento Cuantitativo"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox checked={lecCri} onChange={handleChange} name="lecCri" />
+            }
+            label="Lectura Critica"
+          />
+        </FormGroup>
+      </FormControl>
+    </Box>
   );
 }

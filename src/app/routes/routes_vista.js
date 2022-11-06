@@ -40,7 +40,7 @@ const routes =  {
                     <Route key="simulacros" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
                     </Route>
-                    <Route key="preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                    <Route key="preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />
                     </Route>
                     <Route key="usuarios" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
