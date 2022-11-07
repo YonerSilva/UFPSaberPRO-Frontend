@@ -18,6 +18,7 @@ import CrearPreguntaSM from '../components/preguntas/CrearPreguntaSM.jsx';
 import CrearCategoria from '../components/CategoriasySubcategorias/CrearCategoria';
 import CrearSubCategoria from '../components/CategoriasySubcategorias/CrearSubCategoria';
 import CategoriasySubcategorias from '../components/CategoriasySubcategorias/CatySubList';
+import EditarCategoria from '../components/CategoriasySubcategorias/EditarCategoria';
 
 //Usuarios
 import ListaUsuarios from '../components/usuarios/UsuariosList';
@@ -54,6 +55,9 @@ const routes =  {
                     </Route>
                     <Route key="crearsubcategoria" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/crear-subcategoria" key="creasub" element={<Dashboard contenedor={<CrearSubCategoria/>} />} />
+                    </Route>
+                    <Route key="editarcategoria" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/editar-categoria" key="editarcate" element={<Dashboard contenedor={<EditarCategoria/>} />} />
                     </Route>
                     <Route key="preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />

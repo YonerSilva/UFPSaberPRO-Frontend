@@ -93,7 +93,7 @@ export default function MenuList() {
                                    <ListItemIcon>
                                         <AppRegistrationIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
-                                   <ListItemText primary="Categorias y Subcategorias"/>
+                                   <ListItemText primary="Categorias"/>
                               </ListItemButton>
                          </>
                          :

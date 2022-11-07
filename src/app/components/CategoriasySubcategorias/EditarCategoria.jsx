@@ -13,7 +13,7 @@ import * as service from "../../store/services/SimulacroService";
 import Cargador from "../extra/CargadorEventos";
 import NoConvocatoria from "../convocatorias/NoConvocatoria";
 
-const CatySubList = () => {
+const EditarCategoria = () => {
   const [loading, setLoading] = useState(null);
   const [datos, setDatos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
@@ -23,13 +23,6 @@ const CatySubList = () => {
   const [simulacros, setSimulacros] = useState([]);
 
   const columnas = [
- 
-    {
-      text: "CATEGORIA",
-      dataField: "text",
-      align: "center",
-      sort: true,
-    },
     {
       text: "SUBCATEGORIA",
       dataField: "text",
@@ -46,18 +39,9 @@ const CatySubList = () => {
             <div className="row-cols-2 row-cols-md-auto" align="center">
               <IconButton
                 onClick={() => {
-                  navigate('/UFPSaberPRO/editar-categoria');
-                }}
-                title="Editar Categoria"
-                style={{ color: "blue" }}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => {
                   navigate();
                 }}
-                title="Eliminar Categoria"
+                title="Eliminar SubCategoria"
                 style={{ color: "red" }}
               >
                 <DeleteIcon />
@@ -114,7 +98,7 @@ const CatySubList = () => {
       <ResponsiveContainer>
         <div className="container">
           <Typography component="h2" variant="h5" color="dark" gutterBottom>
-            Lista de Categorias
+            Editar "Nombre de la Categoria"
           </Typography>
           {(() => {
             if (datos.lengh !== 0) {
@@ -125,34 +109,14 @@ const CatySubList = () => {
                     <button
                       type="button"
                       onClick={() => {
-                        navigate("/UFPSaberPRO/crear-categoria");
-                      }}
-                      className="btn btn-danger m-2"
-                    >
-                      Crear Categoria
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
                         navigate("/UFPSaberPRO/crear-subcategoria");
                       }}
                       className="btn btn-danger m-2"
                     >
-                      Crear SubCategoria
+                      Agregar SubCategoria
                     </button>
                     </div>
-                    <div className="d-flex">
-                      <input
-                        onChange={(e) => {
-                          setBusqueda(e.target.value);
-                        }}
-                        title="Nombre Simulacro"
-                        placeholder="Buscar Categoria"
-                        className="form-control me-2"
-                        type="search"
-                        aria-label="Buscar"
-                      />
-                    </div>
+                
                   </div>
                 </nav>
               );
@@ -195,4 +159,4 @@ const CatySubList = () => {
   );
 };
 
-export default CatySubList;
+export default EditarCategoria;
