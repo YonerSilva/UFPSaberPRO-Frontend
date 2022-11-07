@@ -14,6 +14,11 @@ import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
 import PreguntasList from '../components/preguntas/PreguntasList';
 import CrearPreguntaSM from '../components/preguntas/CrearPreguntaSM.jsx';
 
+//Categoria
+import CrearCategoria from '../components/CategoriasySubcategorias/CrearCategoria';
+import CrearSubCategoria from '../components/CategoriasySubcategorias/CrearSubCategoria';
+import CategoriasySubcategorias from '../components/CategoriasySubcategorias/CatySubList';
+
 //Usuarios
 import ListaUsuarios from '../components/usuarios/UsuariosList';
 import EditarUsuario from '../components/usuarios/EditarUsuario';
@@ -21,8 +26,7 @@ import Dashboard from '../components/home/Dashboard';
 import Home from '../components/home/Home';
 import PersistAuth from '../components/auth/PersistentAuth';
 import RequireAuth from '../components/auth/RequireAuth';
-import CatySubList from '../components/CategoriasySubcategorias/CatySubList';
-import CategoriasySubcategorias from '../components/CategoriasySubcategorias/CategoriasySubcategorias';
+
 
 const ROLES = {
      'ADMIN': "ROLE_ADMINISTRADOR",
@@ -43,10 +47,13 @@ const routes =  {
                          <Route path="/UFPSaberPRO/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
                     </Route>
                     <Route key="categoriasubcategorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/CategoriasySubcategorias" key="catysub" element={<Dashboard contenedor={<CatySubList/>} />} />
+                         <Route path="/UFPSaberPRO/CategoriasySubcategorias" key="catysub" element={<Dashboard contenedor={<CategoriasySubcategorias/>} />} />
                     </Route>
-                    <Route key="categoriasubcategorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/CatySub" key="catysub" element={<Dashboard contenedor={<CategoriasySubcategorias/>} />} />
+                    <Route key="crearcategoria" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/crear-categoria" key="creacat" element={<Dashboard contenedor={<CrearCategoria/>} />} />
+                    </Route>
+                    <Route key="crearsubcategoria" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/crear-subcategoria" key="creasub" element={<Dashboard contenedor={<CrearSubCategoria/>} />} />
                     </Route>
                     <Route key="preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />

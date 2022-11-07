@@ -2,63 +2,14 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
 import { Button } from "react-bootstrap";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import { useNavigate } from 'react-router-dom';
-
-const currencies = [
-  {
-    value: "115",
-    label: "Generica",
-  },
-  {
-    value: "b",
-    label: "Especifica",
-  },
-];
-
-const subcategorias = [
-  {
-    value: "CE",
-    label: "Comunicacion escrita",
-  },
-  {
-    value: "b",
-    label: "Razonamiento Cuantitativo",
-  },
-  {
-    value: "LC",
-    label: "Lectura Critica",
-  },
-  {
-    value: "CC",
-    label: "Competencias Ciudadanas",
-  },
-  {
-    value: "I",
-    label: "Ingles",
-  },
-  {
-    value: "CS",
-    label: "Cuestionario Socioeconomico",
-  },
-];
-
-const tipopregunta = [
-  {
-    value: "PA",
-    label: "Pregunta Abierta",
-  },
-  {
-    value: "PC",
-    label: "Pregunta Cerrrada",
-  },
-];
+import { IconButton } from '@mui/material';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 
 const theme = createTheme();
 
@@ -92,36 +43,13 @@ export default function CategoriaySubcategorias() {
                 required
                 id="descripPregunta"
                 name="descripPregunta"
-                label="Nombre"
+                label="Nombre de la Categoria"
                 multiline
                 fullWidth
                 autoComplete="given-name"
                 variant="outlined"
                 maxlength="100"
               />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                required
-                id="descripPregunta"
-                name="descripPregunta"
-                label="Nombre Subcategoria"
-                multiline
-                fullWidth
-                autoComplete="given-name"
-                variant="outlined"
-                maxlength="100"
-              />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              spacing={2}
-              sx={{ display: "flex", justifyContent: "center" }}
-            >
-              <Button size="large" className="btn btn-danger">
-                Añadir Subcategoria
-              </Button>
             </Grid>
             <Grid
               item

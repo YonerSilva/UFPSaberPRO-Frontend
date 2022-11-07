@@ -26,13 +26,13 @@ const CatySubList = () => {
  
     {
       text: "CATEGORIA",
-      dataField: "simu_fecha_inicial",
+      dataField: "text",
       align: "center",
       sort: true,
     },
     {
-      text: "SUBCATEGORIAS",
-      dataField: "simu_fecha_final",
+      text: "SUBCATEGORIA",
+      dataField: "text",
       align: "center",
       sort: true,
     },
@@ -48,7 +48,7 @@ const CatySubList = () => {
                 onClick={() => {
                   navigate();
                 }}
-                title="Actualizar Categoria"
+                title="Editar Categoria"
                 style={{ color: "blue" }}
               >
                 <EditIcon />
@@ -121,15 +121,26 @@ const CatySubList = () => {
               return (
                 <nav className="navbar navbar-light bg-light rounded">
                   <div className="container-fluid">
+                  <div className="d-flex">
                     <button
                       type="button"
                       onClick={() => {
-                        navigate("/UFPSaberPRO/CatySub");
+                        navigate("/UFPSaberPRO/crear-categoria");
                       }}
                       className="btn btn-danger m-2"
                     >
                       Crear Categoria
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigate("/UFPSaberPRO/crear-subcategoria");
+                      }}
+                      className="btn btn-danger m-2"
+                    >
+                      Crear SubCategoria
+                    </button>
+                    </div>
                     <div className="d-flex">
                       <input
                         onChange={(e) => {
