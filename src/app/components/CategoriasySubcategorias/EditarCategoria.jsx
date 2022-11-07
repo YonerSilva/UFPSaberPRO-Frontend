@@ -116,7 +116,17 @@ const EditarCategoria = () => {
                       Agregar SubCategoria
                     </button>
                     </div>
-                
+                    <div className="d-flex">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigate(-1);
+                      }}
+                      className="btn btn-danger m-2"
+                    >
+                      Volver
+                    </button>
+                    </div>
                   </div>
                 </nav>
               );
