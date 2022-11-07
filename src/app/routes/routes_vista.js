@@ -21,6 +21,8 @@ import Dashboard from '../components/home/Dashboard';
 import Home from '../components/home/Home';
 import PersistAuth from '../components/auth/PersistentAuth';
 import RequireAuth from '../components/auth/RequireAuth';
+import CatySubList from '../components/CategoriasySubcategorias/CatySubList';
+import CategoriasySubcategorias from '../components/CategoriasySubcategorias/CategoriasySubcategorias';
 
 const ROLES = {
      'ADMIN': "ROLE_ADMINISTRADOR",
@@ -39,6 +41,12 @@ const routes =  {
                     </Route> 
                     <Route key="simulacros" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
+                    </Route>
+                    <Route key="categoriasubcategorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/CategoriasySubcategorias" key="catysub" element={<Dashboard contenedor={<CatySubList/>} />} />
+                    </Route>
+                    <Route key="categoriasubcategorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/CatySub" key="catysub" element={<Dashboard contenedor={<CategoriasySubcategorias/>} />} />
                     </Route>
                     <Route key="preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />

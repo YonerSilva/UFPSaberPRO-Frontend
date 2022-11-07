@@ -15,6 +15,8 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 //*Icon User Manager
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+
 import useAuth from "../auth/useAuth";
 
 
@@ -86,6 +88,12 @@ export default function MenuList() {
                                         <ManageAccountsIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
                                    <ListItemText primary="Usuarios" />
+                              </ListItemButton>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/CategoriasySubcategorias'); }}>
+                                   <ListItemIcon>
+                                        <AppRegistrationIcon sx={{ color: "red" }} />
+                                   </ListItemIcon>
+                                   <ListItemText primary="Categorias y Subcategorias"/>
                               </ListItemButton>
                          </>
                          :
