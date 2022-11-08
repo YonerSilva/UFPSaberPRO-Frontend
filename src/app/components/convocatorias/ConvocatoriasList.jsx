@@ -13,12 +13,12 @@ import NoConvocatoria from '../convocatorias/NoConvocatoria'
 import { IconButton } from '@mui/material';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
-import { alert_error, alert_success } from '../../util/functions';
+import { alert_error, alert_loading, alert_success } from '../../util/functions';
 
 const ListaConvocatorias = () => {
 
      const dispatch = useDispatch();
-     const {lista_convocatorias_programa} = useStore();
+     const { lista_convocatorias_programa } = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();
@@ -108,7 +108,7 @@ const ListaConvocatorias = () => {
           }
      ]
 
-     const updateConvocatoria = (item)=>{
+     const updateConvocatoria = (item) => {
           dispatch({
                type: "SET_FORM_EDITION",
                payload: item
@@ -116,17 +116,31 @@ const ListaConvocatorias = () => {
           navigate('/UFPSaberPRO/convocatorias/crear_convocatorias');
      }
 
-     const deleteConvocatoria = (item)=>{
+     const deleteConvocatoria = (item) => {
           try {
-               serviceConvocatoria.eliminar(item.id_convocatoria).then(response=>{
-                    if(response.error===null){
-                         const convocatorias = lista_convocatorias_programa.filter(convo => convo.id_convocatoria!==item.id_convocatoria);
+               serviceConvocatoria.eliminar(item.id_convocatoria).then(response => {
+                    if (response.error === null) {
+                         alert_success(response.message, "Se ha eliminado la convocatoria.");
+                         listarConvocatorias();
+                    } else {
+                         alert_error("¡Error!", response.message);
+                    }
+               });
+          } catch (error) {
+               console.error(error);
+          }
+     }
+
+     const listarConvocatorias = (response) => {
+          try {
+               serviceConvocatoria.getDatosGenerales().then(response=>{
+                    if (response.error === null) {
                          dispatch({
                               type: "SET_LISTA_CONVOCATORIAS_PRG",
-                              payload: {"convocatorias_programas": convocatorias}
+                              payload: response.general
                          });
-                         alert_success(response.message, "Se ha eliminado la convocatoria.");
-                    }else{
+                         alert_loading(response.message);
+                    } else {
                          alert_error("¡Error!", response.message);
                     }
                });
@@ -148,7 +162,7 @@ const ListaConvocatorias = () => {
 
      useEffect(() => {
           setLoading(false);
-     },[]);
+     }, []);
 
      return (
           <React.Fragment>
