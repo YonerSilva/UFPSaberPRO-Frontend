@@ -8,6 +8,20 @@ export function alert_success(success, message) {
      });
 };
 
+export function alert_loading(success,message){
+     toast.promise(
+          new Promise((resolve, reject) => {
+               setTimeout(() => {
+                    resolve();
+               }, 3000)
+          }),
+          {
+               loading: "Cargando Información...",
+               success: <b>{success}</b>,
+               error: <b>¡Oops!, Error...</b>,
+          },{position: "bottom-right"}
+     );
+}
 export function alert_logout() {
      toast.promise(
           new Promise((resolve, reject) => {

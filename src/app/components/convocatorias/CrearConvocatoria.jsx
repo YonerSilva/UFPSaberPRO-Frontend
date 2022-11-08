@@ -10,19 +10,22 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
-import * as serviceSimulacro from '../../store/services/SimulacroService';
-import { alert_error, alert_success } from '../../util/functions';
+import { alert_error, alert_loading, alert_success } from '../../util/functions';
 import { MenuItem } from '@mui/material';
 import Cargador from '../extra/CargadorEventos';
+import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 
 const theme = createTheme();
 
 export default function CrearConvocatoria() {
     const navigate = useNavigate();
-    const [simulacros, setSimulacros] = useState([]);
+    const dispatch = useDispatch();
+    const { formEdition, lista_simulacros_programa } = useStore();
     const [loading, setLoading] = useState(true);
+    const [update, setUpdate] = useState(false);
 
     const [convocatoria, setConvocatoria] = useState({
+        id_convocatoria: "",
         nombre: "",
         descripcion: "",
         fecha_inicio: "",
@@ -30,47 +33,75 @@ export default function CrearConvocatoria() {
         simulacro: ""
     });
 
-    const getDatos = async () => {
-        try {
-            const response = await serviceSimulacro.getDatosGenerales();
-            if (response.error === null) {
-                //setSimulacrosPrg(response.general);
-                //setSimulacros(response.general.simulacros_programa);
-            } else {
-                alert_error("¡Error!", response.message);
-            }
-            setLoading(false);
-        } catch (error) {
-            console.error(error);
-        }
-    }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         try {
-            serviceConvocatoria.guardar(convocatoria).then(response=>{
-                if(response.error===null){
-                    alert_success(response.message, "Se ha guardado la convocatoria");
-                }else{
-                    alert_error("¡Error!", response.message);
-                }
-            });
+            if (update) {
+                serviceConvocatoria.actualizar(convocatoria).then(response => {
+                    serviceConvocatoria.getDatosGenerales().then(res=>{
+                        if (response.error === null) {
+                            alert_success(response.message, "Se ha actualizado la convocatoria");
+                        } else {
+                            alert_error("¡Error!", response.message);
+                        }
+                        listarConvocatorias(res);
+                    });
+                });
+            } else {
+                serviceConvocatoria.guardar(convocatoria).then(response => {
+                    serviceConvocatoria.getDatosGenerales().then(res=>{
+                        if (response.error === null) {
+                            alert_success(response.message, "Se ha guardado la convocatoria");
+                        } else {
+                            alert_error("¡Error!", response.message);
+                        }
+                        listarConvocatorias(res);
+                    });
+                    
+                });
+            }
         } catch (error) {
             console.error(error);
         }
     };
+
+    const listarConvocatorias = (response)=>{
+        if (response.error === null) {
+            dispatch({
+                type: "SET_LISTA_CONVOCATORIAS_PRG",
+                payload: response.general
+            });
+            alert_loading(response.message);
+        } else {
+            alert_error("¡Error!", response.message);
+        }
+    }
 
     const handleChange = (e) => {
         setConvocatoria({ ...convocatoria, [e.target.name]: e.target.value });
     }
 
     useEffect(() => {
-        /*if (state.lista_simulacros_programa[0] === "") {
-            getDatos();
-        } else {
-            setSimulacros(state.lista_simulacros_programa);
-            setLoading(false);
-        }*/
+        // Anything in here is fired on component mount.
+        if (Object.keys(formEdition).length!==0) {
+            setUpdate(true);
+            setConvocatoria({
+                id_convocatoria: formEdition.id_convocatoria,
+                nombre: formEdition.convo_nombre,
+                descripcion: formEdition.convo_descripcion,
+                fecha_inicio: formEdition.convo_fecha_inicial,
+                fecha_final: formEdition.convo_fecha_final,
+                simulacro: formEdition?.simulacro
+            });
+        }
+        setLoading(false);
+        return () => {
+            // Anything in here is fired on component unmount.
+            dispatch({
+                type: "SET_FORM_EDITION",
+                payload: {}
+            });
+        }
     }, []);
 
     return (
@@ -83,7 +114,11 @@ export default function CrearConvocatoria() {
                             return (
                                 <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                                     <Typography component="h1" variant="h4" align="center" p={2}>
-                                        Crear la Convocatoria
+                                        {
+                                            update
+                                                ? "Actualizar la Convocatoria"
+                                                : "Crear la Convocatoria"
+                                        }
                                     </Typography>
                                     <Form onSubmit={handleSubmit}>
                                         <Grid container spacing={3} sx={{ display: 'flex', justifyContent: 'center' }}>
@@ -159,7 +194,7 @@ export default function CrearConvocatoria() {
                                                     fullWidth
                                                     autoComplete="shipping address-line2"
                                                     variant="outlined">
-                                                    {simulacros.map((simulacro) => (
+                                                    {lista_simulacros_programa?.map((simulacro) => (
                                                         <MenuItem key={simulacro.id_simulacro} value={simulacro.id_simulacro}>
                                                             {simulacro.simu_nombre}
                                                         </MenuItem>
@@ -173,7 +208,11 @@ export default function CrearConvocatoria() {
                                             </Grid>
                                             <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
                                                 <Button type='submit' size='medium' className='btn btn-danger m-2'>
-                                                    Crear
+                                                    {
+                                                        update
+                                                            ? "Actualizar"
+                                                            : "Crear"
+                                                    }
                                                 </Button>
                                             </Grid>
                                         </Grid>

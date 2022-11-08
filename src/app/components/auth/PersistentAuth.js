@@ -5,29 +5,35 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useStore } from "../../store/Provider/storeProvider";
 import * as serviceGeneral from '../../store/services/DatoGeneralService';
 import Cargador from "../extra/CargadorEventos";
+import { alert_loading } from "../../util/functions";
 
 const PersistAuth = () => {
 
      const auth = useAuth();
      const [loading, setLoading] = useState(true);
-     const { lista_convocatorias_programa } = useStore();
+     const { lista_convocatorias_programa, lista_simulacros_programa, lista_categorias_programa, lista_subcategorias_programa } = useStore();
      const dispatch = useDispatch();
      const location = useLocation();
 
-     const getDatosGenerales = async (token, usuario) => {
+     const getDatosGenerales = async () => {
           try {
-               const response = await serviceGeneral.getDatosGenerales(token, usuario);
+               const response = await serviceGeneral.getDatosGenerales();
                if (response.error !== null || response.error !== undefined) {
                     dispatch({
                          type: "LISTAR_DATOS_GENERAL",
                          payload: response.general
                     });
+                    alert_loading(response.message);
                }
                setLoading(false);
           } catch (error) {
                console.error(error);
                setLoading(false);
           }
+     }
+
+     const validateDatosGenerales = ()=>{
+          return !lista_convocatorias_programa && !lista_simulacros_programa && !lista_categorias_programa && !lista_subcategorias_programa;
      }
 
      const persist = async () => {
@@ -50,8 +56,10 @@ const PersistAuth = () => {
                auth.setActive(true);
           }
 
-          if (lista_convocatorias_programa.length === 0) {
+          if (validateDatosGenerales) {
                getDatosGenerales();
+          }else{
+               setLoading(false);
           }
      }
 

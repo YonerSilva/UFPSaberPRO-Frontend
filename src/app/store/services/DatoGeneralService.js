@@ -9,7 +9,7 @@ const API_URL = Constantes.SISTEMA;
 export const getDatosGenerales = async ()=>{
   const token = await getUserToken();
   const usuario = await getUser();
-  return await (await fetch(API_URL + API.GENERAL.GENERAL + "/?id_usuario=" + usuario.id_usuario + "&id_programa=" + usuario.programa.id_programa,{
+  return await (await fetch(API_URL + API.DATOGENERAL.GENERAL + "/?id_usuario=" + usuario.id_usuario + "&id_programa=" + usuario.programa.id_programa,{
     method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,

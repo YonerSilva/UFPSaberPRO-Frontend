@@ -1,6 +1,7 @@
 import { ACCION } from "../actions/Acciones";
 
 const initialState = {
+     formEdition: {},
      lista_programas: [],
      lista_roles: [],
      lista_convocatorias_programa: [],
@@ -10,9 +11,15 @@ const initialState = {
 }
 
 export const storeReducer = (state, action) => {
-     const {type, payload} = action;
+     const { type, payload } = action;
 
-     switch (type) {  
+     switch (type) {
+          case ACCION.SET_FORM_EDITION:
+               console.log(action);
+               return {
+                    ...state,
+                    formEdition: payload
+               };
           case ACCION.LISTAR_DATOS_AUTH:
                console.log(action);
                state.lista_programas = payload.programas;
@@ -25,10 +32,16 @@ export const storeReducer = (state, action) => {
                state.lista_categorias_programa = payload.categorias_programa;
                state.lista_subcategorias_programa = payload.subcategorias_programa;
                return state;
+          case ACCION.SET_LISTA_CONVOCATORIAS_PRG:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_convocatorias_programa: payload.convocatorias_programa
+               };
           default:
                return state;
      }
 }
 
-export {initialState};
+export { initialState };
 export default storeReducer;

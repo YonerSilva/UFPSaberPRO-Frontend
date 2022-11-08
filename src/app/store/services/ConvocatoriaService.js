@@ -39,4 +39,37 @@ export const guardar = async (convocatoria) => {
   })).json();
 }
 
+export const actualizar = async (convocatoria) => {
+  console.log(convocatoria)
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.CONVOCATORIA.ACTUALIZAR, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "id_convocatoria": parseInt(convocatoria.id_convocatoria),
+      "convo_nombre": String(convocatoria.nombre).trim(),
+      "convo_descripcion": String(convocatoria.descripcion).trim(),
+      "convo_fecha_inicial": String(convocatoria.fecha_inicio).trim(),
+      "convo_fecha_final": String(convocatoria.fecha_final).trim(),
+      "programa": parseInt(usuario.programa.id_programa),
+      "simulacro": convocatoria.simulacro!==""?parseInt(convocatoria.simulacro):null,
+    }),
+  })).json();
+}
+
+export const eliminar = async (id_convocatoria) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.CONVOCATORIA.ELIMINAR + "?id_convocatoria=" + id_convocatoria, {
+    method: "DELETE",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
+
 /*--------------------------------END------------------------------------*/

@@ -1,7 +1,7 @@
 import React from "react";
 
 const API = {
-     GENERAL: {
+     DATOGENERAL: {
           GENERAL: "api/general/getDatos",
      },
      AUTH: {
@@ -12,7 +12,9 @@ const API = {
      },
      CONVOCATORIA: {
           GENERAL: "api/convocatorias/general",
-          GUARDAR: "api/convocatorias/guardarConvocatoria"
+          GUARDAR: "api/convocatorias/guardarConvocatoria",
+          ACTUALIZAR: "api/convocatorias/actualizarConvocatoria",
+          ELIMINAR: "api/convocatorias/eliminarConvocatoria"
      },
      SIMULACRO: {
           GENERAL: "api/simulacros/general",

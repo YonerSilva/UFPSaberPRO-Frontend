@@ -6,9 +6,11 @@ import { alert_success, alert_error, verificarCamposRegister, firstCharUpper } f
 import "../../../index.css";
 import * as service from "../../store/services/UsuarioService";
 import { Toaster } from 'react-hot-toast';
+import { useStore } from "../../store/Provider/storeProvider.js";
 
 function RegistroUsuario() {
   const navigate = useNavigate();
+  const {lista_programas, lista_roles} = useStore();
 
   const valores_iniciales = {
     nombre: "",
@@ -142,9 +144,9 @@ function RegistroUsuario() {
                       >
                         <option key="0" defaultValue={""} hidden value="">Programa</option>
                         {
-                          /*state?.lista_programas.map((programa, index)=>(
+                          lista_programas.map((programa, index)=>(
                             <option key={(index+1)} value={programa.prg_codigo}>{programa.prg_codigo+"-"+programa.prg_nombre}</option>
-                          ))*/
+                          ))
                         }
                       </select>
                     </div>
@@ -159,9 +161,9 @@ function RegistroUsuario() {
                       >
                         <option key="0" defaultValue={""} hidden value="">Rol</option>
                         {
-                          /*state?.lista_roles.map((rol, index)=>(
+                          lista_roles.map((rol, index)=>(
                             <option key={(index+1)} value={rol.id_rol}>{rol.rol_nombre?rol.rol_nombre.split("_")[1]:""}</option>
-                          ))*/
+                          ))
                         }
                       </select>
                     </div>

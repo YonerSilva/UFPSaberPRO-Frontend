@@ -11,10 +11,13 @@ import Barra from '../extra/BarraBusqueda';
 import Cargador from '../extra/CargadorEventos';
 import NoConvocatoria from '../convocatorias/NoConvocatoria'
 import { IconButton } from '@mui/material';
-import { useStore } from '../../store/Provider/storeProvider';
+import { useDispatch, useStore } from '../../store/Provider/storeProvider';
+import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
+import { alert_error, alert_success } from '../../util/functions';
 
 const ListaConvocatorias = () => {
 
+     const dispatch = useDispatch();
      const {lista_convocatorias_programa} = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
@@ -96,14 +99,41 @@ const ListaConvocatorias = () => {
                     if (row.convo_estado === "I") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { navigate() }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
-                                   <IconButton onClick={() => { navigate() }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
+                                   <IconButton onClick={() => { updateConvocatoria(row) }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
+                                   <IconButton onClick={() => { deleteConvocatoria(row) }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
                               </div>
                          )
                     }
                }
           }
      ]
+
+     const updateConvocatoria = (item)=>{
+          dispatch({
+               type: "SET_FORM_EDITION",
+               payload: item
+          });
+          navigate('/UFPSaberPRO/convocatorias/crear_convocatorias');
+     }
+
+     const deleteConvocatoria = (item)=>{
+          try {
+               serviceConvocatoria.eliminar(item.id_convocatoria).then(response=>{
+                    if(response.error===null){
+                         const convocatorias = lista_convocatorias_programa.filter(convo => convo.id_convocatoria!==item.id_convocatoria);
+                         dispatch({
+                              type: "SET_LISTA_CONVOCATORIAS_PRG",
+                              payload: {"convocatorias_programas": convocatorias}
+                         });
+                         alert_success(response.message, "Se ha eliminado la convocatoria.");
+                    }else{
+                         alert_error("¡Error!", response.message);
+                    }
+               });
+          } catch (error) {
+               console.error(error);
+          }
+     }
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
