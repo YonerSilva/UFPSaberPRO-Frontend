@@ -69,4 +69,13 @@ export const validateToken = async (token) => {
      });
 };
 
+export const getDatosGenerales = async () => {
+     return await (await fetch(API_URL + API.AUTH.GENERAL, {
+          method: "GET",
+          headers: {
+               'Content-Type': 'application/json',
+          },
+     })).json();
+}
+
 /*--------------------------------END------------------------------------*/

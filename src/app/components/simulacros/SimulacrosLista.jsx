@@ -1,27 +1,23 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { useAppContext } from '../../store/reducers/DatosGlobales';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
-import { alert_error } from '../../util/functions';
-import * as service from '../../store/services/SimulacroService';
 import Cargador from '../extra/CargadorEventos';
-import NoConvocatoria from '../convocatorias/NoConvocatoria'
+import Barra from '../extra/BarraBusqueda';
+import NoSimulacros from './NoSimulacros';
+import { useStore } from '../../store/Provider/storeProvider';
 
-const ListaSimulacros = ()=>{
+const ListaSimulacros = () => {
 
-     const [loading,setLoading] = useState(null);
-     const [datos, setDatos] = useState([]);
+     const { lista_simulacros_programa } = useStore();
+     const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
-     const navigate = useNavigate();   
-     const { state, setConvocatoriasPrg, setSimulacrosPrg } = useAppContext();
-     const [convocatorias, setConvocatorias] = useState([]);
-     const [simulacros, setSimulacros] = useState([]);
+     const navigate = useNavigate();
 
      const columnas = [
           {
@@ -31,14 +27,20 @@ const ListaSimulacros = ()=>{
                sort: true,
           },
           {
+               text: "DESCRIPCION",
+               dataField: "simu_descripcion",
+               align: 'center',
+               sort: true,
+          },
+          {
                text: "FECHA INICIAL",
                dataField: "simu_fecha_inicial",
                align: 'center',
                sort: true,
                formatter: (cellContent, row) => {
-                    if(row.simu_fecha_inicial!==null && row.simu_fecha_inicial!==undefined){
+                    if (row.simu_fecha_inicial !== null && row.simu_fecha_inicial !== undefined) {
                          const fecha = new Date(row.simu_fecha_inicial);
-                         return <span>{fecha.toLocaleDateString()}<br/>{fecha.toLocaleTimeString()}</span>
+                         return <span>{fecha.toLocaleDateString()}<br />{fecha.toLocaleTimeString()}</span>
                     }
                }
           },
@@ -48,15 +50,27 @@ const ListaSimulacros = ()=>{
                align: 'center',
                sort: true,
                formatter: (cellContent, row) => {
-                    if(row.simu_fecha_final!==null && row.simu_fecha_final!==undefined){
+                    if (row.simu_fecha_final !== null && row.simu_fecha_final !== undefined) {
                          const fecha = new Date(row.simu_fecha_final);
-                         return <span>{fecha.toLocaleDateString()}<br/>{fecha.toLocaleTimeString()}</span>
+                         return <span>{fecha.toLocaleDateString()}<br />{fecha.toLocaleTimeString()}</span>
                     }
                }
           },
           {
+               text: "PUNTAJE MAX",
+               dataField: "simu_puntaje_maximo",
+               align: 'center',
+               sort: true,
+          },
+          {
+               text: "DURACION",
+               dataField: "simu_duracion",
+               align: 'center',
+               sort: true,
+          },
+          {
                text: "ESTADO",
-               dataField: "simu_estadoo",
+               dataField: "simu_estado",
                align: 'center',
                sort: true,
                formatter: (cellContent, row) => {
@@ -91,7 +105,7 @@ const ListaSimulacros = ()=>{
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
-               return simulacros;
+               return lista_simulacros_programa;
           } else {
                return data.filter(
                     (item) =>
@@ -100,30 +114,9 @@ const ListaSimulacros = ()=>{
           }
      }
 
-
-     const getDatos = async () => {
-          try {
-               const response = await service.getDatosGenerales();
-               if (response.error === null) {
-                    setSimulacrosPrg(response.general);
-                    setSimulacros(response.general.simulacros_programa);
-               } else {
-                    alert_error("¡Error!", response.message);
-               }
-               setLoading(false);
-          } catch (error) {
-               console.error(error);
-          }
-     }
-
      useEffect(() => {
-          if (state.lista_convocatorias_programa[0] === "" || state.lista_simulacros_programa[0] === "") {
-               getDatos();
-          } else {
-               setSimulacros(state.lista_simulacros_programa);
-               setLoading(false);
-          }
-     }, []); 
+          setLoading(false);
+     }, []);
 
      return (
           <React.Fragment>
@@ -134,33 +127,29 @@ const ListaSimulacros = ()=>{
                          </Typography>
                          {
                               (() => {
-                                   if (datos.lengh !== 0) {
+                                   if (lista_simulacros_programa.length !== 0) {
                                         return (
-                                             <nav className="navbar navbar-light bg-light rounded">
-                                                  <div className="container-fluid">
-                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>
-                                                       <div className="d-flex">
-                                                            <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />
-                                                       </div>
-                                                  </div>
-                                             </nav> 
+                                             <Barra
+                                                  button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>}
+                                                  input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />}
+                                             />
                                         )
                                    }
                               })()
                          }
 
                          <hr />
-                         <div className="container-fluid">       
+                         <div className="container-fluid">
                               {
                                    (() => {
                                         if (!loading) {
-                                             if (simulacros.length === 0) {
+                                             if (lista_simulacros_programa.length === 0) {
                                                   return (
-                                                       <NoConvocatoria />
+                                                       <NoSimulacros />
                                                   )
                                              } else {
                                                   return (
-                                                       <BootstrapTable headerClasses='table-head' classes='table-design shadow' bootstrap4 wrapperClasses='table-responsive' rowClasses="text-nowrap" striped bordered hover keyField='id_convocatoria' data={handleBuscar(convocatorias)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.' />
+                                                       <BootstrapTable headerClasses='table-head' classes='table-design shadow' bootstrap4 wrapperClasses='table-responsive' striped bordered hover keyField='id_simulacro' data={handleBuscar(lista_simulacros_programa)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.' />
                                                   )
                                              }
                                         } else {

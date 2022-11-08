@@ -1,23 +1,19 @@
-import React, { useEffect, useMemo, useReducer, useState } from "react";
+import React, { useEffect } from "react";
 import Routes from "./services/acceptRoutes";
+import StoreProvider, { useDispatch } from "./store/Provider/storeProvider";
 
-import { DatosGReducer, useAppContext, AppContext } from './store/reducers/DatosGlobales';
-import * as service from './store/services/DatoGeneralService';
+import * as service from './store/services/UsuarioService';
 
-const initialState = {
-     lista_programas: [""],
-     lista_roles: [""],
-     lista_convocatorias_programa: [""],
-     lista_simulacros_programa: [""]
-}
 
-const App = ()=> {
-     const { listarItem } = useAppContext();
-
+const App = () => {
+     const dispatch = useDispatch();
      const getDatosGenerales = async () => {
           const response = await service.getDatosGenerales();
           if (response.error !== null || response.error !== undefined) {
-               listarItem(response.general);
+               dispatch({
+                    type: "LISTAR_DATOS_AUTH",
+                    payload: response.general
+               });
           }
      }
 
@@ -30,35 +26,11 @@ const App = ()=> {
      );
 }
 
-const Constructor= ()=>{
-
-     const [state, dispatch] = useReducer(DatosGReducer, initialState);
-
-     const listarItem = (datos) => {
-          dispatch({ type: 'LISTAR_ITEM', payload: datos })
-     }
-
-     const setConvocatoriasPrg = (datos) => {
-          dispatch({ type: 'SET_LISTA_CONVOCATORIAS_PROGRAMA', payload: datos })
-     }
-
-     const setSimulacrosPrg = (datos) => {
-          dispatch({ type: 'SET_LISTA_SIMULACROS_PROGRAMA', payload: datos })
-     }
-
-     const value = useMemo(()=>{
-          return ({
-               state,
-               listarItem,
-               setConvocatoriasPrg,
-               setSimulacrosPrg
-          })
-     },[]);
-
+const Constructor = () => {
      return (
-          <AppContext.Provider value={value}>
-               <App/>
-          </AppContext.Provider>
+          <StoreProvider>
+               <App />
+          </StoreProvider>
      )
 }
 export default Constructor;

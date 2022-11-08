@@ -4,7 +4,6 @@ import { ResponsiveContainer } from "recharts";
 import Typography from "@mui/material/Typography";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { useAppContext } from "../../store/reducers/DatosGlobales";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
@@ -18,7 +17,6 @@ const EditarCategoria = () => {
   const [datos, setDatos] = useState([]);
   const [busqueda, setBusqueda] = useState("");
   const navigate = useNavigate();
-  const { state, setConvocatoriasPrg, setSimulacrosPrg } = useAppContext();
   const [convocatorias, setConvocatorias] = useState([]);
   const [simulacros, setSimulacros] = useState([]);
 
@@ -70,8 +68,8 @@ const EditarCategoria = () => {
     try {
       const response = await service.getDatosGenerales();
       if (response.error === null) {
-        setSimulacrosPrg(response.general);
-        setSimulacros(response.general.simulacros_programa);
+        //setSimulacrosPrg(response.general);
+        //setSimulacros(response.general.simulacros_programa);
       } else {
         alert_error("¡Error!", response.message);
       }
@@ -82,7 +80,7 @@ const EditarCategoria = () => {
   };
 
   useEffect(() => {
-    if (
+    /*if (
       state.lista_convocatorias_programa[0] === "" ||
       state.lista_simulacros_programa[0] === ""
     ) {
@@ -90,7 +88,7 @@ const EditarCategoria = () => {
     } else {
       setSimulacros(state.lista_simulacros_programa);
       setLoading(false);
-    }
+    }*/
   }, []);
 
   return (

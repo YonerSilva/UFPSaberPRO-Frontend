@@ -4,35 +4,31 @@ import { ResponsiveContainer } from "recharts";
 import Typography from "@mui/material/Typography";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-import { useAppContext } from "../../store/reducers/DatosGlobales";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import { alert_error } from "../../util/functions";
-import * as service from "../../store/services/SimulacroService";
+import Barra from '../extra/BarraBusqueda';
 import Cargador from "../extra/CargadorEventos";
 import NoConvocatoria from "../convocatorias/NoConvocatoria";
+import { useStore } from "../../store/Provider/storeProvider";
 
 const CatySubList = () => {
-  const [loading, setLoading] = useState(null);
-  const [datos, setDatos] = useState([]);
+
+  const { lista_categorias_programa } = useStore();
+  const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState("");
   const navigate = useNavigate();
-  const { state, setConvocatoriasPrg, setSimulacrosPrg } = useAppContext();
-  const [convocatorias, setConvocatorias] = useState([]);
-  const [simulacros, setSimulacros] = useState([]);
 
   const columnas = [
- 
     {
-      text: "CATEGORIA",
-      dataField: "text",
+      text: "NOMBRE",
+      dataField: "cate_nombre",
       align: "center",
       sort: true,
     },
     {
-      text: "SUBCATEGORIA",
-      dataField: "text",
+      text: "DESCRIPCION",
+      dataField: "cate_descripcion",
       align: "center",
       sort: true,
     },
@@ -41,40 +37,35 @@ const CatySubList = () => {
       dataField: "fd1",
       isDummyField: true,
       formatter: (cellContent, row) => {
-        if (row.simu_estado === "I") {
-          return (
-            <div className="row-cols-2 row-cols-md-auto" align="center">
-              <IconButton
-                onClick={() => {
-                  navigate('/UFPSaberPRO/editar-categoria');
-                }}
-                title="Editar Categoria"
-                style={{ color: "blue" }}
-              >
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                onClick={() => {
-                  navigate();
-                }}
-                title="Eliminar Categoria"
-                style={{ color: "red" }}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </div>
-          );
-        }
+        return (
+          <div className="row-cols-2 row-cols-md-auto" align="center">
+            <IconButton onClick={() => { navigate('/UFPSaberPRO/editar-categoria') }}
+              title="Editar Categoria"
+              style={{ color: "blue" }}
+            >
+              <EditIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                navigate();
+              }}
+              title="Eliminar Categoria"
+              style={{ color: "red" }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          </div>
+        );
       },
     },
   ];
 
   const handleBuscar = (data) => {
     if (busqueda === "") {
-      return simulacros;
+      return lista_categorias_programa;
     } else {
       return data.filter((item) =>
-        item.simu_nombre
+        item.cate_nombre
           .toString()
           .toUpperCase()
           .includes(busqueda.toUpperCase())
@@ -82,31 +73,8 @@ const CatySubList = () => {
     }
   };
 
-  const getDatos = async () => {
-    try {
-      const response = await service.getDatosGenerales();
-      if (response.error === null) {
-        setSimulacrosPrg(response.general);
-        setSimulacros(response.general.simulacros_programa);
-      } else {
-        alert_error("¡Error!", response.message);
-      }
-      setLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    if (
-      state.lista_convocatorias_programa[0] === "" ||
-      state.lista_simulacros_programa[0] === ""
-    ) {
-      getDatos();
-    } else {
-      setSimulacros(state.lista_simulacros_programa);
-      setLoading(false);
-    }
+    setLoading(false);
   }, []);
 
   return (
@@ -117,44 +85,12 @@ const CatySubList = () => {
             Lista de Categorias
           </Typography>
           {(() => {
-            if (datos.lengh !== 0) {
+            if (lista_categorias_programa.lengh !== 0) {
               return (
-                <nav className="navbar navbar-light bg-light rounded">
-                  <div className="container-fluid">
-                  <div className="d-flex">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        navigate("/UFPSaberPRO/crear-categoria");
-                      }}
-                      className="btn btn-danger m-2"
-                    >
-                      Crear Categoria
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        navigate("/UFPSaberPRO/crear-subcategoria");
-                      }}
-                      className="btn btn-danger m-2"
-                    >
-                      Crear SubCategoria
-                    </button>
-                    </div>
-                    <div className="d-flex">
-                      <input
-                        onChange={(e) => {
-                          setBusqueda(e.target.value);
-                        }}
-                        title="Nombre Simulacro"
-                        placeholder="Buscar Categoria"
-                        className="form-control me-2"
-                        type="search"
-                        aria-label="Buscar"
-                      />
-                    </div>
-                  </div>
-                </nav>
+                <Barra
+                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/crear-categoria") }} className="btn btn-danger m-2">Crear Categoria</button>}
+                  input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Simulacro" placeholder="Buscar Categoria" className="form-control me-2" type="search" aria-label="Buscar" />} 
+                />
               );
             }
           })()}
@@ -163,7 +99,7 @@ const CatySubList = () => {
           <div className="container-fluid">
             {(() => {
               if (!loading) {
-                if (simulacros.length === 0) {
+                if (lista_categorias_programa.length === 0) {
                   return <NoConvocatoria />;
                 } else {
                   return (
@@ -172,12 +108,11 @@ const CatySubList = () => {
                       classes="table-design shadow"
                       bootstrap4
                       wrapperClasses="table-responsive"
-                      rowClasses="text-nowrap"
                       striped
                       bordered
                       hover
-                      keyField="id_convocatoria"
-                      data={handleBuscar(convocatorias)}
+                      keyField="id_categoria"
+                      data={handleBuscar(lista_categorias_programa)}
                       columns={columnas}
                       pagination={paginationFactory()}
                       noDataIndication="No hay registros disponibles."

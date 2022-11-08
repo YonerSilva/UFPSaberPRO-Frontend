@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
@@ -10,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [active, setActive] = useState(false);
 
     return (
-        <AuthContext.Provider value={{auth, setAuth , active, setActive}}>
+        <AuthContext.Provider value={{ auth, setAuth , active, setActive }}>
             {children}
         </AuthContext.Provider>
     )

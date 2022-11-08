@@ -10,7 +10,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
-import { useAppContext } from '../../store/reducers/DatosGlobales';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
 import { alert_error, alert_success } from '../../util/functions';
 import { MenuItem } from '@mui/material';
@@ -20,7 +19,6 @@ const theme = createTheme();
 
 export default function CrearConvocatoria() {
     const navigate = useNavigate();
-    const { state, setSimulacrosPrg } = useAppContext();
     const [simulacros, setSimulacros] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -36,8 +34,8 @@ export default function CrearConvocatoria() {
         try {
             const response = await serviceSimulacro.getDatosGenerales();
             if (response.error === null) {
-                setSimulacrosPrg(response.general);
-                setSimulacros(response.general.simulacros_programa);
+                //setSimulacrosPrg(response.general);
+                //setSimulacros(response.general.simulacros_programa);
             } else {
                 alert_error("¡Error!", response.message);
             }
@@ -67,12 +65,12 @@ export default function CrearConvocatoria() {
     }
 
     useEffect(() => {
-        if (state.lista_simulacros_programa[0] === "") {
+        /*if (state.lista_simulacros_programa[0] === "") {
             getDatos();
         } else {
             setSimulacros(state.lista_simulacros_programa);
             setLoading(false);
-        }
+        }*/
     }, []);
 
     return (

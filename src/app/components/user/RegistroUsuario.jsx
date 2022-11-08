@@ -5,7 +5,6 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import { alert_success, alert_error, verificarCamposRegister, firstCharUpper } from "../../util/functions.js";
 import "../../../index.css";
 import * as service from "../../store/services/UsuarioService";
-import { useAppContext } from "../../store/reducers/DatosGlobales";
 import { Toaster } from 'react-hot-toast';
 
 function RegistroUsuario() {
@@ -22,7 +21,6 @@ function RegistroUsuario() {
   };
 
   const [user, setUser] = useState(valores_iniciales);
-  const {state} = useAppContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -144,9 +142,9 @@ function RegistroUsuario() {
                       >
                         <option key="0" defaultValue={""} hidden value="">Programa</option>
                         {
-                          state.lista_programas.map((programa, index)=>(
+                          /*state?.lista_programas.map((programa, index)=>(
                             <option key={(index+1)} value={programa.prg_codigo}>{programa.prg_codigo+"-"+programa.prg_nombre}</option>
-                          ))
+                          ))*/
                         }
                       </select>
                     </div>
@@ -161,9 +159,9 @@ function RegistroUsuario() {
                       >
                         <option key="0" defaultValue={""} hidden value="">Rol</option>
                         {
-                          state.lista_roles.map((rol, index)=>(
+                          /*state?.lista_roles.map((rol, index)=>(
                             <option key={(index+1)} value={rol.id_rol}>{rol.rol_nombre?rol.rol_nombre.split("_")[1]:""}</option>
-                          ))
+                          ))*/
                         }
                       </select>
                     </div>
