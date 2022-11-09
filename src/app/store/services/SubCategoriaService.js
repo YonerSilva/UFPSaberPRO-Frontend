@@ -6,7 +6,7 @@ const API_URL = Constantes.SISTEMA;
 export const getDatosGenerales = async () => {
   const token = await getUserToken();
   const usuario = await getUser();
-  return await (await fetch(API_URL + API.CATEGORIA.GENERAL + "/?id_usuario=" + usuario.id_usuario + "&id_programa=" + usuario.programa.id_programa, {
+  return await (await fetch(API_URL + API.SUBCATEGORIA.GENERAL + "/?id_usuario=" + usuario.id_usuario + "&id_programa=" + usuario.programa.id_programa, {
     method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,
@@ -15,38 +15,40 @@ export const getDatosGenerales = async () => {
   })).json();
 }
 
-export const guardar = async (categoria) => {
+export const guardar = async (subcategoria, id_categoria) => {
   const token = await getUserToken();
   const usuario = await getUser();
-  return await (await fetch(API_URL + API.CATEGORIA.GUARDAR, {
+  return await (await fetch(API_URL + API.SUBCATEGORIA.GUARDAR, {
     method: 'POST',
     headers: {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "cate_nombre": String(categoria.nombre).trim(),
-      "cate_descripcion": String(categoria.descripcion).trim(),
+      "sub_nombre": String(subcategoria.nombre).trim(),
+      "sub_descripcion": String(subcategoria.descripcion).trim(),
+      "categoria": parseInt(id_categoria),
       "programa": parseInt(usuario.programa.id_programa),
       "usu_creacion": parseInt(usuario.id_usuario),
     }),
   })).json();
 }
 
-export const actualizar = async (categoria) => {
-  console.log(categoria)
+export const actualizar = async (subcategoria, id_categoria) => {
+  console.log(id_categoria)
   const token = await getUserToken();
   const usuario = await getUser();
-  return await (await fetch(API_URL + API.CATEGORIA.ACTUALIZAR, {
+  return await (await fetch(API_URL + API.SUBCATEGORIA.ACTUALIZAR, {
     method: 'PUT',
     headers: {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "id_categoria": parseInt(categoria.id_categoria),
-      "cate_nombre": String(categoria.nombre).trim(),
-      "cate_descripcion": String(categoria.descripcion).trim(),
+      "id_subcategoria": parseInt(subcategoria.id_subcategoria),
+      "sub_nombre": String(subcategoria.nombre).trim(),
+      "sub_descripcion": String(subcategoria.descripcion).trim(),
+      "categoria": parseInt(id_categoria),
       "programa": parseInt(usuario.programa.id_programa)
     }),
   })).json();

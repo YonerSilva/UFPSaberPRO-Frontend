@@ -52,6 +52,7 @@ export default function CrearConvocatoria() {
                     serviceConvocatoria.getDatosGenerales().then(res=>{
                         if (response.error === null) {
                             alert_success(response.message, "Se ha guardado la convocatoria");
+                            setTimeout(() =>{navigate("/UFPSaberPRO/convocatorias")},2000);
                         } else {
                             alert_error("¡Error!", response.message);
                         }

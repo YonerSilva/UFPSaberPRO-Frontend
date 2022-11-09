@@ -191,7 +191,7 @@ export function NomDescSimulacro() {
           <TextField
             sx={{ mt: 5 }}
             required
-            id="cardName"
+            id="nombre"
             label="Nombre"
             multiline
             fullWidth
@@ -266,7 +266,7 @@ export function NumPre() {
           <TextField
             sx={{ mb: 5 }}
             required
-            id="cardName"
+            id="puntaje_maximo"
             label="Puntaje Maximo"
             multiline
             fullWidth
@@ -285,7 +285,7 @@ export function TiempoSimulacro() {
       <Grid container spacing={5}>
         <Grid item xs={12} md={6}>
           <TextField
-            id="datetime-local"
+            id="fecha_inicio"
             label="Fecha y Hora de Inicio"
             type="datetime-local"
             defaultValue="2017-05-24T10:30"
@@ -297,7 +297,7 @@ export function TiempoSimulacro() {
         </Grid>
         <Grid item xs={12} md={6}>
           <TextField
-            id="datetime-local"
+            id="fecha_final"
             label="Fecha y Hora de Finalizacion"
             type="datetime-local"
             defaultValue="2017-05-24T10:30"
@@ -305,6 +305,18 @@ export function TiempoSimulacro() {
             InputLabelProps={{
               shrink: true,
             }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            sx={{ mb: 5 }}
+            required
+            id="duracion"
+            label="Duracion del Simulacro"
+            multiline
+            fullWidth
+            autoComplete="cc-name"
+            variant="outlined"
           />
         </Grid>
       </Grid>
@@ -336,19 +348,19 @@ export function Subcategorias() {
         <FormGroup>
           <FormControlLabel
             control={
-              <Checkbox checked={comEscri} onChange={handleChange} name="comEscri" />
+              <Checkbox onChange={handleChange} name="comEscri" />
             }
             label="Comunicacion Escrita"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={razCuanti} onChange={handleChange} name="razCuanti" />
+              <Checkbox onChange={handleChange} name="razCuanti" />
             }
             label="Razonamiento Cuantitativo"
           />
           <FormControlLabel
             control={
-              <Checkbox checked={lecCri} onChange={handleChange} name="lecCri" />
+              <Checkbox onChange={handleChange} name="lecCri" />
             }
             label="Lectura Critica"
           />

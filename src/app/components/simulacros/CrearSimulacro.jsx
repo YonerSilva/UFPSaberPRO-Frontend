@@ -28,13 +28,13 @@ function getStepContent(step) {
     case 0:
       return <CategoriaSubC />;
     case 1:
-      return <NomDescSimulacro />;
+      return <NomDescSimulacro/>;
     case 2:
-      return <NumPre />;
+      return <NumPre/>;
     case 3:
       return <SeleccionPreguntas />;
     case 4:
-      return <TiempoSimulacro />;
+      return <TiempoSimulacro/>;
 
     default:
       throw new Error("Unknown step");
@@ -116,7 +116,7 @@ export default function CrearSimulacro() {
                     Volver
                   </Button>
                 )}
-                {activeStep == 0 && (
+                {activeStep === 0 && (
                   <Button color='error' onClick={() => { navigate(-1) }} sx={{ mt: 3, ml: 1 }}>
                     Volver
                   </Button>

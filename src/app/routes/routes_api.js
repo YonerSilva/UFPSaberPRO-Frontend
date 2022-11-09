@@ -22,8 +22,14 @@ const API = {
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",
-          GUARDAR: "api/categorias/guardarCategoria"
+          GUARDAR: "api/categorias/guardarCategoria",
+          ACTUALIZAR: "api/categorias/actualizarCategoria"
      },
+     SUBCATEGORIA: {
+          GENERAL: "api/subcategorias/general",
+          GUARDAR: "api/subcategorias/guardarSubcategoria",
+          ACTUALIZAR: "api/subcategorias/actualizarSubcategoria"
+     }
 }
 
 export default API;

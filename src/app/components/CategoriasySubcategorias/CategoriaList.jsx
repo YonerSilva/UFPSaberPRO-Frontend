@@ -5,15 +5,18 @@ import Typography from "@mui/material/Typography";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import Barra from '../extra/BarraBusqueda';
 import Cargador from "../extra/CargadorEventos";
-import NoConvocatoria from "../convocatorias/NoConvocatoria";
-import { useStore } from "../../store/Provider/storeProvider";
+import NoCateSub from "./NoCateSub";
+import { useDispatch, useStore } from '../../store/Provider/storeProvider';
+import * as serviceCategoria from '../../store/services/CategoriaService';
+import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const CatySubList = () => {
+const CategoriaList = () => {
 
+  const dispatch = useDispatch();
   const { lista_categorias_programa } = useStore();
   const [loading, setLoading] = useState(true);
   const [busqueda, setBusqueda] = useState("");
@@ -39,26 +42,52 @@ const CatySubList = () => {
       formatter: (cellContent, row) => {
         return (
           <div className="row-cols-2 row-cols-md-auto" align="center">
-            <IconButton onClick={() => { navigate('/UFPSaberPRO/editar-categoria') }}
-              title="Editar Categoria"
-              style={{ color: "blue" }}
-            >
-              <EditIcon />
+            <IconButton onClick={() => { updateCategoria(row) }}
+              title='Actualizar Convocatoria'
+              style={{ color: "blue" }}><EditIcon />
             </IconButton>
             <IconButton
-              onClick={() => {
-                navigate();
-              }}
-              title="Eliminar Categoria"
-              style={{ color: "red" }}
+              onClick={() => { verSubCategoria(row) }}
+              title="Ver Categoria"
+              style={{ color: "gray" }}
             >
-              <DeleteIcon />
+              <VisibilityIcon />
             </IconButton>
           </div>
         );
       },
     },
   ];
+
+  const updateCategoria = (item) => {
+    dispatch({
+      type: "SET_FORM_EDITION",
+      payload: item
+    });
+    navigate('/UFPSaberPRO/crear-categoria');
+  }
+
+  const listarCategorias = (response) => {
+    try {
+      serviceCategoria.getDatosGenerales().then(response => {
+        if (response.error === null) {
+          dispatch({
+            type: "SET_LISTA_CATEGORIA_PRG",
+            payload: response.general
+          });
+          alert_loading(response.message);
+        } else {
+          alert_error("¡Error!", response.message);
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const verSubCategoria = (item) => {
+    navigate('/UFPSaberPRO/SubCategorias/'+item.id_categoria);
+  }
 
   const handleBuscar = (data) => {
     if (busqueda === "") {
@@ -85,11 +114,11 @@ const CatySubList = () => {
             Lista de Categorias
           </Typography>
           {(() => {
-            if (lista_categorias_programa.lengh !== 0) {
+            if (lista_categorias_programa.length !== 0) {
               return (
                 <Barra
                   button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/crear-categoria") }} className="btn btn-danger m-2">Crear Categoria</button>}
-                  input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Simulacro" placeholder="Buscar Categoria" className="form-control me-2" type="search" aria-label="Buscar" />} 
+                  input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Simulacro" placeholder="Buscar Categoria" className="form-control me-2" type="search" aria-label="Buscar" />}
                 />
               );
             }
@@ -100,7 +129,7 @@ const CatySubList = () => {
             {(() => {
               if (!loading) {
                 if (lista_categorias_programa.length === 0) {
-                  return <NoConvocatoria />;
+                  return <NoCateSub />;
                 } else {
                   return (
                     <BootstrapTable
@@ -130,4 +159,4 @@ const CatySubList = () => {
   );
 };
 
-export default CatySubList;
+export default CategoriaList;

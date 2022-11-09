@@ -7,7 +7,8 @@ const initialState = {
      lista_convocatorias_programa: [],
      lista_simulacros_programa: [],
      lista_categorias_programa: [],
-     lista_subcategorias_programa: []
+     lista_subcategorias_programa: [],
+     lista_usuarios_programa: []
 }
 
 export const storeReducer = (state, action) => {
@@ -31,12 +32,31 @@ export const storeReducer = (state, action) => {
                state.lista_simulacros_programa = payload.simulacros_programa;
                state.lista_categorias_programa = payload.categorias_programa;
                state.lista_subcategorias_programa = payload.subcategorias_programa;
+               state.lista_usuarios_programa = payload.usuarios_programa;
                return state;
           case ACCION.SET_LISTA_CONVOCATORIAS_PRG:
                console.log(action);
                return {
                     ...state,
                     lista_convocatorias_programa: payload.convocatorias_programa
+               };
+          case ACCION.SET_LISTA_SIMULACROS_PRG:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_simulacros_programa: payload.simulacros_programa
+               };
+          case ACCION.SET_LISTA_CATEGORIA_PRG:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_categorias_programa: payload.categorias_programa
+               };
+          case ACCION.SET_LISTA_SUBCATEGORIA_PRG:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_subcategorias_programa: payload.subcategorias_programa
                };
           default:
                return state;

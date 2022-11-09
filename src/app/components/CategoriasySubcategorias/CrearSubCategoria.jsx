@@ -2,111 +2,177 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
-import { useNavigate } from 'react-router-dom';
-import MenuItem from "@mui/material/MenuItem";
-import { IconButton } from '@mui/material';
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import { useDispatch, useStore } from '../../store/Provider/storeProvider';
+import * as serviceSubCategoria from '../../store/services/SubCategoriaService';
+import { alert_error, alert_loading, alert_success } from '../../util/functions';
 
 const theme = createTheme();
 
-const categorias = [
-    {
-        value: "GE",
-        label: "Generica",
-    },
-    {
-        value: "ES",
-        label: "Especifica",
-    },
-];
+export default function CrearSubCategoria() {
 
-export default function CategoriaySubcategorias() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { id_categoria } = useParams();
+  const { formEdition } = useStore();
+  const [update, setUpdate] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [subcategoria, setSubCategoria] = useState({
+    id_subcategoria: "",
+    nombre: "",
+    descripcion: "",
+  });
 
-    const navigate = useNavigate();
-    const [currency, setCurrency] = React.useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      if (update) {
+        serviceSubCategoria.actualizar(subcategoria, id_categoria).then(response => {
+          serviceSubCategoria.getDatosGenerales().then(res => {
+            if (response.error === null) {
+              alert_success(response.message, "Se ha actualizado la SubCategoria");
+            } else {
+              alert_error("¡Error!", response.message);
+            }
+            listarSubcategorias(res);
+          });
+        });
+      } else {
+        serviceSubCategoria.guardar(subcategoria, id_categoria).then(response => {
+          serviceSubCategoria.getDatosGenerales().then(res => {
+            if (response.error === null) {
+              alert_success(response.message, "Se ha guardado la SubCategoria");
+              setTimeout(() => { navigate("/UFPSaberPRO/SubCategorias/" + id_categoria) }, 2000);
+            } else {
+              alert_error("¡Error!", response.message);
+            }
+            listarSubcategorias(res);
+          });
 
-    const handleChange = (event) => {
-        setCurrency(event.target.value);
-    };
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    return (
-        <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
-                <Paper
-                    variant="outlined"
-                    sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-                >
-                    <Typography component="h1" variant="h4" align="center" p={2}>
-                        Crear Subcategorias
-                    </Typography>
-                    <Grid
-                        container
-                        spacing={3}
-                        sx={{ display: "flex", justifyContent: "center" }}
-                    >
-                        <Grid item xs={12}>
-                            <TextField
-                                id="categorias-creadas"
-                                name="categorias-creadas"
-                                label="Categoria a la que Pertenece"
-                                required
-                                select
-                                value={currency}
-                                onChange={handleChange}
-                                fullWidth
-                                autoComplete="shipping address-line2"
-                                variant="outlined"
-                            >
-                                {categorias.map((option) => (
-                                    <MenuItem key={option.value} value={option.value}>
-                                        {option.label}
-                                    </MenuItem>
-                                ))}
-                            </TextField>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                required
-                                id="descripPregunta"
-                                name="descripPregunta"
-                                label="Nombre de la Subcategoria Nueva"
-                                multiline
-                                fullWidth
-                                autoComplete="given-name"
-                                variant="outlined"
-                                maxlength="100"
-                            />
-                        </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            spacing={2}
-                            sx={{ display: "flex", justifyContent: "center" }}
-                        >
-                            <IconButton onClick={() => { navigate() }} title='agregarSubC' style={{ color: "red" }}><PlaylistAddIcon />Agregar otra SubCategoria</IconButton>
-                        </Grid>
-                        <Grid
-                            item
-                            xs
-                            sx={{ display: "flex", justifyContent: "end" }}
-                        >
-                            <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
-                                Volver
-                            </Button>
-                            <Button size="large" className="btn btn-danger m-2">
-                                Crear
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </Paper>
-            </Container>
-        </ThemeProvider>
-    );
+  const listarSubcategorias = (response) => {
+    if (response.error === null) {
+      dispatch({
+        type: "SET_LISTA_SUBCATEGORIA_PRG",
+        payload: response.general
+      });
+      alert_loading(response.message);
+    } else {
+      alert_error("¡Error!", response.message);
+    }
+  }
+
+  const handleChange = (e) => {
+    setSubCategoria({ ...subcategoria, [e.target.name]: e.target.value });
+  };
+
+  useEffect(() => {
+    if (id_categoria === "undefined") {
+      navigate('/UFPSaberPRO/Categorias')
+    }
+    // Anything in here is fired on component mount.
+    if (Object.keys(formEdition).length !== 0) {
+      setUpdate(true);
+      setSubCategoria({
+        id_subcategoria: formEdition.id_subcategoria,
+        nombre: formEdition.sub_nombre,
+        descripcion: formEdition.sub_descripcion
+      });
+    }
+    setLoading(false);
+    return () => {
+      // Anything in here is fired on component unmount.
+      dispatch({
+        type: "SET_FORM_EDITION",
+        payload: {}
+      });
+    }
+  }, []);
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
+          <Typography component="h1" variant="h4" align="center" p={2}>
+            {
+              update
+                ? "Actualizar la Subcategoria"
+                : "Crear la Subcategoria"
+            }
+          </Typography>
+          <Form onSubmit={handleSubmit}>
+            <Grid
+              container
+              spacing={3}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="nombre"
+                  name="nombre"
+                  value={subcategoria.nombre}
+                  label="Nombre"
+                  multiline
+                  fullWidth
+                  autoComplete="given-name"
+                  variant="outlined"
+                  maxLength="100"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  id="descripcion"
+                  name="descripcion"
+                  value={subcategoria.descripcion}
+                  label="Descripcion"
+                  rows={5}
+                  multiline
+                  fullWidth
+                  autoComplete="given-name"
+                  variant="outlined"
+                  maxLength="256"
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid
+                item
+                xs
+                sx={{ display: "flex", justifyContent: "end" }}
+              >
+                <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                  Volver
+                </Button>
+                <Button type='submit' size='medium' className='btn btn-danger m-2'>
+                  {
+                    update
+                      ? "Actualizar"
+                      : "Crear"
+                  }
+                </Button>
+              </Grid>
+            </Grid>
+          </Form>
+        </Paper>
+      </Container>
+    </ThemeProvider>
+  );
 }

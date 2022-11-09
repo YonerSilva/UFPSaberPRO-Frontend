@@ -59,7 +59,7 @@ export default function MenuList() {
                {
                     role_admin || role_docente || role_estudiante
                          ?
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/inicio') }}>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/Inicio') }}>
                               <ListItemIcon>
                                    <HomeIcon sx={{ color: "red" }} />
                               </ListItemIcon>
@@ -89,7 +89,7 @@ export default function MenuList() {
                                    </ListItemIcon>
                                    <ListItemText primary="Usuarios" />
                               </ListItemButton>
-                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/CategoriasySubcategorias'); }}>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/Categorias'); }}>
                                    <ListItemIcon>
                                         <AppRegistrationIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
