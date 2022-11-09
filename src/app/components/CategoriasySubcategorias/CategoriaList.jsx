@@ -8,11 +8,11 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import Barra from '../extra/BarraBusqueda';
 import Cargador from "../extra/CargadorEventos";
-import NoCateSub from "./NoCateSub";
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import * as serviceCategoria from '../../store/services/CategoriaService';
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import NoCate from "./NoCate";
 
 const CategoriaList = () => {
 
@@ -64,7 +64,7 @@ const CategoriaList = () => {
       type: "SET_FORM_EDITION",
       payload: item
     });
-    navigate('/UFPSaberPRO/crear-categoria');
+    navigate('/UFPSaberPRO/categorias/crear-categoria');
   }
 
   const listarCategorias = (response) => {
@@ -86,7 +86,7 @@ const CategoriaList = () => {
   }
 
   const verSubCategoria = (item) => {
-    navigate('/UFPSaberPRO/SubCategorias/'+item.id_categoria);
+    navigate('/UFPSaberPRO/subcategorias/'+item.id_categoria);
   }
 
   const handleBuscar = (data) => {
@@ -117,7 +117,7 @@ const CategoriaList = () => {
             if (lista_categorias_programa.length !== 0) {
               return (
                 <Barra
-                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/crear-categoria") }} className="btn btn-danger m-2">Crear Categoria</button>}
+                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/categorias/crear-categoria") }} className="btn btn-danger m-2">Crear Categoria</button>}
                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Simulacro" placeholder="Buscar Categoria" className="form-control me-2" type="search" aria-label="Buscar" />}
                 />
               );
@@ -129,7 +129,7 @@ const CategoriaList = () => {
             {(() => {
               if (!loading) {
                 if (lista_categorias_programa.length === 0) {
-                  return <NoCateSub />;
+                  return <NoCate />;
                 } else {
                   return (
                     <BootstrapTable

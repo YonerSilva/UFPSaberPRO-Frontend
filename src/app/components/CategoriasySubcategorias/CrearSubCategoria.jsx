@@ -48,7 +48,7 @@ export default function CrearSubCategoria() {
           serviceSubCategoria.getDatosGenerales().then(res => {
             if (response.error === null) {
               alert_success(response.message, "Se ha guardado la SubCategoria");
-              setTimeout(() => { navigate("/UFPSaberPRO/SubCategorias/" + id_categoria) }, 2000);
+              setTimeout(() => { navigate("/UFPSaberPRO/subcategorias/" + id_categoria) }, 2000);
             } else {
               alert_error("¡Error!", response.message);
             }
@@ -80,7 +80,7 @@ export default function CrearSubCategoria() {
 
   useEffect(() => {
     if (id_categoria === "undefined") {
-      navigate('/UFPSaberPRO/Categorias')
+      navigate('/UFPSaberPRO/categorias')
     }
     // Anything in here is fired on component mount.
     if (Object.keys(formEdition).length !== 0) {

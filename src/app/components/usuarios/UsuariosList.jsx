@@ -92,7 +92,7 @@ const ListaUsuarios = ()=>{
                type: "SET_FORM_EDITION",
                payload: item
           });
-          navigate('/UFPSaberPRO/editar-usuarios');
+          navigate('/UFPSaberPRO/usuarios/editar-usuarios');
      }
 
      const handleBuscar = (data) => {
