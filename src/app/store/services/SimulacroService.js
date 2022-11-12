@@ -31,9 +31,6 @@ export const guardar = async (simulacro) => {
       "simu_nombre": String(simulacro.nombre).trim(),
       "simu_descripcion": String(simulacro.descripcion).trim(),
       "simu_puntaje_maximo": String(simulacro.puntaje_maximo).trim(),
-      "simu_fecha_inicial": String(simulacro.fecha_inicio).trim(),
-      "simu_fecha_final": String(simulacro.fecha_final).trim(),
-      "simu_duracion": String(simulacro.puntaje_maximo).trim(),
       "programa": parseInt(usuario.programa.id_programa)
     }),
   })).json();

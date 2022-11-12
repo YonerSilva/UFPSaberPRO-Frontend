@@ -80,11 +80,16 @@ const ListaConvocatorias = () => {
                text: "SIMULACRO",
                dataField: "convo_simulacro",
                isDummyField: true,
-               align: 'center',
                formatter: (cellContent, row) => {
                     if (row.simulacro !== null && row.simulacro !== undefined) {
+                         const fecha = new Date(row.simu_fecha_inicial);
                          return (
-                              <a type='button' onClick={() => { }}>{row.simulacro.simu_nombre}</a>
+                              <span>
+                                   Disponible
+                                   <br/>
+                                   Fecha Inicio: {fecha.toLocaleDateString() + ' - ' + fecha.toLocaleTimeString()}
+                                   <br/>
+                                   Duración: {row.simu_duracion}</span>
                          )
                     } else {
                          return <span>No disponible.</span>

@@ -8,7 +8,7 @@ export function alert_success(success, message) {
      });
 };
 
-export function alert_loading(success,message){
+export function alert_loading(success, message) {
      toast.promise(
           new Promise((resolve, reject) => {
                setTimeout(() => {
@@ -19,7 +19,7 @@ export function alert_loading(success,message){
                loading: "Cargando Información...",
                success: <b>{success}</b>,
                error: <b>¡Oops!, Error...</b>,
-          },{position: "bottom-right"}
+          }, { position: "bottom-right" }
      );
 }
 export function alert_logout() {
@@ -70,9 +70,9 @@ function verificarCodigo(codigo, programa) {
      let cod = new String(codigo);
      if (cod.length === 7) {
           let prg = cod.substring(0, 3);
-          if (prg===programa.toString()) {
+          if (prg === programa.toString()) {
                return true;
-          }else{
+          } else {
                throw new Error("El codigo no coincide con el programa seleccionado.");
           }
      } else {
@@ -128,4 +128,88 @@ export function firstCharUpper(cadena) {
           }
      }
      return cadena;
+}
+
+
+export function validarFechasConvocatoria() {
+     try {
+          let fecha_inicio = document.getElementById("fecha_inicio").value;
+          let fecha_final = document.getElementById("fecha_final").value;
+          let simulacro = document.getElementById("simulacro").value;
+
+          if (fecha_inicio === "" || fecha_final === "") {
+               throw new Error("Los campos no pueden estar vacios.");
+          } else {
+               let dateTime1 = fecha_inicio.split("T");
+               let dateTime2 = fecha_final.split("T");
+               let date1 = new Date(dateTime1[0]).getTime();
+               let date2 = new Date(dateTime2[0]).getTime();
+               let diff = date2 - date1;
+               if (diff < 0) {
+                    throw new Error("La fecha inicial debe ser menor a la fecha final.");
+               } else {
+                    //Dias de diferencia
+                    const resta = diff / (1000 * 60 * 60 * 24);
+                    if (resta == 0) {
+                         let fecha1 = new Date(fecha_inicio).toLocaleTimeString().split(":");
+                         let fecha2 = new Date(fecha_final).toLocaleTimeString().split(":");
+                         let diferencia = ((parseInt(fecha2[0]) * 60) + parseInt(fecha2[1])) - ((parseInt(fecha1[0]) * 60) + parseInt(fecha1[1]));
+                         if (diferencia <= 0) {
+                              throw new Error("La fecha inicial debe ser menor a la fecha final.");
+                         }
+                    }
+                    if (resta >= 0) {
+                         let button = document.getElementById("button_register");
+                         if (simulacro !== "") {
+                              validarFechasSimulacro();
+                         } else {
+                              button.setAttribute('type', 'submit');
+                         }
+                    } else {
+                         throw new Error("La convocatoria debe tener al menos un día de diferencia.");
+                    }
+               }
+          }
+     } catch (error) {
+          alert_error("¡Error!", error);
+     }
+}
+
+function validarFechasSimulacro() {
+     try {
+          let simu_fecha_inicio = document.getElementById("simu_fecha_inicio").value;
+          let fecha_final = document.getElementById("fecha_final").value;
+          let horas = document.getElementById("hh").value;
+          let minutos = document.getElementById("mm").value
+
+          if (simu_fecha_inicio === "" || fecha_final === "" || horas === "" || minutos === "") {
+               throw new Error("Los campos no pueden estar vacios.");
+          } else {
+               const hh = parseInt(horas);
+               const mm = parseInt(minutos);
+               if ((hh < 0 || hh > 12) || (mm < 0 || mm > 59)) {
+                    throw new Error("El rango la duracion del simulacro debe estar entre 00:00 - 12:59.");
+               }
+
+               let dateTime1 = simu_fecha_inicio.split("T");
+               let dateTime2 = fecha_final.split("T");
+               let date1 = new Date(dateTime1[0]).getTime();
+               let date2 = new Date(dateTime2[0]).getTime();
+               let diff = date1 - date2;
+               if (diff < 0) {
+                    throw new Error("La fecha inicial del simulacro debe ser mayor a la fecha final de la convocatoria.");
+               } else {
+                    //Dias de diferencia
+                    const resta = diff / (1000 * 60 * 60 * 24);
+                    if (resta > 0) {
+                         let button = document.getElementById("button_register");
+                         button.setAttribute('type', 'submit');
+                    } else {
+                         throw new Error("El simulacro debe tener al menos un día de diferencia respecto a la fecha final de la convocatoria.");
+                    }
+               }
+          }
+     } catch (error) {
+          alert_error("¡Error!", error);
+     }
 }

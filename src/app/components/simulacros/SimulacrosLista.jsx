@@ -33,38 +33,8 @@ const ListaSimulacros = () => {
                sort: true,
           },
           {
-               text: "FECHA INICIAL",
-               dataField: "simu_fecha_inicial",
-               align: 'center',
-               sort: true,
-               formatter: (cellContent, row) => {
-                    if (row.simu_fecha_inicial !== null && row.simu_fecha_inicial !== undefined) {
-                         const fecha = new Date(row.simu_fecha_inicial);
-                         return <span>{fecha.toLocaleDateString()}<br />{fecha.toLocaleTimeString()}</span>
-                    }
-               }
-          },
-          {
-               text: "FECHA FINAL",
-               dataField: "simu_fecha_final",
-               align: 'center',
-               sort: true,
-               formatter: (cellContent, row) => {
-                    if (row.simu_fecha_final !== null && row.simu_fecha_final !== undefined) {
-                         const fecha = new Date(row.simu_fecha_final);
-                         return <span>{fecha.toLocaleDateString()}<br />{fecha.toLocaleTimeString()}</span>
-                    }
-               }
-          },
-          {
                text: "PUNTAJE MAX",
                dataField: "simu_puntaje_maximo",
-               align: 'center',
-               sort: true,
-          },
-          {
-               text: "DURACION",
-               dataField: "simu_duracion",
                align: 'center',
                sort: true,
           },

@@ -14,6 +14,7 @@ import { alert_error, alert_loading, alert_success } from '../../util/functions'
 import { MenuItem } from '@mui/material';
 import Cargador from '../extra/CargadorEventos';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
+import { validarFechasConvocatoria } from '../../util/functions.js';
 
 const theme = createTheme();
 
@@ -30,15 +31,21 @@ export default function CrearConvocatoria() {
         descripcion: "",
         fecha_inicio: "",
         fecha_final: "",
-        simulacro: ""
+        simulacro: "",
+        simu_fecha_inicio: "",
+        simu_duracion: "",
+        hh: "",
+        mm: ""
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        const convocatoria_aux = convertirDatos();
+        console.log(convocatoria_aux);
         try {
             if (update) {
-                serviceConvocatoria.actualizar(convocatoria).then(response => {
-                    serviceConvocatoria.getDatosGenerales().then(res=>{
+                serviceConvocatoria.actualizar(convocatoria_aux).then(response => {
+                    serviceConvocatoria.getDatosGenerales().then(res => {
                         if (response.error === null) {
                             alert_success(response.message, "Se ha actualizado la convocatoria");
                         } else {
@@ -48,17 +55,17 @@ export default function CrearConvocatoria() {
                     });
                 });
             } else {
-                serviceConvocatoria.guardar(convocatoria).then(response => {
-                    serviceConvocatoria.getDatosGenerales().then(res=>{
+                serviceConvocatoria.guardar(convocatoria_aux).then(response => {
+                    serviceConvocatoria.getDatosGenerales().then(res => {
                         if (response.error === null) {
                             alert_success(response.message, "Se ha guardado la convocatoria");
-                            setTimeout(() =>{navigate("/UFPSaberPRO/convocatorias")},2000);
+                            setTimeout(() => { navigate("/UFPSaberPRO/convocatorias") }, 2000);
                         } else {
                             alert_error("¡Error!", response.message);
                         }
                         listarConvocatorias(res);
                     });
-                    
+
                 });
             }
         } catch (error) {
@@ -66,7 +73,7 @@ export default function CrearConvocatoria() {
         }
     };
 
-    const listarConvocatorias = (response)=>{
+    const listarConvocatorias = (response) => {
         if (response.error === null) {
             dispatch({
                 type: "SET_LISTA_CONVOCATORIAS_PRG",
@@ -82,9 +89,25 @@ export default function CrearConvocatoria() {
         setConvocatoria({ ...convocatoria, [e.target.name]: e.target.value });
     }
 
+    const convertirDatos = () => {
+        
+        const convo = {
+            id_convocatoria: convocatoria.id_convocatoria,
+            nombre: convocatoria.nombre,
+            descripcion: convocatoria.descripcion,
+            fecha_inicio: convocatoria.fecha_inicio,
+            fecha_final: convocatoria.fecha_final,
+            simulacro: convocatoria.simulacro,
+            simu_fecha_inicio: convocatoria.simu_fecha_inicio,
+            simu_duracion: convocatoria.hh + ':' + convocatoria.mm
+        }
+
+        return convo;
+    }
+
     useEffect(() => {
         // Anything in here is fired on component mount.
-        if (Object.keys(formEdition).length!==0) {
+        if (Object.keys(formEdition).length !== 0) {
             setUpdate(true);
             setConvocatoria({
                 id_convocatoria: formEdition.id_convocatoria,
@@ -133,7 +156,9 @@ export default function CrearConvocatoria() {
                                                     fullWidth
                                                     autoComplete="given-name"
                                                     variant="outlined"
-                                                    maxLength="100"
+                                                    inputProps={{
+                                                        maxLength: 100
+                                                    }}
                                                     value={convocatoria.nombre}
                                                     onChange={handleChange}
                                                 />
@@ -149,12 +174,14 @@ export default function CrearConvocatoria() {
                                                     multiline
                                                     autoComplete="shipping postal-code"
                                                     variant="outlined"
-                                                    maxLength="256"
+                                                    inputProps={{
+                                                        maxLength: 256
+                                                    }}
                                                     value={convocatoria.descripcion}
                                                     onChange={handleChange}
                                                 />
                                             </Grid>
-                                            <Grid item xs={12}>
+                                            <Grid item xs={6}>
                                                 <TextField
                                                     required
                                                     id="fecha_inicio"
@@ -169,7 +196,7 @@ export default function CrearConvocatoria() {
                                                     onChange={handleChange}
                                                 />
                                             </Grid>
-                                            <Grid item xs={12} >
+                                            <Grid item xs={6} >
                                                 <TextField
                                                     id="fecha_final"
                                                     name="fecha_final"
@@ -186,13 +213,16 @@ export default function CrearConvocatoria() {
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <TextField
-                                                    id="simulacro"
                                                     name="simulacro"
                                                     label="Seleccione Simulacro"
                                                     select
                                                     value={convocatoria.simulacro}
                                                     onChange={handleChange}
                                                     fullWidth
+                                                    inputProps={{
+                                                        defaultValue: "",
+                                                        id: "simulacro"
+                                                    }}
                                                     autoComplete="shipping address-line2"
                                                     variant="outlined">
                                                     {lista_simulacros_programa?.map((simulacro) => (
@@ -202,13 +232,74 @@ export default function CrearConvocatoria() {
                                                     ))}
                                                 </TextField>
                                             </Grid>
+                                            {
+                                                convocatoria.simulacro
+                                                    ?
+                                                    <>
+                                                        <Grid item xs={9}>
+                                                            <TextField
+                                                                id="simu_fecha_inicio"
+                                                                name="simu_fecha_inicio"
+                                                                label="Fecha y Hora de Inicio del Simulacro"
+                                                                type="datetime-local"
+                                                                fullWidth
+                                                                InputLabelProps={{
+                                                                    shrink: true,
+                                                                }}
+                                                                value={convocatoria.simu_fecha_inicio}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </Grid>
+                                                        <Grid item xs={3} className="d-flex">
+                                                            <Grid item xs={5}>
+                                                                <TextField
+                                                                    id="hh"
+                                                                    name="hh"
+                                                                    label="HH"
+                                                                    type="number"
+                                                                    InputLabelProps={{
+                                                                        shrink: true,
+                                                                    }}
+                                                                    inputProps={{
+                                                                        maxLength: 2,
+                                                                        minLength: 2
+                                                                    }}
+                                                                    value={convocatoria.hh}
+                                                                    onChange={handleChange}
+                                                                />
+                                                            </Grid>
+                                                            <Grid item xs={2} className="text-center">
+                                                                <h3><b>:</b></h3>
+                                                            </Grid>
+                                                            <Grid item xs={5}>
+                                                                <TextField
+                                                                    id="mm"
+                                                                    name="mm"
+                                                                    label="MM"
+                                                                    type="number"
+                                                                    InputLabelProps={{
+                                                                        shrink: true,
+                                                                    }}
+                                                                    inputProps={{
+                                                                        maxLength: 2,
+                                                                        minLength: 2
+                                                                    }}
+                                                                    value={convocatoria.mm}
+                                                                    onChange={handleChange}
+                                                                />
+                                                            </Grid>
+                                                        </Grid>
+                                                    </>
+                                                    :
+                                                    <></>
+                                            }
                                             <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                 <Button type='button' onClick={() => { navigate(-1) }} size='medium' className='btn btn-danger m-2'>
                                                     Volver
                                                 </Button>
                                             </Grid>
                                             <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                                <Button type='submit' size='medium' className='btn btn-danger m-2'>
+                                                <Button id="button_register" onClick={() => { validarFechasConvocatoria() }} type='button' size='medium' className='btn btn-danger m-2'>
                                                     {
                                                         update
                                                             ? "Actualizar"
