@@ -42,7 +42,6 @@ export const guardar = async (convocatoria) => {
 }
 
 export const actualizar = async (convocatoria) => {
-  console.log(convocatoria)
   const token = await getUserToken();
   const usuario = await getUser();
   return await (await fetch(API_URL + API.CONVOCATORIA.ACTUALIZAR, {
