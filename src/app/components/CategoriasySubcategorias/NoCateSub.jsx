@@ -23,7 +23,7 @@ export default function NoCateSub({id_categoria}) {
                     </div>
                     <div className='col-12 d-flex justify-content-center'>
                         <button type='button' 
-                        onClick={() => { navigate('/UFPSaberPRO/crear-subcategoria/'+id_categoria) }} 
+                        onClick={() => { navigate('/UFPSaberPRO/subcategorias/crear-subcategoria/'+id_categoria) }} 
                         className='btn btn-danger m-2'>
                             Crear
                         </button>

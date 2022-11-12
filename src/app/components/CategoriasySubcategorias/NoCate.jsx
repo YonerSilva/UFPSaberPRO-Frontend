@@ -23,7 +23,7 @@ export default function NoCate({id_categoria}) {
                     </div>
                     <div className='col-12 d-flex justify-content-center'>
                         <button type='button' 
-                        onClick={() => { navigate('/UFPSaberPRO/categorias/crear-categoria'+id_categoria) }} 
+                        onClick={() => { navigate('/UFPSaberPRO/categorias/crear-categoria') }} 
                         className='btn btn-danger m-2'>
                             Crear
                         </button>
