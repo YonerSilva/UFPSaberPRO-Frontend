@@ -29,92 +29,32 @@ export default function Home() {
             <CssBaseline />
             <Container component="main" maxWidth="lg" sx={{ mb: 6 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 4, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h4" align="center" p={2}>
-                        Bienvenido a la plataforma de Pruebas Saber Pro
+                    <Typography component="h1" variant="h3" align="center" p={5}>
+                        Bienvenido a la plataforma de Pruebas Saber Pro!
                     </Typography>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6}>
-                            <Card >
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={process.env.PUBLIC_URL + '/images/estudiantes.png'}
-                                        alt="Estudiantes"
-                                    />
-                                    <CardContent >
-                                        <Typography gutterBottom variant="h4" component="div">
-                                            Estudiantes Registrados
-                                        </Typography>
-                                        <Typography variant="h5" color="text.secondary">
-                                            69
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                    <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                        <Grid
+                            item
+                            xs={12}
+                            sx={{ display: "flex", justifyContent: "center" }}
+                        >
+                            <Typography component="h3" variant="h6" align="center">
+                                Para entender mejor el funcionamiento de la pagina, puedes ver este
+                                video que explica todas las opciones que estan disponibles.
+                                Puedes contactar a soporte atravez de este correo: 
+                                <hr></hr>
+                                sexo69@pornhub.com
+                                <hr></hr>
+                            </Typography>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Card >
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={process.env.PUBLIC_URL + '/images/docentes.png'}
-                                        alt="Docentes"
-                                    />
-                                    <CardContent >
-                                        <Typography gutterBottom variant="h4" component="div">
-                                            Docentes Registrados
-                                        </Typography>
-                                        <Typography variant="h5" color="text.secondary">
-                                            13
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Card >
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={process.env.PUBLIC_URL + '/images/convocatoria.png'}
-                                        alt="Estudiantes"
-                                    />
-                                    <CardContent >
-                                        <Typography gutterBottom variant="h4" component="div">
-                                            Convocatorias Registrados
-                                        </Typography>
-                                        <Typography variant="h5" color="text.secondary">
-                                            7
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <Card >
-                                <CardActionArea>
-                                    <CardMedia
-                                        component="img"
-                                        height="140"
-                                        image={process.env.PUBLIC_URL + '/images/simulacro.png'}
-                                        alt="Estudiantes"
-                                    />
-                                    <CardContent >
-                                        <Typography gutterBottom variant="h4" component="div">
-                                            Simulacros Presentados
-                                        </Typography>
-                                        <Typography variant="h5" color="text.secondary">
-                                            4
-                                        </Typography>
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
+                        <Grid
+                            item
+                            xs={12}
+                            sx={{ display: "flex", justifyContent: "center" }}
+                        >
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/oD5f55ohsc4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </Grid>
                     </Grid>
-
                 </Paper>
             </Container>
         </ThemeProvider >

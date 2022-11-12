@@ -84,7 +84,7 @@ const routes =  {
 
                     {/* PREGUNTAS */}
                     <Route key="crear_pregunta" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
-                         <Route path="/UFPSaberPRO/preguntas/crear_pregunta" key="crepreSM" element={<Dashboard contenedor={<CrearPregunta/>} />} />
+                         <Route path="/UFPSaberPRO/preguntas/crear_pregunta" key="crepre" element={<Dashboard contenedor={<CrearPregunta/>} />} />
                     </Route>
 
                     {/* USUARIOS */}
