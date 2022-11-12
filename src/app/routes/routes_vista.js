@@ -12,7 +12,7 @@ import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
 
 //Preguntas
 import PreguntasList from '../components/preguntas/PreguntasList';
-import CrearPreguntaSM from '../components/preguntas/CrearPreguntaSM.jsx';
+import CrearPregunta from '../components/preguntas/CrearPregunta'; 
 
 //Categoria
 import CrearCategoria from '../components/CategoriasySubcategorias/CrearCategoria';
@@ -83,8 +83,8 @@ const routes =  {
                     </Route>
 
                     {/* PREGUNTAS */}
-                    <Route key="crear_SeleccionM" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
-                         <Route path="/UFPSaberPRO/preguntas/crear_SeleccionM" key="crepreSM" element={<Dashboard contenedor={<CrearPreguntaSM/>} />} />
+                    <Route key="crear_pregunta" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/preguntas/crear_pregunta" key="crepreSM" element={<Dashboard contenedor={<CrearPregunta/>} />} />
                     </Route>
 
                     {/* USUARIOS */}

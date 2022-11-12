@@ -22,7 +22,7 @@ export default function NoPreguntas() {
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200}/>
                     </div>
                     <div className='col-12 d-flex justify-content-center'>
-                        <button type='button' onClick={() => { navigate('/UFPSaberPRO/convocatorias/crear_convocatorias') }} className='btn btn-danger m-2'>Crear Convocatoria</button>
+                        <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_pregunta') }} className='btn btn-danger m-2'>Crear Convocatoria</button>
                     </div>
                 </div>
             </Container>

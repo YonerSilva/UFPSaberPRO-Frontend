@@ -60,7 +60,7 @@ const PreguntasList = ()=>{
                                         return (
                                              <nav className="navbar navbar-light bg-light rounded">
                                                   <div className="container-fluid">
-                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_SeleccionM') }} className='btn btn-danger m-2'>Crear Pregunta</button>
+                                                       <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_pregunta') }} className='btn btn-danger m-2'>Crear Pregunta</button>
                                                        <div className="d-flex">
                                                             <input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />
                                                        </div>
