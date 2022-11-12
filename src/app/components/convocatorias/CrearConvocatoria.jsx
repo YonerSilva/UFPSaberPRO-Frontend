@@ -44,8 +44,7 @@ export default function CrearConvocatoria() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const convocatoria_aux = convertirDatos();
-        console.log(convocatoria_aux)
-        /*try {
+        try {
             if (update) {
                 serviceConvocatoria.actualizar(convocatoria_aux).then(response => {
                     serviceConvocatoria.getDatosGenerales().then(res => {
@@ -73,7 +72,7 @@ export default function CrearConvocatoria() {
             }
         } catch (error) {
             console.error(error);
-        }*/
+        }
     };
 
     const listarConvocatorias = (response) => {
@@ -93,7 +92,7 @@ export default function CrearConvocatoria() {
     }
 
     const convertirDatos = () => {
-        /*const convo = {
+        const convo = {
             id_convocatoria: convocatoria.id_convocatoria,
             nombre: convocatoria.nombre,
             descripcion: convocatoria.descripcion,
@@ -102,9 +101,8 @@ export default function CrearConvocatoria() {
             simulacro: convocatoria.simulacro,
             simu_fecha_inicio: convocatoria.simu_fecha_inicio!==""?new Date(convocatoria.simu_fecha_inicio).toISOString():"",
             simu_duracion: convocatoria.simu_duracion!==""?new Date(convocatoria.simu_duracion).toTimeString():""
-        }*/
-        console.log(convocatoria);
-        /*return convo;*/
+        }
+        return convo;
     }
 
     useEffect(() => {
@@ -117,7 +115,9 @@ export default function CrearConvocatoria() {
                 descripcion: formEdition.convo_descripcion,
                 fecha_inicio: formEdition.convo_fecha_inicial,
                 fecha_final: formEdition.convo_fecha_final,
-                simulacro: formEdition?.simulacro
+                simulacro: formEdition.simulacro!==null?formEdition.simulacro: "",
+                simu_fecha_inicio: formEdition.simu_fecha_inicial!==null? formEdition.simu_fecha_inicial:"",
+                simu_duracion: formEdition.simu_duracion!==null? formEdition.simu_duracion: ""
             });
         }
         setLoading(false);
@@ -176,8 +176,11 @@ export default function CrearConvocatoria() {
 
     function validarFechasSimulacro() {
         try {
+            alert("hopla")
             const simu_fecha_inicio = new Date(convocatoria.simu_fecha_inicio).toISOString();
             const fecha_final = new Date(convocatoria.fecha_final).toISOString();
+            alert("hopla")
+
             const duracion = convocatoria.simu_duracion;
 
             if (simu_fecha_inicio === "" || fecha_final === "" || duracion === "") {
