@@ -44,7 +44,8 @@ export default function CrearConvocatoria() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const convocatoria_aux = convertirDatos();
-        try {
+        console.log(convocatoria_aux)
+        /*try {
             if (update) {
                 serviceConvocatoria.actualizar(convocatoria_aux).then(response => {
                     serviceConvocatoria.getDatosGenerales().then(res => {
@@ -72,7 +73,7 @@ export default function CrearConvocatoria() {
             }
         } catch (error) {
             console.error(error);
-        }
+        }*/
     };
 
     const listarConvocatorias = (response) => {
@@ -92,8 +93,7 @@ export default function CrearConvocatoria() {
     }
 
     const convertirDatos = () => {
-
-        const convo = {
+        /*const convo = {
             id_convocatoria: convocatoria.id_convocatoria,
             nombre: convocatoria.nombre,
             descripcion: convocatoria.descripcion,
@@ -102,9 +102,9 @@ export default function CrearConvocatoria() {
             simulacro: convocatoria.simulacro,
             simu_fecha_inicio: convocatoria.simu_fecha_inicio!==""?new Date(convocatoria.simu_fecha_inicio).toISOString():"",
             simu_duracion: convocatoria.simu_duracion!==""?new Date(convocatoria.simu_duracion).toTimeString():""
-        }
-
-        return convo;
+        }*/
+        console.log(convocatoria);
+        /*return convo;*/
     }
 
     useEffect(() => {
@@ -326,7 +326,7 @@ export default function CrearConvocatoria() {
                                                 convocatoria.simulacro
                                                     ?
                                                     <>
-                                                        <Grid item xs={9}>
+                                                        <Grid item xs={8}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                 <Stack spacing={3}>
                                                                     <DateTimePicker
@@ -347,7 +347,7 @@ export default function CrearConvocatoria() {
                                                                 </Stack>
                                                             </LocalizationProvider>
                                                         </Grid>
-                                                        <Grid item xs={3} className="d-flex">
+                                                        <Grid item xs={4} className="d-flex">
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                 <TimePicker
                                                                     label="Duracion del Simulacro"
