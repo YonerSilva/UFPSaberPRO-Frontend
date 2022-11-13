@@ -2,8 +2,7 @@ import * as React from 'react';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 export default function NoPreguntas() {
 
@@ -22,7 +21,7 @@ export default function NoPreguntas() {
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200}/>
                     </div>
                     <div className='col-12 d-flex justify-content-center'>
-                        <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_pregunta') }} className='btn btn-danger m-2'>Crear Convocatoria</button>
+                        <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_pregunta') }} className='btn btn-danger m-2'>Crear Pregunta</button>
                     </div>
                 </div>
             </Container>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import * as service from '../store/services/UsuarioService'
+import { logout_firebase } from "../util/firebase";
 import { alert_error, alert_logout } from "../util/functions";
 
 const ProtectedRoutes = () => {
@@ -19,6 +20,7 @@ const ProtectedRoutes = () => {
       console.log(error);
     }
     service.logout();
+    logout_firebase();
     alert_error("¡Error!", "Sesión expirada.");
     return false;
   };

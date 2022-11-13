@@ -2,6 +2,7 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "./useAuth";
 
 import * as service from '../../store/services/UsuarioService';
+import { logout_firebase } from "../../util/firebase";
 
 const RequireAuth = ({ allowedRoles }) => {
     const { auth } = useAuth();
@@ -14,6 +15,7 @@ const RequireAuth = ({ allowedRoles }) => {
                 : <>
                     {(()=>{
                         service.logout();
+                        logout_firebase();
                         return <Navigate to='/' state={{ from: location }} replace />
                     })()}
                 </>

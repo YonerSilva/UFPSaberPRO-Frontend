@@ -7,6 +7,7 @@ import "../../../index.css";
 import * as service from "../../store/services/UsuarioService";
 import { Toaster } from 'react-hot-toast';
 import { useStore } from "../../store/Provider/storeProvider.js";
+import { createUserFirebase } from "../../util/firebase.js";
 
 function RegistroUsuario() {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ function RegistroUsuario() {
       const usuario = upperCase();
       service.sign_up(usuario).then(response => {
         if (response.error!==null || response.error !== undefined) {
+          createUserFirebase(usuario.email,usuario.password);
           alert_success(response.message, "Bienvenido (a)" + usuario.nombre + " " + usuario.apellido + ".");
           setTimeout(()=>{
             navigate("/")

@@ -8,55 +8,17 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Paper from "@mui/material/Paper";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
-import IconButton from "@mui/material/IconButton";
 import { useNavigate } from 'react-router-dom';
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import Cargador from "../extra/CargadorEventos";
 import useAuth from "../auth/useAuth";
 import { useEffect } from "react";
 import * as servicePregunta from '../../store/services/PreguntasService';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
-import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import { alert_error, alert_loading, alert_success, verificarImagen } from '../../util/functions';
+import { cargarImagen } from "../../util/firebase";
+import toast from 'react-hot-toast';
 
-const currencies = [
-  {
-    value: "Gene",
-    label: "Generica",
-  },
-  {
-    value: "Espe",
-    label: "Especifica",
-  },
-];
-
-const subcategorias = [
-  {
-    value: "CE",
-    label: "Comunicacion escrita",
-  },
-  {
-    value: "b",
-    label: "Razonamiento Cuantitativo",
-  },
-  {
-    value: "LC",
-    label: "Lectura Critica",
-  },
-  {
-    value: "CC",
-    label: "Competencias Ciudadanas",
-  },
-  {
-    value: "I",
-    label: "Ingles",
-  },
-  {
-    value: "CS",
-    label: "Cuestionario Socioeconomico",
-  },
-];
-
-const tipopregunta = [
+const tipo_pregunta = [
   {
     value: "PA",
     label: "Pregunta Abierta",
@@ -71,66 +33,101 @@ const theme = createTheme();
 
 export default function CrearPregunta() {
   const { auth } = useAuth();
-  const [currency, setCurrency] = React.useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { formEdition } = useStore();
+  const { formEdition, lista_categorias_programa, lista_subcategorias_programa } = useStore();
+  const [subcategorias, setSubcategorias] = useState([]);
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pregunta, setPregunta] = useState({
-    imagen_pregunta: "",
-    descripPregunta: "",
-    preg_estado: "",
-    subcategorias: ""
+    id_pregunta: "",
+    imagen: "",
+    descripcion: "",
+    estado: "",
+    categoria: "",
+    id_subcategoria: ""
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (update) {
-        servicePregunta.actualizar(pregunta).then(response => {
-          servicePregunta.getDatosGenerales().then(res => {
-            if (response.error === null) {
-              alert_success(response.message, "Se ha actualizado la Pregunta");
-            } else {
-              alert_error("¡Error!", response.message);
-            }
-            listarPreguntas(res);
+      toast.promise(new Promise((resolve, reject) => {
+        if (update) {
+          servicePregunta.actualizar(pregunta).then(response => {
+            listarPreguntas(response);
+            resolve();
           });
-        });
-      } else {
-        servicePregunta.guardar(pregunta).then(response => {
-          servicePregunta.getDatosGenerales().then(res => {
+        } else {
+          servicePregunta.guardar(pregunta).then(response => {
             if (response.error === null) {
-              alert_success(response.message, "Se ha guardado la pregunta");
-              setTimeout(() => { navigate("/UFPSaberPRO/preguntas") }, 2000);
-            } else {
-              alert_error("¡Error!", response.message);
+              if (verificarImagen()) {
+                let preg = {
+                  id_pregunta: response.pregunta.id_pregunta,
+                  imagen: "",
+                  descripcion: response.pregunta.preg_descripcion,
+                  estado: response.pregunta.preg_estado,
+                  id_subcategoria: response.pregunta.id_subcategoria
+                }
+                cargarImagen(preg.id_pregunta, "preguntas").then(url => {
+                  if (url !== "") {
+                    preg.imagen = url;
+                    servicePregunta.actualizar(preg).then(respuesta => {
+                      listarPreguntas(response);
+                      resolve();
+                    });
+                  }
+                });
+              } else {
+                listarPreguntas(response);
+                resolve();
+              }
             }
-            listarPreguntas(res);
           });
-
-        });
-      }
+        }
+      }), {
+        loading: "Cargando...",
+        error: "¡Error! \n" + "Ha ocurrido un imprevisto.",
+        success: "¡Proceso Exitoso!",
+      });
     } catch (error) {
       console.error(error);
     }
   };
 
   const listarPreguntas = (response) => {
-    if (response.error === null) {
-      dispatch({
-        type: "SET_LISTA_PREGUNTAS_PRG",
-        payload: response.general
-      });
-      alert_loading(response.message);
-    } else {
-      alert_error("¡Error!", response.message);
-    }
+    servicePregunta.getDatosGenerales().then(res => {
+      if (response.error === null) {
+        alert_success(response.message, "Se ha guardado la pregunta");
+        setTimeout(() => { navigate("/UFPSaberPRO/preguntas") }, 2000);
+      } else {
+        alert_error("¡Error!", response.message);
+      }
+      if (res.error === null) {
+        dispatch({
+          type: "SET_LISTA_PREGUNTAS_PRG",
+          payload: res.general
+        });
+        alert_loading(res.message);
+      } else {
+        alert_error("¡Error!", res.message);
+      }
+    });
   }
 
   const handleChange = (e) => {
-    setPregunta({ ...pregunta, [e.target.name]: e.target.value });
+    const name = e.target.name;
+    const value = e.target.value;
+    setPregunta(prev => ({ ...prev, [name]: value }));
+    if (name === "categoria") {
+      if (value === "") {
+        setSubcategorias([]);
+      } else {
+        if (lista_subcategorias_programa.length !== 0) {
+          const subs = lista_subcategorias_programa.filter(item => parseInt(item.categoria) === parseInt(value));
+          setSubcategorias(subs);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -138,12 +135,14 @@ export default function CrearPregunta() {
     if (Object.keys(formEdition).length !== 0) {
       setUpdate(true);
       setPregunta({
-        imagen_pregunta: formEdition.preg_imagen,
-        descripPregunta: formEdition.preg_descripcion,
-        preg_estado: formEdition.preg_estado,
-        subcategorias: formEdition.subcategoria
+        id_pregunta: formEdition.id_pregunta,
+        imagen: formEdition.preg_imagen,
+        descripcion: formEdition.preg_descripcion,
+        estado: formEdition.preg_estado,
+        id_subcategoria: formEdition.id_subcategoria
       });
     }
+
     setLoading(false);
     return () => {
       // Anything in here is fired on component unmount.
@@ -182,81 +181,94 @@ export default function CrearPregunta() {
                           label="Categoria"
                           required
                           select
-                          value={currency}
+                          value={pregunta.categoria}
                           onChange={handleChange}
                           fullWidth
                           variant="outlined"
                         >
-                          {currencies.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
+                          {lista_categorias_programa.map((categoria) => (
+                            <MenuItem key={categoria.id_categoria} value={categoria.id_categoria}>
+                              {categoria.cate_nombre}
                             </MenuItem>
                           ))}
                         </TextField>
                       </Grid>
+                      {
+                        pregunta.categoria !== ""
+                          ?
+                          <Grid item xs={12}>
+                            <TextField
+                              id="subcategoria"
+                              name="subcategoria"
+                              label="Subcategorias"
+                              required
+                              select
+                              value={pregunta.id_subcategoria}
+                              onChange={handleChange}
+                              fullWidth
+                              variant="outlined"
+                            >
+                              {subcategorias.map((subcategoria) => (
+                                <MenuItem key={subcategoria.id_subcategoria} value={subcategoria.id_subcategoria}>
+                                  {subcategoria.sub_nombre}
+                                </MenuItem>
+                              ))}
+                            </TextField>
+                          </Grid>
+                          :
+                          <></>
+                      }
                       <Grid item xs={12}>
                         <TextField
-                          id="subcategorias"
-                          name="subcategorias"
-                          label="Subcategorias"
                           required
-                          select
-                          value={currency}
-                          onChange={handleChange}
-                          fullWidth
-                          variant="outlined"
-                        >
-                          {subcategorias.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                              {option.label}
-                            </MenuItem>
-                          ))}
-                        </TextField>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <TextField
-                          required
-                          id="descripPregunta"
-                          name="descripPregunta"
+                          id="descripcion"
+                          name="descripcion"
                           label="Descripcion de la Pregunta"
                           rows={5}
                           multiline
                           fullWidth
-                          value={pregunta.descripPregunta}
+                          value={pregunta.descripcion}
+                          onChange={handleChange}
                           variant="outlined"
                           maxLength="500"
                         />
                       </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <Typography component="h3" variant="h6" align="center">
-                          Añadir Imagen Opcional
-                        </Typography>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <Button className="btn-image btn btn-danger">
-                          <IconButton
-                            id="imagen_pregunta"
-                            name="imagen_pregunta"
-                            sx={{ color: "#fff" }}
-                            aria-label="upload file"
-                            component="label"
-                          >
-                            <input
-                              id="imagen_pregunta"
-                              name="imagen_pregunta"
-                              hidden accept="image/*" type="file" />
-                            <ImageSearchIcon sx={{ mr: 1 }} />
-                            Subir Imagen
-                          </IconButton>
-                        </Button>
+                      {
+                        auth?.usuario?.rol?.rol_nombre === "ROLE_ADMINISTRADOR"
+                          ?
+                          <Grid item xs={12}>
+                            <TextField
+                              required
+                              id="estado"
+                              name="estado"
+                              select
+                              fullWidth
+                              label="Estado de la Pregunta"
+                              value={pregunta.estado}
+                              variant="outlined"
+                              maxLength="1"
+                              onChange={handleChange}
+                            >
+                              <MenuItem key={1} value={'A'}>
+                                ACTIVAR
+                              </MenuItem>
+                              <MenuItem key={2} value={'I'}>
+                                INACTIVAR
+                              </MenuItem>
+                              <MenuItem key={3} value={'B'}>
+                                BLOQUEAR
+                              </MenuItem>
+                            </TextField>
+                          </Grid>
+                          :
+                          <></>
+                      }
+                      <Grid item xs={12}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Seleecione una imagen (opcional)</Form.Label>
+                          <Form.Control id="formFile" type="file" accept="image/png, image/jpeg" />
+                          <Form.Control id="imagen" name="imagen" value={pregunta.imagen} onChange={handleChange} type="text" hidden />
+                        </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
                         <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
@@ -281,7 +293,7 @@ export default function CrearPregunta() {
             }
           })()
         }
-          </Container>
+      </Container>
     </ThemeProvider>
   );
 }

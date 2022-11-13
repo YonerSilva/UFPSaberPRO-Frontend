@@ -129,3 +129,11 @@ export function firstCharUpper(cadena) {
      }
      return cadena;
 }
+
+export function verificarImagen() {
+     let inputFile = document.getElementById("formFile");
+     if (inputFile.files.length !== 0) {
+          return true;
+     }
+     return false;
+}

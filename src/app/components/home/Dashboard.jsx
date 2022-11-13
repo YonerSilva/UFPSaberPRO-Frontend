@@ -17,6 +17,7 @@ import MenuList from "./MenuHome";
 import * as service from "../../store/services/UsuarioService";
 import { alert_logout } from "../../util/functions";
 import { Toaster } from 'react-hot-toast';
+import { logout_firebase } from "../../util/firebase";
 
 const drawerWidth = 240;
 
@@ -122,6 +123,7 @@ function DashboardContent({ contenedor }) {
               color="inherit"
               onClick={() => {
                 service.logout();
+                logout_firebase();
                 alert_logout();
               }}
             >
@@ -161,6 +163,7 @@ function DashboardContent({ contenedor }) {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 1, mb: 1 }}>
+            <Toaster />
             {contenedor}
           </Container>
         </Box>

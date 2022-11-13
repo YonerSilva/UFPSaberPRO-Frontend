@@ -13,22 +13,14 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import * as servicePregunta from '../../store/services/PreguntasService';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
-import NoCate from "../CategoriasySubcategorias/NoCate";
+import NoPreguntas from './NoPreguntas';
 
 const PreguntasList = () => {
      const dispatch = useDispatch();
+     const { lista_preguntas_programa } = useStore();
      const [busqueda, setBusqueda] = useState("");
      const [loading, setLoading] = useState(true);
      const navigate = useNavigate();
-
-     const lista_preguntas_programa =[  
-          {
-               id_pregunta:1, 
-               preg_imagen:"", 
-               preg_descripcion: "hola zorras",
-               preg_estado: "I",
-          }
-     ]
 
      const columnas = [
           {
@@ -36,6 +28,15 @@ const PreguntasList = () => {
                dataField: "preg_descripcion",
                align: "center",
                sort: true,
+          },
+          {
+               text: "SUBCATEGORIA",
+               dataField: "preg_subcategoria",
+               align: "center",
+               isDummyField: true,
+               formatter: (cellContent, row) => {
+                    return row.subcategoria.sub_nombre;
+               }
           },
           {
                text: "ESTADO",
@@ -48,26 +49,19 @@ const PreguntasList = () => {
                dataField: "fd1",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    return (
-                         <div className="row-cols-2 row-cols-md-auto" align="center">
-                              <IconButton onClick={() => { updatePregunta(row) }}
-                                   title='Actualizar Pregunta'
-                                   style={{ color: "blue" }}><EditIcon />
-                              </IconButton>
-                              <IconButton
-                                   onClick={() => { verPreguntas(row) }}
-                                   title="Ver Pregunta"
-                                   style={{ color: "gray" }}
-                              >
-                                   <VisibilityIcon />
-                              </IconButton>
-                              <IconButton
-                                   title='Eliminar Pregunta'
-                                   style={{ color: "red" }}>
-                                   <DeleteIcon />
-                              </IconButton>
-                         </div>
-                    );
+                    if (row.preg_estado === 'I') {
+                         return (
+                              <div className="row-cols-2 row-cols-md-auto" align="center">
+                                   <IconButton onClick={() => { updatePregunta(row) }} title='Actualizar Pregunta' style={{ color: "blue" }}><EditIcon /></IconButton>
+                                   <IconButton title='Eliminar Pregunta' style={{ color: "red" }}> <DeleteIcon /></IconButton>
+                                   <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
+                              </div>
+                         )
+                    }else{
+                         return(
+                              <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
+                         )
+                    }
                },
           },
      ];
@@ -98,8 +92,8 @@ const PreguntasList = () => {
           }
      }
 
-     const verPreguntas = (item) => {
-          navigate('/UFPSaberPRO/preguntas/');
+     const verOpciones = (item) => {
+          navigate('/UFPSaberPRO/opciones/:id_subcategoria');
      }
 
      const handleBuscar = (data) => {
@@ -131,7 +125,7 @@ const PreguntasList = () => {
                                    return (
                                         <Barra
                                              button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/preguntas/crear_pregunta") }} className="btn btn-danger m-2">Crear Pregunta</button>}
-                                             input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Simulacro" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
+                                             input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Pregunta" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
                                         />
                                    );
                               }
@@ -142,7 +136,7 @@ const PreguntasList = () => {
                               {(() => {
                                    if (!loading) {
                                         if (lista_preguntas_programa.length === 0) {
-                                             return <NoCate />;
+                                             return <NoPreguntas />;
                                         } else {
                                              return (
                                                   <BootstrapTable

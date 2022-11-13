@@ -6,6 +6,7 @@ import { useDispatch, useStore } from "../../store/Provider/storeProvider";
 import * as serviceGeneral from '../../store/services/DatoGeneralService';
 import Cargador from "../extra/CargadorEventos";
 import { alert_loading } from "../../util/functions";
+import { logout_firebase } from "../../util/firebase";
 
 const PersistAuth = () => {
 
@@ -75,6 +76,7 @@ const PersistAuth = () => {
                               if (auth?.active) {
                                    return <Outlet />
                               } else {
+                                   logout_firebase();
                                    return <Navigate to='/' state={{ from: location }} replace />
                               }
                          } else {

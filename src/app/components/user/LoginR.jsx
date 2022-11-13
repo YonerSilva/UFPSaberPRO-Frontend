@@ -7,6 +7,7 @@ import * as service from '../../store/services/UsuarioService';
 import toast, { Toaster } from 'react-hot-toast';
 import { alert_error } from '../../util/functions';
 import useAuth from '../auth/useAuth';
+import { sign_in_firebase } from '../../util/firebase';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Login = () => {
           alert_error("¡Error!",response.message);
         } else {
           service.userConected(response).then(() => {
+            sign_in_firebase(usuario.email, usuario.password);
             setAuth({
               usuario: response.usuario,
               token: response.token

@@ -25,18 +25,17 @@ export const guardar = async (pregunta) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      "preg_imagen": String(pregunta.imagen_pregunta).trim(),
-      "preg_descripcion": String(pregunta.descripPregunta).trim(),
-      "preg_estado": String(pregunta.preg_estado),
-      "subcategoria": String(pregunta.subcategorias)
+      "preg_imagen": String(pregunta.imagen).trim(),
+      "preg_descripcion": String(pregunta.descripcion).trim(),
+      "preg_estado": String(pregunta.estado).trim(),
+      "id_subcategoria": parseInt(pregunta.id_subcategoria),
+      "usu_creacion": parseInt(usuario.id_usuario)
     }),
   })).json();
 }
 
 export const actualizar = async (pregunta) => {
-  console.log(pregunta)
   const token = await getUserToken();
-  const usuario = await getUser();
   return await (await fetch(API_URL + API.PREGUNTAS.ACTUALIZAR, {
     method: 'PUT',
     headers: {
@@ -44,10 +43,11 @@ export const actualizar = async (pregunta) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-        "preg_imagen": String(pregunta.imagen_pregunta).trim(),
-        "preg_descripcion": String(pregunta.descripPregunta).trim(),
-        "preg_estado": String(pregunta.preg_estado),
-        "subcategoria": String(pregunta.subcategorias)
+        "id_pregunta": parseInt(pregunta.id_pregunta),
+        "preg_imagen": String(pregunta.imagen).trim(),
+        "preg_descripcion": String(pregunta.descripcion).trim(),
+        "preg_estado": String(pregunta.estado).trim(),
+        "id_subcategoria": parseInt(pregunta.id_subcategoria)
     }),
   })).json();
 }
