@@ -66,6 +66,12 @@ export const storeReducer = (state, action) => {
                     ...state,
                     lista_preguntas_programa: payload.preguntas_programa
                };
+          case ACCION.SET_LISTA_OPCION_PRG:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_opcion_programa: payload.opcion_programa
+               };
           default:
                return state;
      }
