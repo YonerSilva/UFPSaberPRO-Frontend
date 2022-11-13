@@ -199,11 +199,12 @@ export default function CrearPregunta() {
                           id="subcategorias"
                           name="subcategorias"
                           label="Subcategorias"
-                          required
                           select
                           value={currency}
                           onChange={handleChange}
                           fullWidth
+                          required
+                          autoComplete="shipping address-line2"
                           variant="outlined"
                         >
                           {subcategorias.map((option) => (
@@ -232,45 +233,43 @@ export default function CrearPregunta() {
                         xs={12}
                         sx={{ display: "flex", justifyContent: "center" }}
                       >
-                        <Typography component="h3" variant="h6" align="center">
-                          Añadir Imagen Opcional
-                        </Typography>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <Button className="btn-image btn btn-danger">
-                          <IconButton
-                            id="imagen_pregunta"
-                            name="imagen_pregunta"
-                            sx={{ color: "#fff" }}
-                            aria-label="upload file"
-                            component="label"
-                          >
-                            <input
+                        <div>
+                          <Typography component="h3" variant="h6" align="center">
+                            Añadir Imagen Opcional
+                          </Typography>
+
+                          <Button className="btn-image btn btn-danger">
+                            <IconButton
                               id="imagen_pregunta"
                               name="imagen_pregunta"
-                              hidden accept="image/*" type="file" />
-                            <ImageSearchIcon sx={{ mr: 1 }} />
-                            Subir Imagen
-                          </IconButton>
-                        </Button>
+                              sx={{ color: "#fff" }}
+                              aria-label="upload file"
+                              component="label"
+                            >
+                              <input
+                                id="imagen_pregunta"
+                                name="imagen_pregunta"
+                                hidden accept="image/*" type="file" />
+                              <ImageSearchIcon sx={{ mr: 1 }} />
+                              Subir Imagen
+                            </IconButton>
+                          </Button>
+
+                        </div>
                       </Grid>
-                      <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                      <Grid item xs sm={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
+                        <Button onClick={() => { navigate(-1) }} size="large" className="btn-vc btn-danger m-2">
                           Volver
                         </Button>
-                        <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                          <Button type='submit' size='medium' className='btn btn-danger m-2'>
-                            {
-                              update
-                                ? "Actualizar"
-                                : "Crear"
-                            }
-                          </Button>
-                        </Grid>
+                      </Grid>
+                      <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                        <Button type='submit' size='large' className='btn-vc btn-danger m-2'>
+                          {
+                            update
+                              ? "Actualizar"
+                              : "Crear"
+                          }
+                        </Button>
                       </Grid>
                     </Grid>
                   </Form>
@@ -281,7 +280,7 @@ export default function CrearPregunta() {
             }
           })()
         }
-          </Container>
-    </ThemeProvider>
+      </Container >
+    </ThemeProvider >
   );
 }
