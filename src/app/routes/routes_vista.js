@@ -10,6 +10,10 @@ import CrearSimulacro from '../components/simulacros/CrearSimulacro';
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
 import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
 
+//Opciones
+import CrearOpcion from '../components/opciones/CrearOpciones';
+
+
 //Preguntas
 import PreguntasList from '../components/preguntas/PreguntasList';
 import CrearPregunta from '../components/preguntas/CrearPregunta'; 
@@ -80,6 +84,11 @@ const routes =  {
                     {/* SIMULACRO */}
                     <Route key="crear_simulacro" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacro/>} />} />
+                    </Route>
+
+                    {/* OPCIONES */}
+                    <Route key="crear_opcion" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/opciones/crear_opcion" key="crepre" element={<Dashboard contenedor={<CrearOpcion/>} />} />
                     </Route>
 
                     {/* PREGUNTAS */}
