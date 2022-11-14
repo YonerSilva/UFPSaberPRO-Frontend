@@ -71,6 +71,9 @@ export default function CrearPregunta() {
                 resolve();
               }
             }
+            else {
+              reject();
+            }
           });
         }
       }), {
@@ -131,7 +134,6 @@ export default function CrearPregunta() {
         id_subcategoria: formEdition.id_subcategoria
       });
     }
-
     setLoading(false);
     return () => {
       // Anything in here is fired on component unmount.
