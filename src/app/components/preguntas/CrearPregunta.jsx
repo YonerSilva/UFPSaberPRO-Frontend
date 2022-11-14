@@ -18,17 +18,6 @@ import { alert_error, alert_loading, alert_success, verificarImagen } from '../.
 import { cargarImagen } from "../../util/firebase";
 import toast from 'react-hot-toast';
 
-const tipo_pregunta = [
-  {
-    value: "PA",
-    label: "Pregunta Abierta",
-  },
-  {
-    value: "PC",
-    label: "Pregunta Cerrrada",
-  },
-];
-
 const theme = createTheme();
 
 export default function CrearPregunta() {
