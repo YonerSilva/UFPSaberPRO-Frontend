@@ -148,9 +148,6 @@ const Login = () => {
                           Registrarse
                         </button>
                       </div>
-                      <div className="m-0 row justify-content-center">
-                      <a className="col-auto pt-5 text-center" href="">Olvidaste tu Contraseña? Click Aqui</a>
-                      </div>
                     </form>
                   </div>
                 </div>
