@@ -7,8 +7,10 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import Barra from '../extra/BarraBusqueda';
+import Grid from "@mui/material/Grid";
 import Cargador from "../extra/CargadorEventos";
 import NoCateSub from "./NoCateSub";
+import { Button } from "react-bootstrap";
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import * as serviceCategoria from '../../store/services/CategoriaService';
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
@@ -58,7 +60,7 @@ const SubcategoriaList = () => {
       type: "SET_FORM_EDITION",
       payload: item
     });
-    navigate('/UFPSaberPRO/subcategorias/crear-subcategoria/'+id_categoria);
+    navigate('/UFPSaberPRO/subcategorias/crear-subcategoria/' + id_categoria);
   }
 
   const listarSubCategorias = (response) => {
@@ -95,11 +97,11 @@ const SubcategoriaList = () => {
   };
 
   useEffect(() => {
-    if(id_categoria === "undefined"){
+    if (id_categoria === "undefined") {
       navigate('/UFPSaberPRO/categorias')
     }
-    if(lista_subcategorias_programa.length !== 0){
-      const subs=lista_subcategorias_programa.filter(item => parseInt(item.categoria) === parseInt(id_categoria));
+    if (lista_subcategorias_programa.length !== 0) {
+      const subs = lista_subcategorias_programa.filter(item => parseInt(item.categoria) === parseInt(id_categoria));
       setSubcategorias(subs);
     }
     setLoading(false);
@@ -116,7 +118,7 @@ const SubcategoriaList = () => {
             if (subcategorias.length !== 0) {
               return (
                 <Barra
-                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/subcategorias/crear-subcategoria/"+id_categoria) }} className="btn btn-danger m-2">Crear Subcategoria</button>}
+                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/subcategorias/crear-subcategoria/" + id_categoria) }} className="btn btn-danger m-2">Crear Subcategoria</button>}
                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre SubCategoria" placeholder="Buscar Subcategoria" className="form-control me-2" type="search" aria-label="Buscar" />}
                 />
               );
@@ -128,23 +130,30 @@ const SubcategoriaList = () => {
             {(() => {
               if (!loading) {
                 if (subcategorias.length === 0) {
-                  return <NoCateSub id_categoria={id_categoria}/>;
+                  return <NoCateSub id_categoria={id_categoria} />;
                 } else {
                   return (
-                    <BootstrapTable
-                      headerClasses="table-head"
-                      classes="table-design shadow"
-                      bootstrap4
-                      wrapperClasses="table-responsive"
-                      striped
-                      bordered
-                      hover
-                      keyField="id_subcategoria"
-                      data={handleBuscar(subcategorias)}
-                      columns={columnas}
-                      pagination={paginationFactory()}
-                      noDataIndication="No hay registros disponibles."
-                    />
+                    <>
+                      <BootstrapTable
+                        headerClasses="table-head"
+                        classes="table-design shadow"
+                        bootstrap4
+                        wrapperClasses="table-responsive"
+                        striped
+                        bordered
+                        hover
+                        keyField="id_subcategoria"
+                        data={handleBuscar(subcategorias)}
+                        columns={columnas}
+                        pagination={paginationFactory()}
+                        noDataIndication="No hay registros disponibles."
+                      />
+                      <Grid item xs sx={{ display: "flex", justifyContent: "center" }}>
+                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                          Volver
+                        </Button>
+                      </Grid>
+                    </>
                   );
                 }
               } else {

@@ -15,7 +15,7 @@ export default function NoCateSub({id_categoria}) {
             <CssBaseline />
             <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
                 <h2 align="center">
-                    ¡No se encontraron SubCategorias! Te recomendamos crearlos o retroceder.
+                    ¡No se encontraron Subcategorias! Te recomendamos crearlos o retroceder.
                 </h2>
                 <div className='mx-auto row d-flex flex-column'>
                     <div className='col-12 d-flex justify-content-center'>
