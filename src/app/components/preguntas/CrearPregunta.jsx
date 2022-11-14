@@ -188,7 +188,7 @@ export default function CrearPregunta() {
                           <Grid item xs={12}>
                             <TextField
                               id="subcategoria"
-                              name="subcategoria"
+                              name="id_subcategoria"
                               label="Subcategorias"
                               required
                               select
