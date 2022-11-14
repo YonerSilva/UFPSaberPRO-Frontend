@@ -13,6 +13,9 @@ import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
 import "../../../index.css";
 import SeleccionPreguntas, { CategoriaSubC, NomDescSimulacro, NumPre, TiempoSimulacro } from "./ProcesosCrearSimulacro";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch } from "../../store/Provider/storeProvider";
 
 
 const steps = [
@@ -46,7 +49,16 @@ const theme = createTheme();
 
 export default function CrearSimulacro() {
   const navigate = useNavigate();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const dispatch = useDispatch();
+  const [simulacro, setSimulacro] = useState({
+    id_simulacro: "",
+    nombre: "",
+    descripcion: "",
+    puntaje_maximo: "",
+    categoria: "",
+    subcategoria: ""
+  });
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -56,14 +68,18 @@ export default function CrearSimulacro() {
     setActiveStep(activeStep - 1);
   };
 
+  useEffect(()=>{
+    dispatch({
+      type: "SET_FORM_EDITION",
+      payload: simulacro
+    });
+  },[]);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container component="main" maxWidth="lg" sx={{ mb: 4 }}>
-        <Paper
-          variant="outlined"
-          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-        >
+        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
             Datos del Simulacro
           </Typography>

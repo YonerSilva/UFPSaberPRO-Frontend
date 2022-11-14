@@ -12,18 +12,8 @@ import FormLabel from '@mui/material/FormLabel';
 import FormControl from '@mui/material/FormControl';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Button from "@mui/material/Button";
+import { useDispatch, useStore } from "../../store/Provider/storeProvider";
 
-const categorias = [
-  {
-    value: "115",
-    label: "Generica",
-  },
-  {
-    value: "b",
-    label: "Especifica",
-  },
-];
 
 const tipoPregunta = [
   {
@@ -141,43 +131,84 @@ const SeleccionPreguntas = () => {
 export default SeleccionPreguntas;
 
 export function CategoriaSubC() {
-  const [currency, setCurrency] = React.useState("");
+  const { lista_categorias_programa, lista_subcategorias_programa, formEdition } = useStore();
+  const [subcategorias, setSubcategorias] = useState([]);
+  const [simulacro, setSimulacro] = useState({});
+  const {dispatch} = useDispatch();
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
+  const handleChange = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setSimulacro({...simulacro, [name]:value});
+    if (name === "categoria") {
+      if (value === "") {
+        setSubcategorias([]);
+      } else {
+        if (lista_subcategorias_programa.length !== 0) {
+          const subs = lista_subcategorias_programa.filter(item => parseInt(item.categoria) === parseInt(value));
+          setSubcategorias(subs);
+        }
+      }
+    }
+    dispatch({
+      type: "SET_FORM_EDITION",
+      payload: simulacro
+    });
   };
+
+  useEffect(() => {
+    if (Object.keys(formEdition).length !== 0) {
+      setSimulacro(formEdition);
+    }
+  }, []);
+
   return (
     <React.Fragment>
-      <Grid
-        container
-        spacing={3}
-        sx={{ display: "flex", justifyContent: "center" }}
-      >
-        <Grid item xs={12} sm={6} m={1}>
+      <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+        <Grid item xs={12}>
           <TextField
-            id="address2"
-            name="address2"
-            label="Programa"
+            id="categoria"
+            name="categoria"
+            label="Categoria"
             required
             select
-            value={currency}
+            value={simulacro.categoria}
             onChange={handleChange}
             fullWidth
-            autoComplete="shipping address-line2"
             variant="outlined"
           >
-            {categorias.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
+            {lista_categorias_programa.map((categoria) => (
+              <MenuItem key={categoria.id_categoria} value={categoria.id_categoria}>
+                {categoria.cate_nombre}
               </MenuItem>
             ))}
           </TextField>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Subcategorias />
-        </Grid>
-        <Grid item xs={12}>
-        </Grid>
+        {
+          simulacro.categoria !== ""
+            ?
+            <Grid item xs={12}>
+              <TextField
+                id="subcategoria"
+                name="id_subcategoria"
+                label="Subcategorias"
+                required
+                select
+                value={simulacro.id_subcategoria}
+                onChange={handleChange}
+                fullWidth
+                variant="outlined"
+              >
+                {subcategorias.map((subcategoria) => (
+                  <MenuItem key={subcategoria.id_subcategoria} value={subcategoria.id_subcategoria}>
+                    {subcategoria.sub_nombre}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            :
+            <></>
+        }
       </Grid>
     </React.Fragment>
   );
