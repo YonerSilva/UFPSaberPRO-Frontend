@@ -228,11 +228,6 @@ function RegistroUsuario() {
                       >
                         Volver
                       </button>
-                      <div className="m-0 row justify-content-center">
-                      <p className="parrafo col-auto pt-2 text-center forgot-password text-right">
-                        Ya está registrado <a type="button" href="/">iniciar sesión</a>
-                      </p>
-                      </div>
                     </div>
                   </form>
                 </div>
