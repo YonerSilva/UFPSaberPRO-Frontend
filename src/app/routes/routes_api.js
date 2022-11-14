@@ -36,9 +36,9 @@ const API = {
           ACTUALIZAR: "api/preguntas/actualizarPregunta"
      }, 
      OPCION: {
-          GENERAL: "api/opcion/general",
-          GUARDAR: "api/opcion/guardarOpcion",
-          ACTUALIZAR: "api/opcion/actualizarOpcion"
+          OPCIONES: "api/opciones/getOpciones",
+          GUARDAR: "api/opciones/guardarOpcion",
+          ACTUALIZAR: "api/opciones/actualizarOpcion"
      },
 
 }

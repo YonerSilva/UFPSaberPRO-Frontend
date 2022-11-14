@@ -2,6 +2,8 @@ import { ACCION } from "../actions/Acciones";
 
 const initialState = {
      formEdition: {},
+     formEditionOpc: {},
+     formEditionPreg: {},
      lista_programas: [],
      lista_roles: [],
      lista_convocatorias_programa: [],
@@ -21,6 +23,18 @@ export const storeReducer = (state, action) => {
                return {
                     ...state,
                     formEdition: payload
+               };
+          case ACCION.SET_FORM_EDITION_OPC:
+               console.log(action);
+               return {
+                    ...state,
+                    formEditionOpc: payload
+               };
+          case ACCION.SET_FORM_EDITION_PREG:
+               console.log(action);
+               return {
+                    ...state,
+                    formEditionPreg: payload
                };
           case ACCION.LISTAR_DATOS_AUTH:
                console.log(action);

@@ -12,6 +12,7 @@ import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
 
 //Opciones
 import CrearOpcion from '../components/opciones/CrearOpciones';
+import OpcionesList from '../components/opciones/OpcionesList';
 
 
 //Preguntas
@@ -88,7 +89,10 @@ const routes =  {
 
                     {/* OPCIONES */}
                     <Route key="crear_opcion" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
-                         <Route path="/UFPSaberPRO/opciones/crear_opcion" key="crepre" element={<Dashboard contenedor={<CrearOpcion/>} />} />
+                         <Route path="/UFPSaberPRO/opciones/crear_opcion" key="creopc" element={<Dashboard contenedor={<CrearOpcion/>} />} />
+                    </Route>
+                    <Route key="Opciones" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/pregunta/opciones" key="opc" element={<Dashboard contenedor={<OpcionesList/>} />} />
                     </Route>
 
                     {/* PREGUNTAS */}
