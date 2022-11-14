@@ -93,7 +93,11 @@ const PreguntasList = () => {
      }
 
      const verOpciones = (item) => {
-          navigate('/UFPSaberPRO/opciones/:id_subcategoria');
+          dispatch({
+               type: "SET_FORM_EDITION_PREG",
+               payload: item
+          });
+          navigate('/UFPSaberPRO/pregunta/opciones');
      }
 
      const handleBuscar = (data) => {

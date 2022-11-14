@@ -36,7 +36,7 @@ export default function CrearSubCategoria() {
         serviceSubCategoria.actualizar(subcategoria, id_categoria).then(response => {
           serviceSubCategoria.getDatosGenerales().then(res => {
             if (response.error === null) {
-              alert_success(response.message, "Se ha actualizado la SubCategoria");
+              alert_success(response.message, "Se ha actualizado la Subcategoria");
             } else {
               alert_error("¡Error!", response.message);
             }
@@ -47,7 +47,7 @@ export default function CrearSubCategoria() {
         serviceSubCategoria.guardar(subcategoria, id_categoria).then(response => {
           serviceSubCategoria.getDatosGenerales().then(res => {
             if (response.error === null) {
-              alert_success(response.message, "Se ha guardado la SubCategoria");
+              alert_success(response.message, "Se ha guardado la Subcategoria");
               setTimeout(() => { navigate("/UFPSaberPRO/subcategorias/" + id_categoria) }, 2000);
             } else {
               alert_error("¡Error!", response.message);

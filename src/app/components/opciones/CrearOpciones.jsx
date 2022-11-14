@@ -14,56 +14,73 @@ import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import Cargador from "../extra/CargadorEventos";
 import useAuth from "../auth/useAuth";
 import { useEffect } from "react";
-import * as serviceOpcion from '../../store/services/OpcionService';
+import * as serviceOpciones from '../../store/services/OpcionService';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
-import { alert_error, alert_loading, alert_success } from '../../util/functions';
-
+import { alert_error, alert_loading, alert_success, verificarImagen } from '../../util/functions';
+import { cargarImagen } from "../../util/firebase";
+import toast from 'react-hot-toast';
 
 const theme = createTheme();
 
 export default function CrearOpcion() {
-  const { auth } = useAuth();
-  const [currency, setCurrency] = React.useState("");
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { formEdition } = useStore();
+  const { formEditionPreg, formEditionOpc } = useStore();
   const [update, setUpdate] = useState(false);
   const [loading, setLoading] = useState(true);
   const [opcion, setOpcion] = useState({
+    id_opcion: "",
     imagen_opcion: "",
     descripcion: "",
     respuesta: "",
     pregunta: ""
   });
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (update) {
-        serviceOpcion.actualizar(opcion).then(response => {
-          serviceOpcion.getDatosGenerales().then(res => {
-            if (response.error === null) {
-              alert_success(response.message, "Se ha actualizado la Opcion");
-            } else {
-              alert_error("¡Error!", response.message);
-            }
-            listarOpciones(res);
+      toast.promise(new Promise((resolve, reject) => {
+        if (update) {
+          serviceOpciones.actualizar(opcion).then(response => {
+            listarOpciones(response);
+            resolve();
           });
-        });
-      } else {
-        serviceOpcion.guardar(opcion).then(response => {
-          serviceOpcion.getDatosGenerales().then(res => {
+        } else {
+          serviceOpciones.guardar(opcion, formEditionPreg.id_pregunta).then(response => {
             if (response.error === null) {
-              alert_success(response.message, "Se ha guardado la opcion");
-              setTimeout(() => { navigate("/UFPSaberPRO/opciones") }, 2000);
+              if (verificarImagen()) {
+                let opci = {
+                  id_opcion: response.opcion.id_opcion,
+                  imagen_opcion: "",
+                  descripcion: response.opcion.opc_descripcion,
+                  respuesta: response.opcion.opc_respuesta,
+                  pregunta: response.opcion.pregunta
+                }
+                cargarImagen(opci.id_opcion, "opciones").then(url => {
+                  if (url !== "") {
+                    opci.imagen = url;
+                    serviceOpciones.actualizar(opci).then(respuesta => {
+                      listarOpciones(response);
+                      resolve();
+                    });
+                  }
+                });
+              } else {
+                listarOpciones(response);
+                resolve();
+              }
             } else {
-              alert_error("¡Error!", response.message);
+              reject();
             }
-            listarOpciones(res);
           });
-
-        });
-      }
+        }
+      }), {
+        loading: "Cargando...",
+        error: "¡Error! \n" + "Ha ocurrido un imprevisto.",
+        success: "¡Proceso Exitoso!",
+      });
     } catch (error) {
       console.error(error);
     }
@@ -87,20 +104,24 @@ export default function CrearOpcion() {
 
   useEffect(() => {
     // Anything in here is fired on component mount.
-    if (Object.keys(formEdition).length !== 0) {
+    if (Object.keys(formEditionPreg).length === 0) {
+      navigate('/UFPSaberPRO/preguntas')
+    }
+    if (Object.keys(formEditionOpc).length !== 0) {
       setUpdate(true);
       setOpcion({
-        imagen_opcion: formEdition.opc_imagen,
-        descripcion: formEdition.opc_descripcion,
-        respuesta: formEdition.opc_respuesta,
-        pregunta: formEdition.pregunta
+        id_opcion: formEditionOpc.id_opcion,
+        imagen_opcion: formEditionOpc.opc_imagen,
+        descripcion: formEditionOpc.opc_descripcion,
+        respuesta: formEditionOpc.opc_respuesta,
+        pregunta: formEditionOpc.pregunta
       });
     }
     setLoading(false);
     return () => {
       // Anything in here is fired on component unmount.
       dispatch({
-        type: "SET_FORM_EDITION",
+        type: "SET_FORM_EDITION_OPC",
         payload: {}
       });
     }
@@ -130,45 +151,46 @@ export default function CrearOpcion() {
                       <Grid item xs={12}>
                         <TextField
                           required
-                          id="descripopcion"
-                          name="descripopcion"
+                          id="descripcion"
+                          name="descripcion"
                           label="Descripcion de la Opcion"
                           rows={5}
                           multiline
                           fullWidth
                           value={opcion.descripcion}
+                          onChange={handleChange}
                           variant="outlined"
                           maxLength="500"
                         />
                       </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        sx={{ display: "flex", justifyContent: "center" }}
-                      >
-                        <div>
-                          <Typography component="h3" variant="h6" align="center">
-                            Añadir Imagen Opcional
-                          </Typography>
+                      <Grid item xs={12}>
+                        <TextField
+                          required
+                          id="respuesta"
+                          name="respuesta"
+                          select
+                          fullWidth
+                          label="Seleccione si la Opcion es Correcta"
+                          value={opcion.respuesta}
+                          variant="outlined"
 
-                          <Button className="btn-image btn btn-danger">
-                            <IconButton
-                              id="opc_imagen"
-                              name="opc_imagen"
-                              sx={{ color: "#fff" }}
-                              aria-label="upload file"
-                              component="label"
-                            >
-                              <input
-                                id="opc_imagen"
-                                name="opc_imagen"
-                                hidden accept="image/*" type="file" />
-                              <ImageSearchIcon sx={{ mr: 1 }} />
-                              Subir Imagen
-                            </IconButton>
-                          </Button>
+                          onChange={handleChange}
+                        >
+                          <MenuItem key={1} value={true}>
+                            VERDADERO
+                          </MenuItem>
+                          <MenuItem key={2} value={false}>
+                            FALSO
+                          </MenuItem>
 
-                        </div>
+                        </TextField>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <Form.Group className="mb-3">
+                          <Form.Label>Seleecione una imagen (opcional)</Form.Label>
+                          <Form.Control id="formFile" type="file" accept="image/png, image/jpeg" />
+                          <Form.Control id="imagen" name="imagen" value={opcion.imagen} onChange={handleChange} type="text" hidden />
+                        </Form.Group>
                       </Grid>
                       <Grid item xs sm={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
                         <Button onClick={() => { navigate(-1) }} size="large" className="btn-vc btn-danger m-2">
