@@ -57,7 +57,7 @@ export default function CrearOpcion() {
                 }
                 cargarImagen(opci.id_opcion, "opciones").then(url => {
                   if (url !== "") {
-                    opci.imagen = url;
+                    opci.imagen_opcion = url;
                     serviceOpciones.actualizar(opci).then(respuesta => {
                       listarOpciones(response);
                       resolve();
