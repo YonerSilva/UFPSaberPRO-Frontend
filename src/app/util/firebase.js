@@ -19,7 +19,11 @@ export async function cargarImagen(id_pregunta, carpeta) {
     if (inputFile.files.length !== 0) {
         let file = inputFile.files[0];
         const fileName = file.name.toString();
-        let path = modificarNamePreg(id_pregunta,fileName);
+        let tipo = "pregunta";
+        if(carpeta==="opciones"){
+            tipo="opcion";
+        }
+        let path = modificarNamePreg(id_pregunta,fileName,tipo);
         let imagenRef = carpeta + "/" + path;
         let storageRef = ref(getStorage(firebaseApp), imagenRef);
         const task = await uploadBytes(storageRef, file);
@@ -106,9 +110,9 @@ function obtenerNombreImg(url) {
     return array[0];
 }
 
-function modificarNamePreg (id_pregunta,fileName) {
+function modificarNamePreg (id_pregunta,fileName, tipo) {
     const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-    return (id_pregunta +'_pregunta_'+usuario.usu_codigo+getExtension(fileName));
+    return (id_pregunta +'_'+tipo+'_'+usuario.usu_codigo+getExtension(fileName));
 }
 
 function getExtension(fileName) {
