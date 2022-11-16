@@ -2,6 +2,7 @@ import { ACCION } from "../actions/Acciones";
 
 const initialState = {
      formEdition: {},
+     formEditionSimu: {},
      formEditionOpc: {},
      formEditionPreg: {},
      lista_programas: [],

@@ -11,8 +11,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as serviceOpcion from '../../store/services/OpcionService';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import { alert_error, alert_loading } from '../../util/functions';
 import NoOpciones from './NoOpciones';
 
 const OpcionesList = () => {
@@ -35,16 +34,12 @@ const OpcionesList = () => {
                dataField: "fd1",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    if (row.preg_estado === 'I') {
+                    if (formEditionPreg.preg_estado === 'I') {
                          return (
                               <div className="row-cols-2 row-cols-md-auto" align="center">
                                    <IconButton onClick={() => { updateOpcion(row) }} title='Actualizar Opcion' style={{ color: "blue" }}><EditIcon /></IconButton>
                                    <IconButton title='Eliminar Opcion' style={{ color: "red" }}> <DeleteIcon /></IconButton>
                               </div>
-                         )
-                    }else{
-                         return(
-                              <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                          )
                     }
                },
@@ -76,10 +71,6 @@ const OpcionesList = () => {
           }
      }
 
-     const verOpciones = (item) => {
-          navigate('/UFPSaberPRO/opciones/'+item.id_subcategoria);
-     }
-
      const handleBuscar = (data) => {
           if (busqueda === "") {
                return opciones;
@@ -94,10 +85,11 @@ const OpcionesList = () => {
      };
 
      useEffect(() => {
-          if(Object.keys(formEditionPreg).length===0){
-               navigate('/UFPSaberPRO/preguntas')
+          if(Object.keys(formEditionPreg).length===0 || formEditionPreg.id_pregunta===undefined){
+               navigate('/UFPSaberPRO/preguntas');
+          }else{
+               listarOpciones();
           }
-          listarOpciones();
      }, []);
 
      return (

@@ -1,7 +1,6 @@
 import { initializeApp } from '@firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateEmail, updatePassword } from "@firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from '@firebase/storage';
-import * as usuarioService from '../store/services/UsuarioService';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -107,8 +106,8 @@ function obtenerNombreImg(url) {
     return array[0];
 }
 
-async function modificarNamePreg (id_pregunta,fileName) {
-    const usuario = await usuarioService.getUser();
+function modificarNamePreg (id_pregunta,fileName) {
+    const usuario = JSON.parse(sessionStorage.getItem("usuario"));
     return (id_pregunta +'_pregunta_'+usuario.usu_codigo+getExtension(fileName));
 }
 

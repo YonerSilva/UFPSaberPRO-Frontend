@@ -12,7 +12,7 @@ import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as servicePregunta from '../../store/services/PreguntasService';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import { alert_error, alert_loading } from '../../util/functions';
 import NoPreguntas from './NoPreguntas';
 
 const PreguntasList = () => {
@@ -39,6 +39,17 @@ const PreguntasList = () => {
                }
           },
           {
+               text: "IMAGEN",
+               dataField: "preg_imagen",
+               align: "center",
+               isDummyField: true,
+               formatter: (cellContent, row) => {
+                    if (row.preg_imagen !== null && row.preg_imgane !== "") {
+                         return <span>imagen</span>
+                    }
+               }
+          },
+          {
                text: "ESTADO",
                dataField: "preg_estado",
                align: "center",
@@ -57,8 +68,8 @@ const PreguntasList = () => {
                                    <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
-                    }else{
-                         return(
+                    } else {
+                         return (
                               <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                          )
                     }
@@ -143,20 +154,22 @@ const PreguntasList = () => {
                                              return <NoPreguntas />;
                                         } else {
                                              return (
-                                                  <BootstrapTable
-                                                       headerClasses="table-head"
-                                                       classes="table-design shadow"
-                                                       bootstrap4
-                                                       wrapperClasses="table-responsive"
-                                                       striped
-                                                       bordered
-                                                       hover
-                                                       keyField="id_pregunta"
-                                                       data={handleBuscar(lista_preguntas_programa)}
-                                                       columns={columnas}
-                                                       pagination={paginationFactory()}
-                                                       noDataIndication="No hay registros disponibles."
-                                                  />
+                                                  <>
+                                                       <BootstrapTable
+                                                            headerClasses="table-head"
+                                                            classes="table-design shadow"
+                                                            bootstrap4
+                                                            wrapperClasses="table-responsive"
+                                                            striped
+                                                            bordered
+                                                            hover
+                                                            keyField="id_pregunta"
+                                                            data={handleBuscar(lista_preguntas_programa)}
+                                                            columns={columnas}
+                                                            pagination={paginationFactory()}
+                                                            noDataIndication="No hay registros disponibles."
+                                                       />
+                                                  </>
                                              );
                                         }
                                    } else {

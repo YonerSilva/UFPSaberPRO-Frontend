@@ -33,7 +33,6 @@ export const getOpcionesPregunta = async (id_pregunta) => {
   }
 
   export const actualizar = async (opcion) => {
-    console.log(opcion)
     const token = await getUserToken();
     return await (await fetch(API_URL + API.OPCION.ACTUALIZAR, {
       method: 'PUT',
