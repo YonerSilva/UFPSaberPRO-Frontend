@@ -3,6 +3,8 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material';
+import { Button, Form } from "react-bootstrap";
+import Grid from "@mui/material/Grid";
 
 export default function NoPreguntas() {
 
@@ -20,9 +22,18 @@ export default function NoPreguntas() {
                     <div className='col-12 d-flex justify-content-center'>
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200}/>
                     </div>
-                    <div className='col-12 d-flex justify-content-center'>
-                        <button type='button' onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_pregunta') }} className='btn btn-danger m-2'>Crear Pregunta</button>
-                    </div>
+                    <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                        <Grid item xs sm={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
+                            <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
+                                Volver
+                            </Button>
+                        </Grid >
+                        <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                            <Button  onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_pregunta') }} size="large" className="btn-v btn-danger m-2">
+                                Crear
+                            </Button>
+                        </Grid >
+                    </Grid>
                 </div>
             </Container>
         </ThemeProvider>

@@ -148,11 +148,11 @@ const SubcategoriaList = () => {
                         pagination={paginationFactory()}
                         noDataIndication="No hay registros disponibles."
                       />
-                      <Grid item xs sx={{ display: "flex", justifyContent: "center" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                      <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                        <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
                           Volver
                         </Button>
-                      </Grid>
+                      </Grid >
                     </>
                   );
                 }

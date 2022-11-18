@@ -4,6 +4,7 @@ import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from "@mui/material/IconButton";
+import { Button, Form } from "react-bootstrap";
 import Barra from '../extra/BarraBusqueda';
 import Cargador from "../extra/CargadorEventos";
 import paginationFactory from "react-bootstrap-table2-paginator";
@@ -13,10 +14,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import * as serviceOpcion from '../../store/services/OpcionService';
 import { alert_error, alert_loading } from '../../util/functions';
 import NoOpciones from './NoOpciones';
+import Grid from "@mui/material/Grid";
 
 const OpcionesList = () => {
      const dispatch = useDispatch();
-     const {formEditionPreg} = useStore();
+     const { formEditionPreg } = useStore();
      const [opciones, setOpciones] = useState([]);
      const [busqueda, setBusqueda] = useState("");
      const [loading, setLoading] = useState(true);
@@ -85,9 +87,9 @@ const OpcionesList = () => {
      };
 
      useEffect(() => {
-          if(Object.keys(formEditionPreg).length===0 || formEditionPreg.id_pregunta===undefined){
+          if (Object.keys(formEditionPreg).length === 0 || formEditionPreg.id_pregunta === undefined) {
                navigate('/UFPSaberPRO/preguntas');
-          }else{
+          } else {
                listarOpciones();
           }
      }, []);
@@ -115,7 +117,7 @@ const OpcionesList = () => {
                               {(() => {
                                    if (!loading) {
                                         if (opciones.length === 0) {
-                                             return <NoOpciones/>;
+                                             return <NoOpciones />;
                                         } else {
                                              return (
                                                   <BootstrapTable
@@ -139,6 +141,11 @@ const OpcionesList = () => {
                                    }
                               })()}
                          </div>
+                         <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                              <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
+                                   Volver
+                              </Button>
+                         </Grid >
                     </div>
                </ResponsiveContainer>
           </React.Fragment>
