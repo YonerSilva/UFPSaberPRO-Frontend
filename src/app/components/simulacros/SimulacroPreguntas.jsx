@@ -15,31 +15,15 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { alert_error, alert_loading } from '../../util/functions';
 import NoPreguntas from '../preguntas/NoPreguntas';
 import Checkbox from '@material-ui/core/Checkbox';
-import filterFactory, { selectFilter } from 'react-bootstrap-table2-filter';
+import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
 
 const SimulacroPreguntasList = () => {
-     const [checked, setChecked] = React.useState(true);
      const dispatch = useDispatch();
-     const { lista_preguntas_programa } = useStore();
+     const {formEditionSimu} = useStore();
+     const [preguntas, setPreguntas] = useState([]);
      const [busqueda, setBusqueda] = useState("");
      const [loading, setLoading] = useState(true);
      const navigate = useNavigate();
-     const selectOptions = {
-          0: 'SUBCATEGORIA1',
-          1: 'Bad',
-          2: 'unknown'
-        };
-
-        const selectOptionsArr = [{
-          value: 0,
-          label: 'good',
-        }, {
-          value: 1,
-          label: 'Bad',
-        }, {
-          value: 2,
-          label: 'unknown',
-        }];
 
      const columnas = [
           {
@@ -52,10 +36,17 @@ const SimulacroPreguntasList = () => {
                text: "SUBCATEGORIA",
                dataField: "preg_subcategoria",
                align: "center",
+               filter: textFilter(),
                isDummyField: true,
                formatter: (cellContent, row) => {
                     return row.subcategoria.sub_nombre;
                }
+          },
+          {
+               text: "PUNTAJE",
+               dataField: "simu_preg_puntaje",
+               align: "center",
+               sort: true,
           },
           {
                text: "IMAGEN",
@@ -84,29 +75,6 @@ const SimulacroPreguntasList = () => {
                          default:
                               return <></>;
                     }
-               }
-          },
-          {
-               text: "BUSCAR ",
-               dataField: "simu_preg",
-               formatter: cell => selectOptions[cell],
-               filter: selectFilter({
-                options: selectOptions
-               })
-          },
-          {
-               text: "SELECCIONAR",
-               dataField: "simu_preg",
-               align: 'center',
-               formatter: (cellCotent, row) => {
-                    return (
-                         <div className="row-cols-2 row-cols-md-auto" align="center">
-                              <Checkbox
-                                   defaultChecked
-                                   color="primary"
-                                   inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              />
-                         </div>)
                }
           },
           {
@@ -187,7 +155,7 @@ const SimulacroPreguntasList = () => {
                <ResponsiveContainer>
                     <div className="container">
                          <Typography component="h2" variant="h5" color="dark" gutterBottom>
-                              Lista de Preguntas
+                              Lista de Preguntas del Simulacro
                          </Typography>
                          {(() => {
                               if (lista_preguntas_programa.length !== 0) {
@@ -222,7 +190,7 @@ const SimulacroPreguntasList = () => {
                                                             columns={columnas}
                                                             pagination={paginationFactory()}
                                                             noDataIndication="No hay registros disponibles."
-                                                            filter={ filterFactory()}
+                                                            filter={filterFactory()}
                                                        />
                                                   </>
                                              );

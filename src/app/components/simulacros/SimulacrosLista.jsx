@@ -67,19 +67,21 @@ const ListaSimulacros = () => {
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { navigate() }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
                                    <IconButton onClick={() => { navigate() }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
-                                   <IconButton
-                                        onClick={() => {navigate( '/UFPSaberPRO/simulacros/simulacro_preguntas')}}
-                                        title="Ver Preguntas"
-                                        style={{ color: "gray" }}
-                                   >
-                                        <VisibilityIcon />
-                                   </IconButton>
+                                   <IconButton onClick={() => {verPreguntas(row)}} title="Ver Preguntas" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
                     }
                }
           }
      ]
+
+     const verPreguntas = (item)=>{
+          dispatch({
+               type: "SET_FORM_EDITION_SIMU",
+               payload: item
+          });
+          navigate( '/UFPSaberPRO/simulacros/simulacro_preguntas');
+     }
 
      const handleBuscar = (data) => {
           if (busqueda === "") {

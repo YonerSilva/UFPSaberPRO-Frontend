@@ -36,5 +36,34 @@ export const guardar = async (simulacro) => {
   })).json();
 }
 
+export const actualizar = async (simulacro) => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.SIMULACRO.GUARDAR, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "id_simulacro": parseInt(simulacro.id_simulacro),
+      "simu_nombre": String(simulacro.nombre).trim(),
+      "simu_descripcion": String(simulacro.descripcion).trim(),
+      "simu_puntaje_maximo": String(simulacro.puntaje_maximo).trim(),
+      "programa": parseInt(usuario.programa.id_programa)
+    }),
+  })).json();
+}
+
+export const getPreguntas = async (id_simulacro) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.SIMULACRO.PREGUNTAS + "?id_simulacro=" + id_simulacro, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
 
 /*--------------------------------END------------------------------------*/

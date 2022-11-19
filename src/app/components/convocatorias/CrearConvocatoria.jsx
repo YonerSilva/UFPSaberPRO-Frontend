@@ -68,6 +68,7 @@ export default function CrearConvocatoria() {
                         listarConvocatorias(res);
                     });
 
+                    
                 });
             }
         } catch (error) {

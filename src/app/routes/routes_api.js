@@ -18,7 +18,8 @@ const API = {
      },
      SIMULACRO: {
           GENERAL: "api/simulacros/general",
-          GUARDAR: "api/simulacros/guardarSimulacro"
+          GUARDAR: "api/simulacros/guardarSimulacro",
+          PREGUNTAS: "api/simulacros/getPreguntas"
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",
