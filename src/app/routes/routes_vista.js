@@ -5,6 +5,7 @@ import RegistroUsuario from '../components/user/RegistroUsuario';
 //Simulacros
 import ListaSimulacros from '../components/simulacros/SimulacrosLista';
 import CrearSimulacro from '../components/simulacros/CrearSimulacro';
+import SimulacroPreguntasList from '../components/simulacros/SimulacroPreguntas';
 
 //Convocatorias
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
@@ -85,6 +86,9 @@ const routes =  {
                     {/* SIMULACRO */}
                     <Route key="crear_simulacro" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacro/>} />} />
+                    </Route>
+                    <Route key="simulacro_preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/simulacros/simulacro_preguntas" key="simupreg" element={<Dashboard contenedor={<SimulacroPreguntasList/>} />} />
                     </Route>
 
                     {/* OPCIONES */}

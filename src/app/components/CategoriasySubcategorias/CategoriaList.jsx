@@ -13,8 +13,6 @@ import * as serviceCategoria from '../../store/services/CategoriaService';
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import NoCate from "./NoCate";
-import { grid } from "@mui/system";
-import { Grid } from "@mui/material";
 
 const CategoriaList = () => {
 

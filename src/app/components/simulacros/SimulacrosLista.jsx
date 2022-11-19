@@ -7,6 +7,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import Cargador from '../extra/CargadorEventos';
 import Barra from '../extra/BarraBusqueda';
 import NoSimulacros from './NoSimulacros';
@@ -66,6 +67,13 @@ const ListaSimulacros = () => {
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { navigate() }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
                                    <IconButton onClick={() => { navigate() }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
+                                   <IconButton
+                                        onClick={() => {navigate( '/UFPSaberPRO/simulacros/simulacro_preguntas')}}
+                                        title="Ver Preguntas"
+                                        style={{ color: "gray" }}
+                                   >
+                                        <VisibilityIcon />
+                                   </IconButton>
                               </div>
                          )
                     }
