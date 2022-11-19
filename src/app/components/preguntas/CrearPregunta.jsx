@@ -15,7 +15,7 @@ import { useEffect } from "react";
 import * as servicePregunta from '../../store/services/PreguntasService';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import { alert_error, alert_loading, alert_success, verificarImagen } from '../../util/functions';
-import { cargarImagen } from "../../util/firebase";
+import { cargarImagen, eliminarImagen } from "../../util/firebase";
 import toast from 'react-hot-toast';
 
 const theme = createTheme();
@@ -42,21 +42,39 @@ export default function CrearPregunta() {
     try {
       toast.promise(new Promise((resolve, reject) => {
         if (update) {
-          servicePregunta.actualizar(pregunta).then(response => {
-            listarPreguntas(response);
-            resolve();
-          });
+          if (verificarImagen()) {
+            eliminarImagen(pregunta.imagen, "preguntas").then(res=>{
+              let preg = pregunta;
+              cargarImagen(preg.id_pregunta, "preguntas").then(url => {
+                if (url !== "") {
+                  preg.imagen = url;
+                  servicePregunta.actualizar(preg).then(respuesta => {
+                    if(respuesta.error === null){
+                      listarPreguntas(respuesta);
+                      resolve();
+                    }else{
+                      eliminarImagen(pregunta.imagen, "preguntas");
+                      reject();
+                    }
+                  });
+                }
+              });
+            });
+          }else{
+            servicePregunta.actualizar(pregunta).then(response => {
+              if(response.error === null){
+                listarPreguntas(response);
+                resolve();
+              }else{
+                reject();
+              }
+            });
+          }
         } else {
           servicePregunta.guardar(pregunta).then(response => {
             if (response.error === null) {
               if (verificarImagen()) {
-                let preg = {
-                  id_pregunta: response.pregunta.id_pregunta,
-                  imagen: "",
-                  descripcion: response.pregunta.preg_descripcion,
-                  estado: response.pregunta.preg_estado,
-                  id_subcategoria: response.pregunta.id_subcategoria
-                }
+                const preg = actualizarPregunta(response);
                 cargarImagen(preg.id_pregunta, "preguntas").then(url => {
                   if (url !== "") {
                     preg.imagen = url;
@@ -85,6 +103,16 @@ export default function CrearPregunta() {
       console.error(error);
     }
   };
+
+  const actualizarPregunta = (response) => {
+    return {
+      id_pregunta: response.pregunta.id_pregunta,
+      imagen: "",
+      descripcion: response.pregunta.preg_descripcion,
+      estado: response.pregunta.preg_estado,
+      id_subcategoria: response.pregunta.id_subcategoria
+    }
+  }
 
   const listarPreguntas = (response) => {
     servicePregunta.getDatosGenerales().then(res => {
@@ -131,8 +159,11 @@ export default function CrearPregunta() {
         imagen: formEdition.preg_imagen,
         descripcion: formEdition.preg_descripcion,
         estado: formEdition.preg_estado,
+        categoria: formEdition.subcategoria.categoria,
         id_subcategoria: formEdition.id_subcategoria
       });
+      const subs = lista_subcategorias_programa.filter(item => parseInt(item.categoria) === parseInt(formEdition.subcategoria.categoria));
+      setSubcategorias(subs);
     }
     setLoading(false);
     return () => {

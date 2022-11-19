@@ -89,7 +89,8 @@ export function logout_firebase() {
     });
 }
 
-export async function eliminarImagenPreg(url, carpeta) {
+export async function eliminarImagen(url, carpeta) {
+    if(url==="" || url===null || url === undefined){return;}
     let imagenRef = carpeta + "/" + obtenerNombreImg(url);
     const storage = getStorage();
 
@@ -97,11 +98,7 @@ export async function eliminarImagenPreg(url, carpeta) {
     const task = ref(storage, imagenRef);
 
     // Delete the file
-    deleteObject(task).then(() => {
-        // File deleted successfully
-    }).catch((error) => {
-        // Uh-oh, an error occurred!
-    });
+    await deleteObject(task);
 }
 
 function obtenerNombreImg(url) {

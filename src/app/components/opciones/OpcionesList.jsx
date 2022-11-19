@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import * as serviceOpcion from '../../store/services/OpcionService';
 import { alert_error, alert_loading } from '../../util/functions';
 import NoOpciones from './NoOpciones';
-import Grid from "@mui/material/Grid";
+import { Grid, Link } from '@mui/material';
 
 const OpcionesList = () => {
      const dispatch = useDispatch();
@@ -30,6 +30,32 @@ const OpcionesList = () => {
                dataField: "opc_descripcion",
                align: "center",
                sort: true,
+          },
+          {
+               text: "RESPUESTA",
+               dataField: "opc_respuesta",
+               align: "center",
+               isDummyField: true,
+               formatter: (cellContent, row) => {
+                    if(row.opc_respuesta===true){
+                         return <span>VERDAD</span>
+                    }else{
+                         return <span>FALSO</span>
+                    }
+               }
+          },
+          {
+               text: "IMAGEN",
+               dataField: "opc_imagen",
+               align: "center",
+               isDummyField: true,
+               formatter: (cellContent, row) => {
+                    if (row.opc_imagen !== null && row.opc_imagen !== "") {
+                         return <Link href={row.opc_imagen} target="_blank">Imagen</Link>
+                    }else{
+                         return <span>No disponible.</span>
+                    }
+               }
           },
           {
                text: "ACCIÓN",

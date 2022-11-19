@@ -14,6 +14,7 @@ import * as servicePregunta from '../../store/services/PreguntasService';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { alert_error, alert_loading } from '../../util/functions';
 import NoPreguntas from './NoPreguntas';
+import { Link } from '@mui/material';
 
 const PreguntasList = () => {
      const dispatch = useDispatch();
@@ -44,8 +45,10 @@ const PreguntasList = () => {
                align: "center",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    if (row.preg_imagen !== null && row.preg_imgane !== "") {
-                         return <span>imagen</span>
+                    if (row.preg_imagen !== null && row.preg_imagen !== "") {
+                         return <Link href={row.preg_imagen} target="_blank">Imagen</Link>
+                    }else{
+                         return <span>No disponible.</span>
                     }
                }
           },

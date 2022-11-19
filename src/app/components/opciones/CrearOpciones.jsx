@@ -14,7 +14,7 @@ import { useEffect } from "react";
 import * as serviceOpciones from '../../store/services/OpcionService';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import { alert_error, alert_success, verificarImagen } from '../../util/functions';
-import { cargarImagen } from "../../util/firebase";
+import { cargarImagen, eliminarImagen } from "../../util/firebase";
 import toast from 'react-hot-toast';
 
 const theme = createTheme();
@@ -40,21 +40,39 @@ export default function CrearOpcion() {
     try {
       toast.promise(new Promise((resolve, reject) => {
         if (update) {
-          serviceOpciones.actualizar(opcion).then(response => {
-            listarOpciones(response);
-            resolve();
-          });
+          if (verificarImagen()) {
+            eliminarImagen(opcion.imagen, "opciones").then(res => {
+              let opci = opcion;
+              cargarImagen(opci.id_opcion, "opciones").then(url => {
+                if (url !== "") {
+                  opcion.imagen_opcion = url;
+                  serviceOpciones.actualizar(opci).then(respuesta => {
+                    if (respuesta.error === null) {
+                      listarOpciones(respuesta);
+                      resolve();
+                    } else {
+                      eliminarImagen(opcion.imagen, "preguntas");
+                      reject();
+                    }
+                  });
+                }
+              });
+            });
+          } else {
+            serviceOpciones.actualizar(opcion).then(response => {
+              if (response.error === null) {
+                listarOpciones(response);
+                resolve();
+              } else {
+                reject();
+              }
+            });
+          }
         } else {
           serviceOpciones.guardar(opcion, formEditionPreg.id_pregunta).then(response => {
             if (response.error === null) {
               if (verificarImagen()) {
-                let opci = {
-                  id_opcion: response.opcion.id_opcion,
-                  imagen_opcion: "",
-                  descripcion: response.opcion.opc_descripcion,
-                  respuesta: response.opcion.opc_respuesta,
-                  pregunta: response.opcion.pregunta
-                }
+                const opci = actualizarOpcion(response);
                 cargarImagen(opci.id_opcion, "opciones").then(url => {
                   if (url !== "") {
                     opci.imagen_opcion = url;
@@ -83,13 +101,23 @@ export default function CrearOpcion() {
     }
   };
 
+  const actualizarOpcion = (response) => {
+    return {
+      id_opcion: response.opcion.id_opcion,
+      imagen_opcion: "",
+      descripcion: response.opcion.opc_descripcion,
+      respuesta: response.opcion.opc_respuesta,
+      pregunta: response.opcion.pregunta
+    }
+  }
+
   const listarOpciones = (response) => {
-      if (response.error === null) {
-        alert_success(response.message, "Se ha guardado la opcion.");
-        setTimeout(() => { navigate(-1) }, 2000);
-      } else {
-        alert_error("¡Error!", response.message);
-      }
+    if (response.error === null) {
+      alert_success(response.message, "Se ha guardado la opcion.");
+      setTimeout(() => { navigate(-1) }, 2000);
+    } else {
+      alert_error("¡Error!", response.message);
+    }
   }
 
   const handleChange = (e) => {
