@@ -20,7 +20,6 @@ const theme = createTheme();
 
 export default function CrearSimulacros() {
     const navigate = useNavigate();
-    const [activeStep, setActiveStep] = useState(0);
     const { formEditionSimu } = useStore();
     const dispatch = useDispatch();
     const [update, setUpdate] = useState(false);
@@ -41,24 +40,20 @@ export default function CrearSimulacros() {
                     serviceSimulacro.getDatosGenerales().then(res => {
                         if (response.error === null) {
                             alert_success(response.message, "Se ha actualizado el simulacro");
+                            listarSimulacros();
                         } else {
                             alert_error("¡Error!", response.message);
                         }
-                        listarSimulacros(res);
                     });
                 });
             } else {
                 serviceSimulacro.guardar(simulacro).then(response => {
-                    serviceSimulacro.getDatosGenerales().then(res => {
-                        if (response.error === null) {
-                            alert_success(response.message, "Se ha guardado el simulacro");
-                            setTimeout(() => { navigate("/UFPSaberPRO/simulacros") }, 2000);
-                        } else {
-                            alert_error("¡Error!", response.message);
-                        }
-                        listarSimulacros(res);
-                    });
-
+                    if (response.error === null) {
+                        alert_success(response.message, "Se ha guardado el simulacro.");
+                        listarSimulacros();
+                    } else {
+                        alert_error("¡Error!", response.message);
+                    }
                 });
             }
         } catch (error) {
@@ -66,20 +61,15 @@ export default function CrearSimulacros() {
         }
     };
 
-    const listarSimulacros = (response) => {
+    const listarSimulacros = () => {
         serviceSimulacro.getDatosGenerales().then(res => {
-            if (response.error === null) {
-                alert_success(response.message, "Se ha guardado la pregunta");
-                setTimeout(() => { navigate("/UFPSaberPRO/simulacros") }, 2000);
-            } else {
-                alert_error("¡Error!", response.message);
-            }
             if (res.error === null) {
                 dispatch({
                     type: "SET_LISTA_SIMULACROS_PRG",
                     payload: res.general
                 });
                 alert_loading(res.message);
+                setTimeout(() => { navigate("/UFPSaberPRO/simulacros") }, 2000);
             } else {
                 alert_error("¡Error!", res.message);
             }
@@ -113,7 +103,7 @@ export default function CrearSimulacros() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline/>
+            <CssBaseline />
             <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
                 {
                     (() => {

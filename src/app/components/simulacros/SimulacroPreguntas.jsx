@@ -10,12 +10,10 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import DeleteIcon from '@mui/icons-material/Delete';
-import * as servicePregunta from '../../store/services/PreguntasService';
+import * as serviceSimulacro from '../../store/services/SimulacroService';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { alert_error, alert_loading } from '../../util/functions';
 import NoPreguntas from '../preguntas/NoPreguntas';
-import Checkbox from '@material-ui/core/Checkbox';
-import filterFactory, { selectFilter, textFilter } from 'react-bootstrap-table2-filter';
 
 const SimulacroPreguntasList = () => {
      const dispatch = useDispatch();
@@ -36,7 +34,6 @@ const SimulacroPreguntasList = () => {
                text: "SUBCATEGORIA",
                dataField: "preg_subcategoria",
                align: "center",
-               filter: textFilter(),
                isDummyField: true,
                formatter: (cellContent, row) => {
                     return row.subcategoria.sub_nombre;
@@ -107,18 +104,16 @@ const SimulacroPreguntasList = () => {
           navigate('/UFPSaberPRO/preguntas/crear_pregunta');
      }
 
-     const listarPreguntas = (response) => {
+     const listarPreguntas = () => {
           try {
-               servicePregunta.getDatosGenerales().then(response => {
+               serviceSimulacro.getPreguntas(formEditionSimu.id_simulacro).then(response => {
                     if (response.error === null) {
-                         dispatch({
-                              type: "SET_LISTA_PREGUNTAS_PRG",
-                              payload: response.general
-                         });
                          alert_loading(response.message);
+                         setPreguntas(response.preguntas);
                     } else {
                          alert_error("¡Error!", response.message);
                     }
+                    setLoading(false);
                });
           } catch (error) {
                console.error(error);
@@ -135,7 +130,7 @@ const SimulacroPreguntasList = () => {
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
-               return lista_preguntas_programa;
+               return preguntas;
           } else {
                return data.filter((item) =>
                     item.preg_descripcion
@@ -147,7 +142,7 @@ const SimulacroPreguntasList = () => {
      };
 
      useEffect(() => {
-          setLoading(false);
+          listarPreguntas();
      }, []);
 
      return (
@@ -158,7 +153,7 @@ const SimulacroPreguntasList = () => {
                               Lista de Preguntas del Simulacro
                          </Typography>
                          {(() => {
-                              if (lista_preguntas_programa.length !== 0) {
+                              if (preguntas.length !== 0) {
                                    return (
                                         <Barra
                                              button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/preguntas/crear_pregunta") }} className="btn btn-danger m-2">Crear Pregunta</button>}
@@ -172,7 +167,7 @@ const SimulacroPreguntasList = () => {
                          <div className="container-fluid">
                               {(() => {
                                    if (!loading) {
-                                        if (lista_preguntas_programa.length === 0) {
+                                        if (preguntas.length === 0) {
                                              return <NoPreguntas />;
                                         } else {
                                              return (
@@ -186,11 +181,10 @@ const SimulacroPreguntasList = () => {
                                                             bordered
                                                             hover
                                                             keyField="id_pregunta"
-                                                            data={handleBuscar(lista_preguntas_programa)}
+                                                            data={handleBuscar(preguntas)}
                                                             columns={columnas}
                                                             pagination={paginationFactory()}
                                                             noDataIndication="No hay registros disponibles."
-                                                            filter={filterFactory()}
                                                        />
                                                   </>
                                              );
