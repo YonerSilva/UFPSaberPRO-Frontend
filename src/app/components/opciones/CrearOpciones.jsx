@@ -34,7 +34,6 @@ export default function CrearOpcion() {
     pregunta: ""
   });
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

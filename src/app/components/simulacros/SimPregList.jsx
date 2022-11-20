@@ -18,6 +18,7 @@ import { Link } from '@mui/material';
 
 const SimPregList = () => {
      const dispatch = useDispatch();
+     const { formEditionSimu } = useStore();
      const [preguntas, setPreguntas] = useState([]);
      const [busqueda, setBusqueda] = useState("");
      const [loading, setLoading] = useState(true);
@@ -47,7 +48,7 @@ const SimPregList = () => {
 
      const listarPreguntas = (response) => {
           try {
-               serviceSimulacro.getPreguntas().then(response => {
+               serviceSimulacro.getPreguntas(formEditionSimu.id_simulacro).then(response => {
                     if (response.error === null) {
                          setPreguntas(response.preguntas);
                          alert_loading(response.message);
@@ -75,7 +76,12 @@ const SimPregList = () => {
      };
 
      useEffect(() => {
-          listarPreguntas();
+          console.log(formEditionSimu)
+          if (Object.keys(formEditionSimu).length === 0 || formEditionSimu.id_simulacro === undefined) {
+               navigate('/UFPSaberPRO/simulacros');
+          } else {
+               listarPreguntas();
+          }
      }, []);
 
      return (

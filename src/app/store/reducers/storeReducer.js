@@ -31,6 +31,12 @@ export const storeReducer = (state, action) => {
                     ...state,
                     formEditionOpc: payload
                };
+          case ACCION.SET_FORM_EDITION_SIMU:
+               console.log(action);
+               return {
+                    ...state,
+                    formEditionSimu: payload
+               };
           case ACCION.SET_FORM_EDITION_PREG:
                console.log(action);
                return {

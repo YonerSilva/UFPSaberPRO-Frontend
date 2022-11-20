@@ -20,7 +20,8 @@ const API = {
           GENERAL: "api/simulacros/general",
           GUARDAR: "api/simulacros/guardarSimulacro",
           ACTUALIZAR: "api/simulacros/actualizarSimulacro",
-          PREGUNTAS: "api/simulacros/getPreguntas"
+          PREGUNTAS: "api/simu_preg/getPreguntas",
+          PREGUNTAS_DIFERENTES: "api/simu_preg/getPreguntasDiferentes"
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",

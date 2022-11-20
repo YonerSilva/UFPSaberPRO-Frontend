@@ -66,4 +66,15 @@ export const getPreguntas = async (id_simulacro) => {
   })).json();
 }
 
+export const getPreguntasDiferentes = async (id_simulacro) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.SIMULACRO.PREGUNTAS_DIFERENTES + "?id_simulacro=" + id_simulacro, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
+
 /*--------------------------------END------------------------------------*/
