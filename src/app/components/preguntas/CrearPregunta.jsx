@@ -293,12 +293,12 @@ export default function CrearPregunta() {
                         </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn-vc btn-danger m-2">
+                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                       </Grid>
                       <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                          <Button type='submit' size='medium' className='btn-vc btn-danger m-2'>
+                          <Button type='submit' size='large' className='btn btn-danger m-2'>
                             {
                               update
                                 ? "Actualizar"

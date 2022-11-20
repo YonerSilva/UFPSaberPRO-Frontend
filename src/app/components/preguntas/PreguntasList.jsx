@@ -55,8 +55,20 @@ const PreguntasList = () => {
           {
                text: "ESTADO",
                dataField: "preg_estado",
-               align: "center",
+               align: 'center',
                sort: true,
+               formatter: (cellContent, row) => {
+                    switch (row.preg_estado) {
+                         case "A":
+                              return <span className='estado-color-activo'>ACTIVO</span>
+                         case "I":
+                              return <span className='estado-color-inactivo'>INACTIVO</span>
+                         case "B":
+                              return <span className='estado-color-bloqueado'>BLOQUEADO</span>
+                         default:
+                              return <></>;
+                    }
+               }
           },
           {
                text: "ACCIÓN",

@@ -13,12 +13,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { alert_error, alert_loading } from '../../util/functions';
-import NoPreguntas from '../preguntas/NoPreguntas';
-import Checkbox from '@material-ui/core/Checkbox';
+import NoPreguntas from './NoPreguntasS';
+import { Link } from '@mui/material';
 
-const SimulacroPreguntasList = () => {
+const SimPregList = () => {
      const dispatch = useDispatch();
-     const { formEditionSimu } = useStore();
      const [preguntas, setPreguntas] = useState([]);
      const [busqueda, setBusqueda] = useState("");
      const [loading, setLoading] = useState(true);
@@ -32,65 +31,6 @@ const SimulacroPreguntasList = () => {
                sort: true,
           },
           {
-               text: "SUBCATEGORIA",
-               dataField: "preg_subcategoria",
-               align: "center",
-               isDummyField: true,
-               formatter: (cellContent, row) => {
-                    return row.subcategoria.sub_nombre;
-               }
-          },
-          {
-               text: "PUNTAJE",
-               dataField: "simu_preg_puntaje",
-               align: "center",
-               sort: true,
-          },
-          {
-               text: "SELECCIONAR",
-               dataField: "simu_preg",
-               align: 'center',
-               formatter: (cellCotent, row) => {
-                    return (
-                         <div className="row-cols-2 row-cols-md-auto" align="center">
-                              <Checkbox
-                                   defaultChecked
-                                   color="primary"
-                                   inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              />
-                         </div>)
-               }
-          },
-          {
-               text: "IMAGEN",
-               dataField: "preg_imagen",
-               align: "center",
-               isDummyField: true,
-               formatter: (cellContent, row) => {
-                    if (row.preg_imagen !== null && row.preg_imgane !== "") {
-                         return <span>imagen</span>
-                    }
-               }
-          },
-          {
-               text: "ESTADO",
-               dataField: "preg_estado",
-               align: 'center',
-               sort: true,
-               formatter: (cellContent, row) => {
-                    switch (row.preg_estado) {
-                         case "A":
-                              return <span className='estado-color-activo'>ACTIVO</span>
-                         case "I":
-                              return <span className='estado-color-inactivo'>INACTIVO</span>
-                         case "B":
-                              return <span className='estado-color-bloqueado'>BLOQUEADO</span>
-                         default:
-                              return <></>;
-                    }
-               }
-          },
-          {
                text: "ACCIÓN",
                dataField: "fd1",
                isDummyField: true,
@@ -98,34 +38,19 @@ const SimulacroPreguntasList = () => {
                     if (row.preg_estado === 'I') {
                          return (
                               <div className="row-cols-2 row-cols-md-auto" align="center">
-                                   <IconButton onClick={() => { updatePregunta(row) }} title='Actualizar Pregunta' style={{ color: "blue" }}><EditIcon /></IconButton>
-                                   <IconButton title='Eliminar Pregunta' style={{ color: "red" }}> <DeleteIcon /></IconButton>
-                                   <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                               </div>
-                         )
-                    } else {
-                         return (
-                              <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                          )
                     }
                },
           },
      ];
 
-     const updatePregunta = (item) => {
-          dispatch({
-               type: "SET_FORM_EDITION",
-               payload: item
-          });
-          navigate('/UFPSaberPRO/preguntas/crear_pregunta');
-     }
-
-     const listarPreguntas = () => {
+     const listarPreguntas = (response) => {
           try {
-               serviceSimulacro.getPreguntas(formEditionSimu.id_simulacro).then(response => {
+               serviceSimulacro.getPreguntas().then(response => {
                     if (response.error === null) {
-                         alert_loading(response.message);
                          setPreguntas(response.preguntas);
+                         alert_loading(response.message);
                     } else {
                          alert_error("¡Error!", response.message);
                     }
@@ -134,14 +59,6 @@ const SimulacroPreguntasList = () => {
           } catch (error) {
                console.error(error);
           }
-     }
-
-     const verOpciones = (item) => {
-          dispatch({
-               type: "SET_FORM_EDITION_PREG",
-               payload: item
-          });
-          navigate('/UFPSaberPRO/pregunta/opciones');
      }
 
      const handleBuscar = (data) => {
@@ -172,7 +89,7 @@ const SimulacroPreguntasList = () => {
                               if (preguntas.length !== 0) {
                                    return (
                                         <Barra
-                                             button={<button type="button" onClick={() => { navigate() }} className="btn btn-danger m-2">Seleccionar Preguntas</button>}
+                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/simulacro/seleccionar_preguntas") }} className="btn btn-danger m-2">Seleccionar Preguntas</button>}
                                              input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Pregunta" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
                                         />
                                    );
@@ -216,4 +133,4 @@ const SimulacroPreguntasList = () => {
      );
 };
 
-export default SimulacroPreguntasList;
+export default SimPregList;

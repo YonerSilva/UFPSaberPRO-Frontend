@@ -6,6 +6,7 @@ import RegistroUsuario from '../components/user/RegistroUsuario';
 import ListaSimulacros from '../components/simulacros/SimulacrosLista';
 import CrearSimulacros from '../components/simulacros/CrearSimulacros';
 import SimulacroPreguntasList from '../components/simulacros/SimulacroPreguntas';
+import SimPregList from '../components/simulacros/SimPregList';
 
 //Convocatorias
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
@@ -87,10 +88,13 @@ const routes =  {
                     <Route key="crear_simulacro" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
                          <Route path="/UFPSaberPRO/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacros/>} />} />
                     </Route>
-                    <Route key="simulacro_preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/simulacros/simulacro_preguntas" key="simupreg" element={<Dashboard contenedor={<SimulacroPreguntasList/>} />} />
+                    <Route key="seleccionar_preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/simulacros/seleccionar_preguntas" key="selepreg" element={<Dashboard contenedor={<SimulacroPreguntasList/>} />} />
                     </Route>
-
+                    <Route key="simulacro_preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/simulacros/preguntas" key="simupreg" element={<Dashboard contenedor={<SimPregList/>} />} />
+                    </Route>
+               
                     {/* OPCIONES */}
                     <Route key="crear_opcion" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/opciones/crear_opcion" key="creopc" element={<Dashboard contenedor={<CrearOpcion/>} />} />

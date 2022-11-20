@@ -80,7 +80,7 @@ const ListaSimulacros = () => {
                type: "SET_FORM_EDITION_SIMU",
                payload: item
           });
-          navigate('/UFPSaberPRO/simulacros/simulacro_preguntas');
+          navigate('/UFPSaberPRO/simulacros/preguntas');
      }
 
      const handleBuscar = (data) => {
@@ -125,7 +125,7 @@ const ListaSimulacros = () => {
                                         if (!loading) {
                                              if (lista_simulacros_programa.length === 0) {
                                                   return (
-                                                       <NoSimulacros />
+                                                       <NoSimulacros/>
                                                   )
                                              } else {
                                                   return (
