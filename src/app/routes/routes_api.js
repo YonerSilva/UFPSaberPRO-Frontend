@@ -19,6 +19,7 @@ const API = {
      SIMULACRO: {
           GENERAL: "api/simulacros/general",
           GUARDAR: "api/simulacros/guardarSimulacro",
+          ACTUALIZAR: "api/simulacros/actualizarSimulacro",
           PREGUNTAS: "api/simulacros/getPreguntas"
      },
      CATEGORIA: {

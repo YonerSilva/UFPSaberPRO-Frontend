@@ -13,7 +13,7 @@ export default function NoSimulacros() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
+            <CssBaseline/>
             <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
                 <h2 align="center">
                     ¡No se encontraron Simulacros! Te recomendamos crearlos o retroceder.

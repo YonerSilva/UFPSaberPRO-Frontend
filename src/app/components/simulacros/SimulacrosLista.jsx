@@ -11,10 +11,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import Cargador from '../extra/CargadorEventos';
 import Barra from '../extra/BarraBusqueda';
 import NoSimulacros from './NoSimulacros';
-import { useStore } from '../../store/Provider/storeProvider';
+import { useStore,useDispatch } from '../../store/Provider/storeProvider';
 
 const ListaSimulacros = () => {
-
+     const dispatch = useDispatch();
      const { lista_simulacros_programa } = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
@@ -65,8 +65,8 @@ const ListaSimulacros = () => {
                     if (row.simu_estado === "I") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { navigate() }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
-                                   <IconButton onClick={() => { navigate() }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
+                                   <IconButton onClick={() => { navigate() }} title='Actualizar Simulacro' style={{ color: "blue" }}><EditIcon /></IconButton>
+                                   <IconButton onClick={() => { navigate() }} title='Eliminar Simulacro' style={{ color: "red" }}><DeleteIcon /></IconButton>
                                    <IconButton onClick={() => {verPreguntas(row)}} title="Ver Preguntas" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
@@ -80,7 +80,7 @@ const ListaSimulacros = () => {
                type: "SET_FORM_EDITION_SIMU",
                payload: item
           });
-          navigate( '/UFPSaberPRO/simulacros/simulacro_preguntas');
+          navigate('/UFPSaberPRO/simulacros/simulacro_preguntas');
      }
 
      const handleBuscar = (data) => {

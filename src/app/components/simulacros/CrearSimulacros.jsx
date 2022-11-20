@@ -1,6 +1,5 @@
 import * as React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
@@ -9,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
-import "../../../index.css";
 import * as serviceSimulacro from '../../store/services/SimulacroService';
 import { useState } from "react";
 import { useEffect } from "react";
@@ -115,7 +113,7 @@ export default function CrearSimulacros() {
 
     return (
         <ThemeProvider theme={theme}>
-            <CssBaseline />
+            <CssBaseline/>
             <Container component="main" maxWidth="md" sx={{ mb: 4 }}>
                 {
                     (() => {
@@ -178,12 +176,12 @@ export default function CrearSimulacros() {
                                                 />
                                             </Grid>
                                             <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                                                <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
+                                                <Button onClick={() => { navigate(-1) }} size="large" className="btn-vc btn-danger m-2">
                                                     Volver
                                                 </Button>
                                             </Grid>
-                                            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                                                <Button type='submit' size='large' className='btn-v btn-danger m-2'>
+                                            <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                                                <Button type='submit' size='medium' className='btn-vc btn-danger m-2'>
                                                     {
                                                         update
                                                             ? "Actualizar"

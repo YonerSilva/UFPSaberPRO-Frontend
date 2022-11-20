@@ -37,9 +37,9 @@ const OpcionesList = () => {
                align: "center",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    if(row.opc_respuesta===true){
+                    if (row.opc_respuesta === true) {
                          return <span>VERDAD</span>
-                    }else{
+                    } else {
                          return <span>FALSO</span>
                     }
                }
@@ -52,7 +52,7 @@ const OpcionesList = () => {
                formatter: (cellContent, row) => {
                     if (row.opc_imagen !== null && row.opc_imagen !== "") {
                          return <Link href={row.opc_imagen} target="_blank">Imagen</Link>
-                    }else{
+                    } else {
                          return <span>No disponible.</span>
                     }
                }
@@ -146,20 +146,27 @@ const OpcionesList = () => {
                                              return <NoOpciones />;
                                         } else {
                                              return (
-                                                  <BootstrapTable
-                                                       headerClasses="table-head"
-                                                       classes="table-design shadow"
-                                                       bootstrap4
-                                                       wrapperClasses="table-responsive"
-                                                       striped
-                                                       bordered
-                                                       hover
-                                                       keyField="id_opcion"
-                                                       data={handleBuscar(opciones)}
-                                                       columns={columnas}
-                                                       pagination={paginationFactory()}
-                                                       noDataIndication="No hay registros disponibles."
-                                                  />
+                                                  <>
+                                                       <BootstrapTable
+                                                            headerClasses="table-head"
+                                                            classes="table-design shadow"
+                                                            bootstrap4
+                                                            wrapperClasses="table-responsive"
+                                                            striped
+                                                            bordered
+                                                            hover
+                                                            keyField="id_opcion"
+                                                            data={handleBuscar(opciones)}
+                                                            columns={columnas}
+                                                            pagination={paginationFactory()}
+                                                            noDataIndication="No hay registros disponibles."
+                                                       />
+                                                       <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                                                            <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
+                                                                 Volver
+                                                            </Button>
+                                                       </Grid >
+                                                  </>
                                              );
                                         }
                                    } else {
@@ -167,11 +174,6 @@ const OpcionesList = () => {
                                    }
                               })()}
                          </div>
-                         <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
-                              <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
-                                   Volver
-                              </Button>
-                         </Grid >
                     </div>
                </ResponsiveContainer>
           </React.Fragment>
