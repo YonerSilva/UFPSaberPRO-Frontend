@@ -32,7 +32,7 @@ const Login = () => {
           alert_error("¡Error!",response.message);
         } else {
           service.userConected(response).then(() => {
-            if(response.rol.id_rol===1 || response.rol.id_rol){
+            if(response.usuario.rol.id_rol===1 || response.usuario.rol.id_rol){
               sign_in_firebase(usuario.email, usuario.password);
             }
             setAuth({
