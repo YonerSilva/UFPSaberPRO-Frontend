@@ -31,7 +31,9 @@ function RegistroUsuario() {
       const usuario = upperCase();
       service.sign_up(usuario).then(response => {
         if (response.error!==null || response.error !== undefined) {
-          createUserFirebase(usuario.email,usuario.password);
+          if(usuario.rol===1 || usuario.rol===2){
+            createUserFirebase(usuario.email,usuario.password);
+          }
           alert_success(response.message, "Bienvenido (a)" + usuario.nombre + " " + usuario.apellido + ".");
           setTimeout(()=>{
             navigate("/")
