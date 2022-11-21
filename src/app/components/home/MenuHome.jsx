@@ -57,9 +57,21 @@ export default function MenuList() {
      return (
           <React.Fragment>
                {
-                    role_admin || role_docente || role_estudiante
+                    role_admin || role_docente
                          ?
                          <ListItemButton onClick={() => { navigate('/UFPSaberPRO/Inicio') }}>
+                              <ListItemIcon>
+                                   <HomeIcon sx={{ color: "red" }} />
+                              </ListItemIcon>
+                              <ListItemText primary="Inicio" />
+                         </ListItemButton>
+                         :
+                         <div hidden></div>
+               }
+                {
+                     role_estudiante
+                         ?
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/InicioE') }}>
                               <ListItemIcon>
                                    <HomeIcon sx={{ color: "red" }} />
                               </ListItemIcon>

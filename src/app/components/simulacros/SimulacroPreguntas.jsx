@@ -50,27 +50,6 @@ const SimulacroPreguntasList = () => {
                }
           },
           {
-               text: "PUNTAJE",
-               dataField: "simu_preg_puntaje",
-               align: "center",
-               sort: true,
-          },
-          {
-               text: "SELECCIONAR",
-               dataField: "simu_preg",
-               align: 'center',
-               formatter: (cellCotent, row) => {
-                    return (
-                         <div className="row-cols-2 row-cols-md-auto" align="center">
-                              <Checkbox
-                                   defaultChecked
-                                   color="primary"
-                                   inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              />
-                         </div>)
-               }
-          },
-          {
                text: "IMAGEN",
                dataField: "preg_imagen",
                align: "center",
@@ -119,6 +98,21 @@ const SimulacroPreguntasList = () => {
                     }
                },
           },
+          {
+               text: "SELECCIONAR",
+               dataField: "simu_preg",
+               align: 'center',
+               formatter: (cellCotent, row) => {
+                    return (
+                         <div className="row-cols-2 row-cols-md-auto" align="center">
+                              <Checkbox
+                                   defaultChecked
+                                   color="primary"
+                                   inputProps={{ 'aria-label': 'secondary checkbox' }}
+                              />
+                         </div>)
+               }
+          }
      ];
 
      const handleChange = (e) => {

@@ -5,12 +5,14 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { propertiesToJson } from 'properties-file/content'
+import { CardActionArea } from '@mui/material';
 
-export default function Home() {
-    var properties = propertiesToJson('./application.properties');
-    console.log(properties)
+export default function HomeE() {
+
     const isWeekend = (date) => {
         const day = date.day();
 
@@ -28,7 +30,7 @@ export default function Home() {
             <Container component="main" maxWidth="lg" sx={{ mb: 6 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 4, md: 6 }, p: { xs: 2, md: 3 } }}>
                     <Typography component="h1" variant="h3" align="center" p={5}>
-                        {properties.titulo_admin}
+                        Bienvenido a la plataforma de Pruebas Saber Pro!
                     </Typography>
                     <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
                         <Grid
@@ -37,6 +39,7 @@ export default function Home() {
                             sx={{ display: "flex", justifyContent: "center" }}
                         >
                             <Typography component="h3" variant="h6" align="center">
+                                Bienvenido Estudiante!
                                 Para entender mejor el funcionamiento de la pagina, puedes ver este
                                 video que explica todas las opciones que estan disponibles.
                                 Puedes contactar a soporte atravez de este correo: 
