@@ -29,7 +29,7 @@ export default function NoPreguntasS() {
                             </Button>
                         </Grid >
                         <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button  onClick={() => { navigate('/UFPSaberPRO/simulacros/seleccionar_preguntas') }} size="large" className="btn-v btn-danger m-2">
+                            <Button  onClick={() => { navigate('/UFPSaberPRO/a/simulacros/seleccionar_preguntas') }} size="large" className="btn-v btn-danger m-2">
                                 Seleccionar Preguntas
                             </Button>
                         </Grid >

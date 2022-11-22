@@ -98,7 +98,7 @@ const SubcategoriaList = () => {
 
   useEffect(() => {
     if (id_categoria === "undefined") {
-      navigate('/UFPSaberPRO/categorias')
+      navigate('/UFPSaberPRO/a/categorias')
     }
     if (lista_subcategorias_programa.length !== 0) {
       const subs = lista_subcategorias_programa.filter(item => parseInt(item.categoria) === parseInt(id_categoria));

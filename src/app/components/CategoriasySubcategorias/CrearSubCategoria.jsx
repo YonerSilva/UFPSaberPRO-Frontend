@@ -80,7 +80,7 @@ export default function CrearSubCategoria() {
 
   useEffect(() => {
     if (id_categoria === "undefined") {
-      navigate('/UFPSaberPRO/categorias')
+      navigate('/UFPSaberPRO/a/categorias')
     }
     // Anything in here is fired on component mount.
     if (Object.keys(formEdition).length !== 0) {

@@ -69,7 +69,7 @@ export default function CrearSimulacros() {
                     payload: res.general
                 });
                 alert_loading(res.message);
-                setTimeout(() => { navigate("/UFPSaberPRO/simulacros") }, 2000);
+                setTimeout(() => { navigate("/UFPSaberPRO/a/simulacros") }, 2000);
             } else {
                 alert_error("¡Error!", res.message);
             }

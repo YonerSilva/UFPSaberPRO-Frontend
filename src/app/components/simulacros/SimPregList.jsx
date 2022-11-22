@@ -78,7 +78,7 @@ const SimPregList = () => {
      useEffect(() => {
           console.log(formEditionSimu)
           if (Object.keys(formEditionSimu).length === 0 || formEditionSimu.id_simulacro === undefined) {
-               navigate('/UFPSaberPRO/simulacros');
+               navigate('/UFPSaberPRO/a/simulacros');
           } else {
                listarPreguntas();
           }

@@ -41,7 +41,7 @@ const Login = () => {
             });
             setActive(true);
             setTimeout(() => {
-              navigate("/UFPSaberPRO/inicio");
+              navigate("/UFPSaberPRO/a/inicio");
               resolve();
             }, 2000);
           });

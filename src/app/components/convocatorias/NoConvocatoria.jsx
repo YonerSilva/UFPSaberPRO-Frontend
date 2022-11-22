@@ -29,7 +29,7 @@ export default function NoConvocatoria() {
                             </Button>
                         </Grid >
                         <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button  onClick={() => { navigate('/UFPSaberPRO/convocatorias/crear_convocatorias') }} size="large" className="btn-v btn-danger m-2">
+                            <Button  onClick={() => { navigate('/UFPSaberPRO/a/convocatorias/crear_convocatorias') }} size="large" className="btn-v btn-danger m-2">
                                 Crear
                             </Button>
                         </Grid >

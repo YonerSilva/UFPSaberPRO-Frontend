@@ -136,7 +136,7 @@ const SimulacroPreguntasList = () => {
                type: "SET_FORM_EDITION",
                payload: item
           });
-          navigate('/UFPSaberPRO/preguntas/crear_pregunta');
+          navigate('/UFPSaberPRO/a/preguntas/crear_pregunta');
      }
 
      const listarPreguntas = () => {
@@ -160,7 +160,7 @@ const SimulacroPreguntasList = () => {
                type: "SET_FORM_EDITION_PREG",
                payload: item
           });
-          navigate('/UFPSaberPRO/pregunta/opciones');
+          navigate('/UFPSaberPRO/a/pregunta/opciones');
      }
 
      const handleBuscar = (data) => {
@@ -191,7 +191,7 @@ const SimulacroPreguntasList = () => {
 
      useEffect(() => {
           if (Object.keys(formEditionSimu).length === 0 || formEditionSimu.id_simulacro === undefined) {
-               navigate('/UFPSaberPRO/simulacros');
+               navigate('/UFPSaberPRO/a/simulacros');
           } else {
                listarPreguntas();
           }

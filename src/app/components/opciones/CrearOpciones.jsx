@@ -126,7 +126,7 @@ export default function CrearOpcion() {
   useEffect(() => {
     // Anything in here is fired on component mount.
     if (Object.keys(formEditionPreg).length === 0) {
-      navigate('/UFPSaberPRO/preguntas')
+      navigate('/UFPSaberPRO/a/preguntas')
     }
     if (Object.keys(formEditionOpc).length !== 0) {
       setUpdate(true);

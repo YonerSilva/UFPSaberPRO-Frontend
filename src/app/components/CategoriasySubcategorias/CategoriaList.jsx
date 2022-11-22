@@ -64,7 +64,7 @@ const CategoriaList = () => {
       type: "SET_FORM_EDITION",
       payload: item
     });
-    navigate('/UFPSaberPRO/categorias/crear-categoria');
+    navigate('/UFPSaberPRO/a/categorias/crear-categoria');
   }
 
   const listarCategorias = (response) => {
@@ -117,7 +117,7 @@ const CategoriaList = () => {
             if (lista_categorias_programa.length !== 0) {
               return (
                 <Barra
-                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/categorias/crear-categoria") }} className="btn btn-danger m-2">Crear Categoria</button>}
+                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/a/categorias/crear-categoria") }} className="btn btn-danger m-2">Crear Categoria</button>}
                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Simulacro" placeholder="Buscar Categoria" className="form-control me-2" type="search" aria-label="Buscar" />}
                 />
               );

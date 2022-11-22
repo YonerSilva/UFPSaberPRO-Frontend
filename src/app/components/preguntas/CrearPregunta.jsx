@@ -118,7 +118,7 @@ export default function CrearPregunta() {
     servicePregunta.getDatosGenerales().then(res => {
       if (response.error === null) {
         alert_success(response.message, "Se ha guardado la pregunta");
-        setTimeout(() => { navigate("/UFPSaberPRO/preguntas") }, 2000);
+        setTimeout(() => { navigate("/UFPSaberPRO/a/preguntas") }, 2000);
       } else {
         alert_error("¡Error!", response.message);
       }

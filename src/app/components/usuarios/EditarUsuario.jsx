@@ -53,7 +53,7 @@ export default function EditarUsuario() {
                                 fullWidth
                                 autoComplete="given-name"
                                 variant="outlined"
-                                maxlength="100"
+                                maxLength="100"
 
                             />
                         </Grid>
@@ -67,7 +67,7 @@ export default function EditarUsuario() {
                                 fullWidth
                                 autoComplete="given-name"
                                 variant="outlined"
-                                maxlength="100"
+                                maxLength="100"
 
                             />
                         </Grid>
@@ -81,7 +81,7 @@ export default function EditarUsuario() {
                                 fullWidth
                                 autoComplete="given-name"
                                 variant="outlined"
-                                maxlength="100"
+                                maxLength="100"
 
                             />
                         </Grid>
@@ -95,7 +95,7 @@ export default function EditarUsuario() {
                                 multiline
                                 autoComplete="shipping postal-code"
                                 variant="outlined"
-                                maxlength="256"
+                                maxLength="256"
 
                             />
                         </Grid>

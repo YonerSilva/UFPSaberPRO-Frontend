@@ -80,7 +80,7 @@ const ListaSimulacros = () => {
                type: "SET_FORM_EDITION_SIMU",
                payload: item
           });
-          navigate('/UFPSaberPRO/simulacros/preguntas');
+          navigate('/UFPSaberPRO/a/simulacros/preguntas');
      }
 
      const handleBuscar = (data) => {
@@ -110,7 +110,7 @@ const ListaSimulacros = () => {
                                    if (lista_simulacros_programa.length !== 0) {
                                         return (
                                              <Barra
-                                                  button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>}
+                                                  button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/a/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>}
                                                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />}
                                              />
                                         )

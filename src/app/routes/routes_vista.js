@@ -46,62 +46,42 @@ const ROLES = {
 const routes =  {
           private: [
                <Route key="persist" element={<PersistAuth />}>
+               {/* ADMINISTRADOR */}
                     {/* HOME */}
-                    <Route key="home" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.ESTUDIANTE]} />}>
-                         <Route path="/UFPSaberPRO/Inicio" key="homeAdmin" element={<Dashboard contenedor={<Home/>} />} />
-                         <Route path="/UFPSaberPRO/InicioE" key="homeEstu" element={<Dashboard contenedor={<HomeE/>} />} />
-                    </Route> 
-                    {/* MENU DASHBOARD */}
-                    <Route key="menuadminest" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.ESTUDIANTE]} />}>
-                         <Route path="/UFPSaberPRO/convocatorias" key="conv" element={<Dashboard contenedor={<ListaConvocatorias/>} />} />
-                         <Route path="/UFPSaberPRO/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
-                    </Route> 
-                    <Route key="preguntas" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
-                         <Route path="/UFPSaberPRO/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />
+                    <Route key="homeadmin" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+                         <Route path="/UFPSaberPRO/a/Inicio" key="homeAdmin" element={<Dashboard contenedor={<Home/>} />} />
                     </Route>
+                    {/* FUNCIONALIDADES */}
                     <Route key="menuadmin" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/categorias" key="cat" element={<Dashboard contenedor={<CategoriasList/>} />} />
-                         <Route path="/UFPSaberPRO/usuarios" key="preg" element={<Dashboard contenedor={<ListaUsuarios/>} />} />
-                    </Route>
-
-                    {/* CONVOCATORIAS */}
-                    <Route key="crear_convocatorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/convocatorias/crear_convocatorias" key="creconv" element={<Dashboard contenedor={<CrearConvocatoria/>} />} />
-                    </Route>
-
-                    {/* CATEGORIA */}
-                    <Route key="crear_categoria" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/categorias/crear-categoria" key="creacat" element={<Dashboard contenedor={<CrearCategoria/>} />} />
-                    </Route>
-
-                    {/* SUBCATEGORIA */}
-                    <Route key="SubCategorias" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/subcategorias/:id_categoria" key="Subcat" element={<Dashboard contenedor={<SubCategoriasList/>} />} />
-                         <Route path="/UFPSaberPRO/subcategorias/crear-subcategoria/:id_categoria" key="creasub" element={<Dashboard contenedor={<CrearSubCategoria/>} />} />
-                    </Route>
-
-                    {/* SIMULACRO */}
-                    <Route key="simulacros" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacros/>} />} />
-                         <Route path="/UFPSaberPRO/simulacros/seleccionar_preguntas" key="selepreg" element={<Dashboard contenedor={<SimulacroPreguntasList/>} />} />
-                         <Route path="/UFPSaberPRO/simulacros/preguntas" key="simupreg" element={<Dashboard contenedor={<SimPregList/>} />} />
-                    </Route>
-
-                    {/* OPCIONES */}
-                    <Route key="opciones" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
-                         <Route path="/UFPSaberPRO/opciones/crear_opcion" key="creopc" element={<Dashboard contenedor={<CrearOpcion/>} />} />
-                         <Route path="/UFPSaberPRO/pregunta/opciones" key="opc" element={<Dashboard contenedor={<OpcionesList/>} />} />
-                    </Route>
-
-                    {/* PREGUNTAS */}
-                    <Route key="crear_pregunta" element={<RequireAuth allowedRoles={[ROLES.ADMIN, ROLES.DOCENTE]} />}>
-                         <Route path="/UFPSaberPRO/preguntas/crear_pregunta" key="crepre" element={<Dashboard contenedor={<CrearPregunta/>} />} />
-                    </Route>
-
-                    {/* USUARIOS */}
-                    <Route key="editUser" element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
-                         <Route path="/UFPSaberPRO/usuarios/editar-usuarios" key="editUser" element={<Dashboard contenedor={<EditarUsuario/>} />} />
-                    </Route>
+                         {/* CONVOCATORIAS */}
+                         <Route path="/UFPSaberPRO/a/convocatorias" key="conv" element={<Dashboard contenedor={<ListaConvocatorias/>} />} />
+                         <Route path="/UFPSaberPRO/a/convocatorias/crear_convocatorias" key="creconv" element={<Dashboard contenedor={<CrearConvocatoria/>} />} />
+                         {/* SIMULACROS */}
+                         <Route path="/UFPSaberPRO/a/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
+                         <Route path="/UFPSaberPRO/a/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacros/>} />} />
+                         <Route path="/UFPSaberPRO/a/simulacros/seleccionar_preguntas" key="selepreg" element={<Dashboard contenedor={<SimulacroPreguntasList/>} />} />
+                         <Route path="/UFPSaberPRO/a/simulacros/preguntas" key="simupreg" element={<Dashboard contenedor={<SimPregList/>} />} />
+                         {/* PREGUNTAS */}
+                         <Route path="/UFPSaberPRO/a/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />
+                         <Route path="/UFPSaberPRO/a/pregunta/opciones" key="opc" element={<Dashboard contenedor={<OpcionesList/>} />} />
+                         <Route path="/UFPSaberPRO/a/preguntas/crear_pregunta" key="crepre" element={<Dashboard contenedor={<CrearPregunta/>} />} />
+                         {/* CATEGORIAS */}
+                         <Route path="/UFPSaberPRO/a/categorias" key="cat" element={<Dashboard contenedor={<CategoriasList/>} />} />
+                         <Route path="/UFPSaberPRO/a/categorias/crear-categoria" key="creacat" element={<Dashboard contenedor={<CrearCategoria/>} />} />
+                         {/* SUBCATEGORIAS */}
+                         <Route path="/UFPSaberPRO/a/subcategorias/:id_categoria" key="Subcat" element={<Dashboard contenedor={<SubCategoriasList/>} />} />
+                         <Route path="/UFPSaberPRO/a/subcategorias/crear-subcategoria/:id_categoria" key="creasub" element={<Dashboard contenedor={<CrearSubCategoria/>} />} />
+                         {/* OPCIONES */}
+                         <Route path="/UFPSaberPRO/a/opciones/crear_opcion" key="creopc" element={<Dashboard contenedor={<CrearOpcion/>} />} />
+                         {/* USUARIOS */}
+                         <Route path="/UFPSaberPRO/a/usuarios" key="preg" element={<Dashboard contenedor={<ListaUsuarios/>} />} />
+                         <Route path="/UFPSaberPRO/a/usuarios/editar-usuarios" key="editUser" element={<Dashboard contenedor={<EditarUsuario/>} />} />
+                    </Route> 
+               {/* ESTUDIANTE */}
+                    {/* HOME */}   
+                    <Route key="homeest" element={<RequireAuth allowedRoles={[ROLES.ESTUDIANTE]} />}>
+                         <Route path="/UFPSaberPRO/e/Inicio" key="homeEstu" element={<Dashboard contenedor={<HomeE/>} />} />
+                    </Route> 
                </Route>
           ],
           public: [

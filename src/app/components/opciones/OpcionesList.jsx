@@ -79,7 +79,7 @@ const OpcionesList = () => {
                type: "SET_FORM_EDITION_OPC",
                payload: item
           });
-          navigate('/UFPSaberPRO/opciones/crear_opcion');
+          navigate('/UFPSaberPRO/a/opciones/crear_opcion');
      }
 
      const listarOpciones = () => {
@@ -114,7 +114,7 @@ const OpcionesList = () => {
 
      useEffect(() => {
           if (Object.keys(formEditionPreg).length === 0 || formEditionPreg.id_pregunta === undefined) {
-               navigate('/UFPSaberPRO/preguntas');
+               navigate('/UFPSaberPRO/a/preguntas');
           } else {
                listarOpciones();
           }
@@ -131,7 +131,7 @@ const OpcionesList = () => {
                               if (opciones.length !== 0) {
                                    return (
                                         <Barra
-                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/opciones/crear_opcion") }} className="btn btn-danger m-2">Crear Opcion</button>}
+                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/a/opciones/crear_opcion") }} className="btn btn-danger m-2">Crear Opcion</button>}
                                              input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Opcion" placeholder="Buscar Opcion" className="form-control me-2" type="search" aria-label="Buscar" />}
                                         />
                                    );

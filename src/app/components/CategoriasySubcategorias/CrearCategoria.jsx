@@ -48,7 +48,7 @@ export default function CrearCategoria() {
           serviceCategoria.getDatosGenerales().then(res => {
             if (response.error === null) {
               alert_success(response.message, "Se ha guardado la categoria");
-              setTimeout(() => { navigate("/UFPSaberPRO/categorias") }, 2000);
+              setTimeout(() => { navigate("/UFPSaberPRO/a/categorias") }, 2000);
             } else {
               alert_error("¡Error!", response.message);
             }

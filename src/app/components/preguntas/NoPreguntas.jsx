@@ -29,7 +29,7 @@ export default function NoPreguntas() {
                             </Button>
                         </Grid >
                         <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button  onClick={() => { navigate('/UFPSaberPRO/preguntas/crear_pregunta') }} size="large" className="btn-v btn-danger m-2">
+                            <Button  onClick={() => { navigate('/UFPSaberPRO/a/preguntas/crear_pregunta') }} size="large" className="btn-v btn-danger m-2">
                                 Crear
                             </Button>
                         </Grid >

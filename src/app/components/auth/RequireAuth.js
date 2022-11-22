@@ -11,7 +11,7 @@ const RequireAuth = ({ allowedRoles }) => {
         allowedRoles?.includes(auth?.usuario?.rol?.rol_nombre)
             ? <Outlet />
             : auth.usuario !=="" && auth.token !== ""
-                ? <Navigate to="/UFPSaberPRO/inicio" state={{ from: location }} replace/>
+                ? <Navigate to="/UFPSaberPRO/a/inicio" state={{ from: location }} replace/>
                 : <>
                     {(()=>{
                         service.logout();

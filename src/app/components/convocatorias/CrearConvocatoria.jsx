@@ -61,7 +61,7 @@ export default function CrearConvocatoria() {
                     serviceConvocatoria.getDatosGenerales().then(res => {
                         if (response.error === null) {
                             alert_success(response.message, "Se ha guardado la convocatoria");
-                            setTimeout(() => { navigate("/UFPSaberPRO/convocatorias") }, 2000);
+                            setTimeout(() => { navigate("/UFPSaberPRO/a/convocatorias") }, 2000);
                         } else {
                             alert_error("¡Error!", response.message);
                         }
@@ -177,10 +177,8 @@ export default function CrearConvocatoria() {
 
     function validarFechasSimulacro() {
         try {
-            alert("hopla")
             const simu_fecha_inicio = new Date(convocatoria.simu_fecha_inicio).toISOString();
             const fecha_final = new Date(convocatoria.fecha_final).toISOString();
-            alert("hopla")
 
             const duracion = convocatoria.simu_duracion;
 

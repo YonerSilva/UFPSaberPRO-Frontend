@@ -118,7 +118,7 @@ const ListaConvocatorias = () => {
                type: "SET_FORM_EDITION",
                payload: item
           });
-          navigate('/UFPSaberPRO/convocatorias/crear_convocatorias');
+          navigate('/UFPSaberPRO/a/convocatorias/crear_convocatorias');
      }
 
      const deleteConvocatoria = (item) => {
@@ -181,7 +181,7 @@ const ListaConvocatorias = () => {
                                    if (lista_convocatorias_programa.length !== 0) {
                                         return (
                                              <Barra
-                                                  button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/convocatorias/crear_convocatorias') }} className='btn btn-danger m-2'>Crear Convocatoria</button>}
+                                                  button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/a/convocatorias/crear_convocatorias') }} className='btn btn-danger m-2'>Crear Convocatoria</button>}
                                                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Convocatoria' placeholder="Buscar Convocatoria" className="form-control me-2 border border-danger shadow" type="search" aria-label="Buscar" />}
                                              />
                                         )

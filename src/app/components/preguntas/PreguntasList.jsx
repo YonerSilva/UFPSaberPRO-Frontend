@@ -97,7 +97,7 @@ const PreguntasList = () => {
                type: "SET_FORM_EDITION",
                payload: item
           });
-          navigate('/UFPSaberPRO/preguntas/crear_pregunta');
+          navigate('/UFPSaberPRO/a/preguntas/crear_pregunta');
      }
 
      const listarPreguntas = (response) => {
@@ -123,7 +123,7 @@ const PreguntasList = () => {
                type: "SET_FORM_EDITION_PREG",
                payload: item
           });
-          navigate('/UFPSaberPRO/pregunta/opciones');
+          navigate('/UFPSaberPRO/a/pregunta/opciones');
      }
 
      const handleBuscar = (data) => {
@@ -154,7 +154,7 @@ const PreguntasList = () => {
                               if (lista_preguntas_programa.length !== 0) {
                                    return (
                                         <Barra
-                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/preguntas/crear_pregunta") }} className="btn btn-danger m-2">Crear Pregunta</button>}
+                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/a/preguntas/crear_pregunta") }} className="btn btn-danger m-2">Crear Pregunta</button>}
                                              input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Pregunta" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
                                         />
                                    );

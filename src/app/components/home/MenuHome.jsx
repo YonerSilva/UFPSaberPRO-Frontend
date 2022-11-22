@@ -57,9 +57,9 @@ export default function MenuList() {
      return (
           <React.Fragment>
                {
-                    role_admin || role_docente
+                    role_admin
                          ?
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/Inicio') }}>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/Inicio') }}>
                               <ListItemIcon>
                                    <HomeIcon sx={{ color: "red" }} />
                               </ListItemIcon>
@@ -71,7 +71,7 @@ export default function MenuList() {
                 {
                      role_estudiante
                          ?
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/InicioE') }}>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/e/Inicio') }}>
                               <ListItemIcon>
                                    <HomeIcon sx={{ color: "red" }} />
                               </ListItemIcon>
@@ -83,7 +83,7 @@ export default function MenuList() {
                {
                     role_docente || role_admin
                          ?
-                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/preguntas'); }}>
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/preguntas'); }}>
                               <ListItemIcon>
                                    <CloudUploadIcon sx={{ color: "red" }} />
                               </ListItemIcon>
@@ -95,25 +95,25 @@ export default function MenuList() {
                {
                     role_admin
                          ?
-                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/convocatorias'); }}>
+                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/convocatorias'); }}>
                               <ListItemIcon>
                                    <CampaignIcon sx={{ color: "red" }} />
                               </ListItemIcon>
                               <ListItemText primary="Convocatorias" />
                          </ListItemButton>
-                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/simulacros'); }}>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/simulacros'); }}>
                                    <ListItemIcon>
                                         <MenuBookIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
                                    <ListItemText primary="Simulacros" />
                               </ListItemButton>
-                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/categorias'); }}>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/categorias'); }}>
                                    <ListItemIcon>
                                         <AppRegistrationIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
                                    <ListItemText primary="Categorias"/>
                               </ListItemButton>
-                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/usuarios'); }}>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/usuarios'); }}>
                                    <ListItemIcon>
                                         <ManageAccountsIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
@@ -126,13 +126,13 @@ export default function MenuList() {
                {
                     role_estudiante
                          ?
-                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/convocatorias'); }}>
+                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/convocatorias'); }}>
                               <ListItemIcon>
                                    <CampaignIcon sx={{ color: "red" }} />
                               </ListItemIcon>
                               <ListItemText primary="Convocatorias" />
                          </ListItemButton>
-                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/simulacros'); }}>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/simulacros'); }}>
                                    <ListItemIcon>
                                         <MenuBookIcon sx={{ color: "red" }} />
                                    </ListItemIcon>
