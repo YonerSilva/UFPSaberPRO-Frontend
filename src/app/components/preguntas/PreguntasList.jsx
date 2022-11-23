@@ -71,6 +71,23 @@ const PreguntasList = () => {
                }
           },
           {
+               text: "TIPO",
+               dataField: "preg_tipo",
+               align: 'center',
+               formatter: (cellContent, row) => {
+                    switch (row.preg_tipo) {
+                         case 1:
+                              return <span>VERDADERO O FALSO</span>
+                         case 2:
+                              return <span>SELECCION MULTIPLE</span>
+                         case 3:
+                              return <span>COMPARACION</span>
+                         default:
+                              return <></>;
+                    }
+               }
+          },
+          {
                text: "ACCIÓN",
                dataField: "fd1",
                isDummyField: true,

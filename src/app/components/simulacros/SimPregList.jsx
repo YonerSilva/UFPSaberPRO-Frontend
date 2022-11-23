@@ -6,11 +6,12 @@ import Barra from '../extra/BarraBusqueda';
 import Cargador from "../extra/CargadorEventos";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import BootstrapTable from "react-bootstrap-table-next";
-import { useDispatch, useStore } from '../../store/Provider/storeProvider';
+import { useStore } from '../../store/Provider/storeProvider';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
 import { alert_error, alert_loading } from '../../util/functions';
 import NoPreguntas from './NoPreguntasS';
-import { Link } from '@mui/material';
+import { Grid, Link } from '@mui/material';
+import { Button } from 'react-bootstrap';
 
 const SimPregList = () => {
      const { formEditionSimu } = useStore();
@@ -58,6 +59,23 @@ const SimPregList = () => {
                               return <span className='estado-color-inactivo'>INACTIVO</span>
                          case "B":
                               return <span className='estado-color-bloqueado'>BLOQUEADO</span>
+                         default:
+                              return <></>;
+                    }
+               }
+          },
+          {
+               text: "TIPO",
+               dataField: "preg_tipo",
+               align: 'center',
+               formatter: (cellContent, row) => {
+                    switch (row.preg_tipo) {
+                         case 1:
+                              return <span>VERDADERO O FALSO</span>
+                         case 2:
+                              return <span>SELECCION MULTIPLE</span>
+                         case 3:
+                              return <span>COMPARACION</span>
                          default:
                               return <></>;
                     }
@@ -157,6 +175,11 @@ const SimPregList = () => {
                                                             pagination={paginationFactory()}
                                                             noDataIndication="No hay registros disponibles."
                                                        />
+                                                       <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                                                            <Button onClick={() => { navigate("/UFPSaberPRO/a/preguntas") }} size="large" className="btn btn-danger m-2">
+                                                                 Volver
+                                                            </Button>
+                                                       </Grid >
                                                   </>
                                              );
                                         }

@@ -35,6 +35,7 @@ const SimulacroPreguntasList = () => {
      const [datos, setDatos] = useState({
           categoria: "",
           id_subcategoria: "",
+          simu_puntaje_maximo: formEditionSimu.simu_puntaje_maximo
      });
      const [rowsNotEdit, setRowsNotEdit] = useState([]);
 
@@ -53,9 +54,9 @@ const SimulacroPreguntasList = () => {
                dataField: "simu_preg_puntaje",
                align: "center",
                editable: (cell, row, rowIndex, colIndex) => {
-                    if(rowsNotEdit.filter(item=> parseInt(item)===parseInt(rowIndex)).length>0){
+                    if (rowsNotEdit.filter(item => parseInt(item) === parseInt(rowIndex)).length > 0) {
                          return false;
-                    }else{
+                    } else {
                          return true;
                     }
                },
@@ -106,6 +107,26 @@ const SimulacroPreguntasList = () => {
                               return <span className='estado-color-inactivo'>INACTIVO</span>
                          case "B":
                               return <span className='estado-color-bloqueado'>BLOQUEADO</span>
+                         default:
+                              return <></>;
+                    }
+               },
+               editable: (cell, row, rowIndex, colIndex) => {
+                    return false;
+               }
+          },
+          {
+               text: "TIPO",
+               dataField: "preg_tipo",
+               align: 'center',
+               formatter: (cellContent, row) => {
+                    switch (row.preg_tipo) {
+                         case 1:
+                              return <span>VERDADERO O FALSO</span>
+                         case 2:
+                              return <span>SELECCION MULTIPLE</span>
+                         case 3:
+                              return <span>COMPARACION</span>
                          default:
                               return <></>;
                     }
@@ -189,14 +210,22 @@ const SimulacroPreguntasList = () => {
 
      const handleSubmit = async (e) => {
           e.preventDefault();
-          console.log(formEdition)
-          console.log(rowsNotEdit)
           try {
                if (formEdition.preguntas.length > 0) {
                     serviceSimulacro.guardarPreguntas(formEdition).then(response => {
                          if (response.error === null) {
                               alert_success(response.message, "Se han guardado las preguntas.");
-                              setTimeout(()=>{navigate("/UFPSaberPRO/a/simulacros/preguntas")},2000);
+                              let simulacro = {
+                                   id_simulacro: formEditionSimu.id_simulacro,
+                                   nombre: formEditionSimu.simu_nombre,
+                                   descripcion: formEditionSimu.simu_descripcion,
+                                   estado: formEditionSimu.simu_estado,
+                                   puntaje_maximo: datos.simu_puntaje_maximo,
+                                   programa: formEditionSimu.programa,
+                              }
+                              serviceSimulacro.actualizar(simulacro).then(res => {
+                                   listarSimulacros();
+                              });
                          } else {
                               alert_error("¡Error!", response.message);
                          }
@@ -208,6 +237,21 @@ const SimulacroPreguntasList = () => {
                console.error(error);
           }
      };
+
+     const listarSimulacros = () => {
+          serviceSimulacro.getDatosGenerales().then(res => {
+               if (res.error === null) {
+                    dispatch({
+                         type: "SET_LISTA_SIMULACROS_PRG",
+                         payload: res.general
+                    });
+                    alert_loading(res.message);
+                    navigate("/UFPSaberPRO/a/simulacros/preguntas");
+               } else {
+                    alert_error("¡Error!", res.message);
+               }
+          });
+     }
 
      const handleFiltrarPreguntasSub = (data) => {
           if (datos.id_subcategoria === "") {
@@ -232,8 +276,8 @@ const SimulacroPreguntasList = () => {
                array2[i].simu_preg_puntaje = 0;
           }
           setRowsNotEdit([]);
-          setPreguntas(prev=>(array2));
-          setDatos(prev => ({ ...prev, categoria: "", id_subcategoria: "" }));
+          setPreguntas(prev => (array2));
+          setDatos(prev => ({ ...prev, categoria: "", id_subcategoria: "", simu_puntaje_maximo: formEditionSimu.simu_puntaje_maximo }));
           setFormEdition(prev => ({ ...prev, preguntas: [] }));
      };
 
@@ -258,9 +302,11 @@ const SimulacroPreguntasList = () => {
                     //setFormEdition(prev => ({ ...prev, preguntas: [...formEdition.preguntas, { id_pregunta: row.id_pregunta, simu_preg_puntaje: parseInt(row.simu_preg_puntaje) }] }));
                     setFormEdition(prev => ({ ...prev, preguntas: [...formEdition.preguntas, row] }));
                     setRowsNotEdit([...rowsNotEdit, parseInt(rowIndex)]);
+                    setDatos(prev => ({ ...prev, simu_puntaje_maximo: (datos.simu_puntaje_maximo + parseInt(row.simu_preg_puntaje)) }))
                } else {
                     setFormEdition(prev => ({ ...prev, preguntas: formEdition.preguntas.filter(item => item?.id_pregunta !== row.id_pregunta) }));
                     setRowsNotEdit(rowsNotEdit.filter(item => parseInt(item) !== parseInt(rowIndex)));
+                    setDatos(prev => ({ ...prev, simu_puntaje_maximo: (datos.simu_puntaje_maximo - parseInt(row.simu_preg_puntaje)) }))
                }
           },
           onSelectAll: (isSelect, rows, e) => {
@@ -282,10 +328,12 @@ const SimulacroPreguntasList = () => {
                               }
                               let array1 = [];
                               let array2 = preguntas;
+                              let sum = valor * array2.length;
                               for (let i = 0; i < array2.length; i++) {
                                    array1.push(i);
                                    array2[i].simu_preg_puntaje = valor;
                               }
+                              setDatos(prev => ({ ...prev, simu_puntaje_maximo: (datos.simu_puntaje_maximo + sum) }))
                               setRowsNotEdit(array1);
                               setPreguntas(array2);
                               setFormEdition(prev => ({ ...prev, preguntas: preguntas }));
@@ -370,8 +418,19 @@ const SimulacroPreguntasList = () => {
                                                                       <Card border="danger">
                                                                            <Card.Header>SIMULACRO</Card.Header>
                                                                            <Card.Body>
-                                                                                <Card.Title>{formEditionSimu.simu_nombre}</Card.Title>
+                                                                                <Card.Title>
+                                                                                     <b>Nombre: </b>{formEditionSimu.simu_nombre}
+                                                                                </Card.Title>
                                                                                 <Card.Text>
+                                                                                     <b>Puntaje Máximo del Simulacro: </b>{formEditionSimu.simu_puntaje_maximo}
+                                                                                     <br />
+                                                                                     <b>Sumatoria Valor Preguntas Seleccionadas: </b>{datos.simu_puntaje_maximo - formEditionSimu.simu_puntaje_maximo}
+                                                                                     <br />
+                                                                                     <b>Puntaje Máximo Futuro del Simulacro: </b>{datos.simu_puntaje_maximo}
+                                                                                </Card.Text>
+                                                                                <Card.Text>
+                                                                                     <b>Descripción: </b>
+                                                                                     <br />
                                                                                      {formEditionSimu.simu_descripcion}
                                                                                 </Card.Text>
                                                                            </Card.Body>
@@ -394,12 +453,12 @@ const SimulacroPreguntasList = () => {
                                                                            pagination={paginationFactory()}
                                                                            noDataIndication="No hay registros disponibles."
                                                                            selectRow={selectRow}
-                                                                           cellEdit={cellEditFactory({ mode: 'click'})}
+                                                                           cellEdit={cellEditFactory({ mode: 'click' })}
                                                                       />
                                                                  </Grid>
 
                                                                  <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'center' }}>
-                                                                      <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                                                                      <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros/preguntas") }} size="large" className="btn btn-danger m-2">
                                                                            Volver
                                                                       </Button>
                                                                       <Button onClick={() => { handleLimpiar() }} size="large" className="btn btn-danger m-2">

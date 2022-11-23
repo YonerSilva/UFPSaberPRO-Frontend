@@ -149,7 +149,7 @@ const SubcategoriaList = () => {
                         noDataIndication="No hay registros disponibles."
                       />
                       <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
+                        <Button onClick={() => { navigate("/UFPSaberPRO/a/categorias") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                       </Grid >

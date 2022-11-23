@@ -39,7 +39,7 @@ export const guardar = async (simulacro) => {
 export const actualizar = async (simulacro) => {
   const token = await getUserToken();
   const usuario = await getUser();
-  return await (await fetch(API_URL + API.SIMULACRO.GUARDAR, {
+  return await (await fetch(API_URL + API.SIMULACRO.ACTUALIZAR, {
     method: 'PUT',
     headers: {
       'Authorization': 'Bearer ' + token,
@@ -49,6 +49,7 @@ export const actualizar = async (simulacro) => {
       "id_simulacro": parseInt(simulacro.id_simulacro),
       "simu_nombre": String(simulacro.nombre).trim(),
       "simu_descripcion": String(simulacro.descripcion).trim(),
+      "simu_estado": String(simulacro.estado).trim(),
       "simu_puntaje_maximo": String(simulacro.puntaje_maximo).trim(),
       "programa": parseInt(usuario.programa.id_programa)
     }),

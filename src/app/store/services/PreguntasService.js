@@ -28,6 +28,7 @@ export const guardar = async (pregunta) => {
       "preg_imagen": String(pregunta.imagen).trim(),
       "preg_descripcion": String(pregunta.descripcion).trim(),
       "preg_estado": String(pregunta.estado).trim(),
+      "preg_tipo": parseInt(pregunta.tipo),
       "id_subcategoria": parseInt(pregunta.id_subcategoria),
       "usu_creacion": parseInt(usuario.id_usuario)
     }),
@@ -47,6 +48,7 @@ export const actualizar = async (pregunta) => {
         "preg_imagen": String(pregunta.imagen).trim(),
         "preg_descripcion": String(pregunta.descripcion).trim(),
         "preg_estado": String(pregunta.estado).trim(),
+        "preg_tipo": parseInt(pregunta.tipo),
         "id_subcategoria": parseInt(pregunta.id_subcategoria)
     }),
   })).json();

@@ -9,9 +9,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
-import { useState } from "react";
-import { useEffect } from "react";
-import { alert_error, alert_loading, alert_success, verificarImagen } from '../../util/functions';
+import { useEffect ,useState } from "react";
+import { alert_error, alert_loading, alert_success } from '../../util/functions';
 import { useDispatch, useStore } from "../../store/Provider/storeProvider";
 import Cargador from "../extra/CargadorEventos";
 import { Form } from "react-bootstrap";
@@ -28,7 +27,8 @@ export default function CrearSimulacros() {
         id_simulacro: "",
         nombre: "",
         descripcion: "",
-        puntaje_maximo: "",
+        estado: "",
+        puntaje_maximo: 0,
         programa: "",
     });
 
@@ -37,14 +37,12 @@ export default function CrearSimulacros() {
         try {
             if (update) {
                 serviceSimulacro.actualizar(simulacro).then(response => {
-                    serviceSimulacro.getDatosGenerales().then(res => {
-                        if (response.error === null) {
-                            alert_success(response.message, "Se ha actualizado el simulacro");
-                            listarSimulacros();
-                        } else {
-                            alert_error("¡Error!", response.message);
-                        }
-                    });
+                    if (response.error === null) {
+                        alert_success(response.message, "Se ha actualizado el simulacro");
+                        listarSimulacros();
+                    } else {
+                        alert_error("¡Error!", response.message);
+                    }
                 });
             } else {
                 serviceSimulacro.guardar(simulacro).then(response => {
@@ -87,6 +85,7 @@ export default function CrearSimulacros() {
                 id_simulacro: formEditionSimu.id_simulacro,
                 nombre: formEditionSimu.simu_nombre,
                 descripcion: formEditionSimu.simu_descripcion,
+                estado: formEditionSimu.simu_estado,
                 puntaje_maximo: formEditionSimu.simu_puntaje_maximo,
                 programa: formEditionSimu.programa,
             });
@@ -149,20 +148,6 @@ export default function CrearSimulacros() {
                                                     autoComplete="shipping postal-code"
                                                     variant="outlined"
                                                     maxLength="256"
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12}>
-                                                <TextField
-                                                    sx={{ mb: 5 }}
-                                                    required
-                                                    id="puntaje_maximo"
-                                                    name="puntaje_maximo"
-                                                    type="number"
-                                                    label="Puntaje Maximo"
-                                                    value={simulacro.puntaje_maximo}
-                                                    onChange={handleChange}
-                                                    fullWidth
-                                                    variant="outlined"
                                                 />
                                             </Grid>
                                             <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>

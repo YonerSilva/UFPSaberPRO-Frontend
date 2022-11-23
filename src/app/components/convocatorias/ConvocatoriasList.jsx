@@ -14,6 +14,7 @@ import { IconButton } from '@mui/material';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import Swal from 'sweetalert2';
 
 const ListaConvocatorias = () => {
 
@@ -86,9 +87,9 @@ const ListaConvocatorias = () => {
                          return (
                               <span>
                                    Disponible
-                                   <br/>
+                                   <br />
                                    Fecha Inicio: {fecha.toLocaleDateString() + ' - ' + fecha.toLocaleTimeString()}
-                                   <br/>
+                                   <br />
                                    Duración: {row.simu_duracion}</span>
                          )
                     } else {
@@ -123,14 +124,28 @@ const ListaConvocatorias = () => {
 
      const deleteConvocatoria = (item) => {
           try {
-               serviceConvocatoria.eliminar(item.id_convocatoria).then(response => {
-                    if (response.error === null) {
-                         alert_success(response.message, "Se ha eliminado la convocatoria.");
-                         listarConvocatorias();
-                    } else {
-                         alert_error("¡Error!", response.message);
+               Swal.fire({
+                    title: 'Está seguro?',
+                    text: "No se podrá revertir la acción!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#bb2d3b',
+                    cancelButtonColor: '#bb2d3b',
+                    confirmButtonText: 'ELIMINAR',
+                    cancelButtonText: 'CANCELAR',
+                    width: 300
+               }).then((result) => {
+                    if (result.isConfirmed) {
+                         serviceConvocatoria.eliminar(item.id_convocatoria).then(response => {
+                              if (response.error === null) {
+                                   alert_success(response.message, "Se ha eliminado la convocatoria.");
+                                   listarConvocatorias();
+                              } else {
+                                   alert_error("¡Error!", response.message);
+                              }
+                         });
                     }
-               });
+               })
           } catch (error) {
                console.error(error);
           }
@@ -138,7 +153,7 @@ const ListaConvocatorias = () => {
 
      const listarConvocatorias = (response) => {
           try {
-               serviceConvocatoria.getDatosGenerales().then(response=>{
+               serviceConvocatoria.getDatosGenerales().then(response => {
                     if (response.error === null) {
                          dispatch({
                               type: "SET_LISTA_CONVOCATORIAS_PRG",
@@ -199,17 +214,17 @@ const ListaConvocatorias = () => {
                                                   )
                                              } else {
                                                   return (
-                                                       <BootstrapTable headerClasses='table-head' 
-                                                            classes='table-design shadow' 
-                                                            bootstrap4 
-                                                            wrapperClasses='table-responsive' 
-                                                            striped 
-                                                            hover 
-                                                            keyField='id_convocatoria' 
-                                                            data={handleBuscar(lista_convocatorias_programa)} 
-                                                            columns={columnas} 
-                                                            pagination={paginationFactory()} 
-                                                            noDataIndication='No hay registros disponibles.'/>
+                                                       <BootstrapTable headerClasses='table-head'
+                                                            classes='table-design shadow'
+                                                            bootstrap4
+                                                            wrapperClasses='table-responsive'
+                                                            striped
+                                                            hover
+                                                            keyField='id_convocatoria'
+                                                            data={handleBuscar(lista_convocatorias_programa)}
+                                                            columns={columnas}
+                                                            pagination={paginationFactory()}
+                                                            noDataIndication='No hay registros disponibles.' />
                                                   )
                                              }
                                         } else {

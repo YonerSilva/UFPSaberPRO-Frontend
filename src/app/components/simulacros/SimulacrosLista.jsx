@@ -65,7 +65,7 @@ const ListaSimulacros = () => {
                     if (row.simu_estado === "I") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { navigate() }} title='Actualizar Simulacro' style={{ color: "blue" }}><EditIcon /></IconButton>
+                                   <IconButton onClick={() => { actualizarSimulacro(row) }} title='Actualizar Simulacro' style={{ color: "blue" }}><EditIcon /></IconButton>
                                    <IconButton onClick={() => { navigate() }} title='Eliminar Simulacro' style={{ color: "red" }}><DeleteIcon /></IconButton>
                                    <IconButton onClick={() => {verPreguntas(row)}} title="Ver Preguntas" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                               </div>
@@ -74,6 +74,14 @@ const ListaSimulacros = () => {
                }
           }
      ]
+
+     const actualizarSimulacro = (item)=>{
+          dispatch({
+               type: "SET_FORM_EDITION_SIMU",
+               payload: item
+          });
+          navigate('/UFPSaberPRO/a/simulacros/crear_simulacro');
+     }
 
      const verPreguntas = (item)=>{
           dispatch({

@@ -33,6 +33,7 @@ export default function CrearPregunta() {
     imagen: "",
     descripcion: "",
     estado: "",
+    tipo: "",
     categoria: "",
     id_subcategoria: ""
   });
@@ -43,16 +44,16 @@ export default function CrearPregunta() {
       toast.promise(new Promise((resolve, reject) => {
         if (update) {
           if (verificarImagen()) {
-            eliminarImagen(pregunta.imagen, "preguntas").then(res=>{
+            eliminarImagen(pregunta.imagen, "preguntas").then(res => {
               let preg = pregunta;
               cargarImagen(preg.id_pregunta, "preguntas").then(url => {
                 if (url !== "") {
                   preg.imagen = url;
                   servicePregunta.actualizar(preg).then(respuesta => {
-                    if(respuesta.error === null){
+                    if (respuesta.error === null) {
                       listarPreguntas(respuesta);
                       resolve();
-                    }else{
+                    } else {
                       eliminarImagen(pregunta.imagen, "preguntas");
                       reject();
                     }
@@ -60,12 +61,12 @@ export default function CrearPregunta() {
                 }
               });
             });
-          }else{
+          } else {
             servicePregunta.actualizar(pregunta).then(response => {
-              if(response.error === null){
+              if (response.error === null) {
                 listarPreguntas(response);
                 resolve();
-              }else{
+              } else {
                 reject();
               }
             });
@@ -110,6 +111,7 @@ export default function CrearPregunta() {
       imagen: "",
       descripcion: response.pregunta.preg_descripcion,
       estado: response.pregunta.preg_estado,
+      tipo: response.pregunta.preg_tipo,
       id_subcategoria: response.pregunta.id_subcategoria
     }
   }
@@ -160,6 +162,7 @@ export default function CrearPregunta() {
         descripcion: formEdition.preg_descripcion,
         estado: formEdition.preg_estado,
         categoria: formEdition.subcategoria.categoria,
+        tipo: formEdition.preg_tipo,
         id_subcategoria: formEdition.id_subcategoria
       });
       const subs = lista_subcategorias_programa.filter(item => parseInt(item.categoria) === parseInt(formEdition.subcategoria.categoria));
@@ -255,6 +258,30 @@ export default function CrearPregunta() {
                           maxLength="500"
                         />
                       </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          required
+                          id="tipo"
+                          name="tipo"
+                          select
+                          fullWidth
+                          label="Tipo de Pregunta"
+                          value={pregunta.tipo}
+                          variant="outlined"
+                          maxLength="1"
+                          onChange={handleChange}
+                        >
+                          <MenuItem key={1} value={1}>
+                            VERDADERO O FALSO
+                          </MenuItem>
+                          <MenuItem key={2} value={2}>
+                            SELECCION MULTIPLE
+                          </MenuItem>
+                          <MenuItem key={3} value={2}>
+                            COMPARACION
+                          </MenuItem>
+                        </TextField>
+                      </Grid>
                       {
                         auth?.usuario?.rol?.rol_nombre === "ROLE_ADMINISTRADOR"
                           ?
@@ -298,14 +325,14 @@ export default function CrearPregunta() {
                         </Button>
                       </Grid>
                       <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                          <Button type='submit' size='large' className='btn btn-danger m-2'>
-                            {
-                              update
-                                ? "Actualizar"
-                                : "Crear"
-                            }
-                          </Button>
-                        </Grid>
+                        <Button type='submit' size='large' className='btn btn-danger m-2'>
+                          {
+                            update
+                              ? "Actualizar"
+                              : "Crear"
+                          }
+                        </Button>
+                      </Grid>
                     </Grid>
                   </Form>
                 </Paper>
