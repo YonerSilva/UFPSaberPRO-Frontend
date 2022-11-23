@@ -126,13 +126,13 @@ export default function MenuList() {
                {
                     role_estudiante
                          ?
-                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/convocatorias'); }}>
+                         <><ListItemButton onClick={() => { navigate('/UFPSaberPRO/e/convocatorias'); }}>
                               <ListItemIcon>
                                    <CampaignIcon sx={{ color: "red" }} />
                               </ListItemIcon>
                               <ListItemText primary="Convocatorias" />
                          </ListItemButton>
-                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/simulacros'); }}>
+                              <ListItemButton onClick={() => { navigate('/UFPSaberPRO/e/simulacros'); }}>
                                    <ListItemIcon>
                                         <MenuBookIcon sx={{ color: "red" }} />
                                    </ListItemIcon>

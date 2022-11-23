@@ -5,6 +5,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from "@mui/material/MenuItem";
 import { Button } from 'react-bootstrap';
 import CssBaseline from '@mui/material/CssBaseline';
+import { useNavigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
@@ -28,6 +29,7 @@ const theme = createTheme();
 
 export default function EditarUsuario() {
 
+    const navigate = useNavigate();
     const [currency, setCurrency] = React.useState('');
 
     const handleChange = (event) => {
@@ -119,7 +121,7 @@ export default function EditarUsuario() {
                             </TextField>
                         </Grid>
                         <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                            <Button size='medium' className='btn btn-danger m-2'>
+                            <Button size='medium' onClick={() => { navigate(-1) }} className='btn btn-danger m-2'>
                                 Volver
                             </Button>
                         </Grid>

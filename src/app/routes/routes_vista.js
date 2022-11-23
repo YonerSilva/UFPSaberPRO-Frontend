@@ -2,37 +2,41 @@ import { Route } from 'react-router-dom';
 import LoginR from '../components/user/LoginR';
 import RegistroUsuario from '../components/user/RegistroUsuario';
 
+// ADMINISTRADOR
 //Simulacros
 import ListaSimulacros from '../components/simulacros/SimulacrosLista';
 import CrearSimulacros from '../components/simulacros/CrearSimulacros';
 import SimulacroPreguntasList from '../components/simulacros/SimulacroPreguntas';
 import SimPregList from '../components/simulacros/SimPregList';
-
 //Convocatorias
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
 import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
-
 //Opciones
 import CrearOpcion from '../components/opciones/CrearOpciones';
 import OpcionesList from '../components/opciones/OpcionesList';
-
-
 //Preguntas
 import PreguntasList from '../components/preguntas/PreguntasList';
 import CrearPregunta from '../components/preguntas/CrearPregunta'; 
-
 //Categoria
 import CrearCategoria from '../components/CategoriasySubcategorias/CrearCategoria';
 import CrearSubCategoria from '../components/CategoriasySubcategorias/CrearSubCategoria';
 import CategoriasList from '../components/CategoriasySubcategorias/CategoriaList';
 import SubCategoriasList from '../components/CategoriasySubcategorias/SubCategoriaList';
-
 //Usuarios
 import ListaUsuarios from '../components/usuarios/UsuariosList';
 import EditarUsuario from '../components/usuarios/EditarUsuario';
 import Dashboard from '../components/home/Dashboard';
+//Home
 import Home from '../components/home/Home';
+
+// ESTUDIANTE
+//Convocatorias
+import ListaConvocatoriasE from '../components/estudiante/convocatorias/EstConvocatoriaList';
+import ListaSimulacrosE from '../components/estudiante/Simulacros/EstSimulacroList';
+
+//Home
 import HomeE from '../components/estudiante/home/Home';
+
 import PersistAuth from '../components/auth/PersistentAuth';
 import RequireAuth from '../components/auth/RequireAuth';
 
@@ -81,6 +85,13 @@ const routes =  {
                     {/* HOME */}   
                     <Route key="homeest" element={<RequireAuth allowedRoles={[ROLES.ESTUDIANTE]} />}>
                          <Route path="/UFPSaberPRO/e/Inicio" key="homeEstu" element={<Dashboard contenedor={<HomeE/>} />} />
+                    </Route> 
+                    {/* FUNCIONALIDADES */}
+                    <Route key="menuadmin" element={<RequireAuth allowedRoles={[ROLES.ESTUDIANTE]} />}>
+                         {/* CONVOCATORIAS */}
+                         <Route path="/UFPSaberPRO/e/convocatorias" key="convE" element={<Dashboard contenedor={<ListaConvocatoriasE/>} />} />
+                         {/* SIMULACROS */}
+                         <Route path="/UFPSaberPRO/e/simulacros" key="simE" element={<Dashboard contenedor={<ListaSimulacrosE/>} />} />
                     </Route> 
                </Route>
           ],
