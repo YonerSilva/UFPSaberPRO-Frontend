@@ -29,7 +29,7 @@ export default function NoCateSub({ id_categoria }) {
                             </Button>
                         </Grid >
                         <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button onClick={() => { navigate('/UFPSaberPRO/subcategorias/crear-subcategoria/' + id_categoria) }} size="large" className="btn-v btn-danger m-2">
+                            <Button onClick={() => { navigate('/a/subcategorias/crear-subcategoria/' + id_categoria) }} size="large" className="btn-v btn-danger m-2">
                                 Crear
                             </Button>
                         </Grid >

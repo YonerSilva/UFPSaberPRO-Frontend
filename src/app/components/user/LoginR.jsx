@@ -28,11 +28,11 @@ const Login = () => {
       const response = await service.sign_in(usuario);
       toast.promise(new Promise((resolve, reject) => {
         if (response.token === null || response.token === undefined) {
-          setTimeout(() => { reject(response.error) }, 2000);
+          setTimeout(() => {reject(response.error) }, 2000);
           alert_error("¡Error!",response.message);
         } else {
           service.userConected(response).then(() => {
-            if(response.usuario.rol.id_rol===1 || response.usuario.rol.id_rol){
+            if(response.usuario.rol.id_rol===1 || response.usuario.rol.id_rol===2){
               sign_in_firebase(usuario.email, usuario.password);
             }
             setAuth({
@@ -41,7 +41,12 @@ const Login = () => {
             });
             setActive(true);
             setTimeout(() => {
-              navigate("/UFPSaberPRO/a/inicio");
+              if(response.usuario.rol.id_rol===3){
+                navigate("/UFPSaberPRO/e/inicio");
+              }
+              if(response.usuario.rol.id_rol===1){
+                navigate("/UFPSaberPRO/a/inicio");
+              }
               resolve();
             }, 2000);
           });

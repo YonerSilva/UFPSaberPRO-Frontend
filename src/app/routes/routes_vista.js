@@ -88,12 +88,12 @@ const routes =  {
                {
                     path: "/",
                     name: "login",
-                    element: <LoginR />
+                    element: <LoginR/>
                },
                {
                     path: "/sign_up",
                     name: "sign_up",
-                    element: <RegistroUsuario />
+                    element: <RegistroUsuario/>
                },
           ]
 }

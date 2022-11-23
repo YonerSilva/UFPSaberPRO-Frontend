@@ -127,7 +127,7 @@ const SimPregList = () => {
                               if (preguntas.length !== 0) {
                                    return (
                                         <Barra
-                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/simulacros/seleccionar_preguntas") }} className="btn btn-danger m-2">Seleccionar Preguntas</button>}
+                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/a/simulacros/seleccionar_preguntas") }} className="btn btn-danger m-2">Seleccionar Preguntas</button>}
                                              input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Pregunta" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
                                         />
                                    );

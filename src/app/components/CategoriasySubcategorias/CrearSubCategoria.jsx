@@ -48,7 +48,7 @@ export default function CrearSubCategoria() {
           serviceSubCategoria.getDatosGenerales().then(res => {
             if (response.error === null) {
               alert_success(response.message, "Se ha guardado la Subcategoria");
-              setTimeout(() => { navigate("/UFPSaberPRO/subcategorias/" + id_categoria) }, 2000);
+              setTimeout(() => { navigate("/UFPSaberPRO/a/subcategorias/" + id_categoria) }, 2000);
             } else {
               alert_error("¡Error!", response.message);
             }

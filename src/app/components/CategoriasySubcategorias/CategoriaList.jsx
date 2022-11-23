@@ -86,7 +86,7 @@ const CategoriaList = () => {
   }
 
   const verSubCategoria = (item) => {
-    navigate('/UFPSaberPRO/subcategorias/'+item.id_categoria);
+    navigate('/UFPSaberPRO/a/subcategorias/'+item.id_categoria);
   }
 
   const handleBuscar = (data) => {

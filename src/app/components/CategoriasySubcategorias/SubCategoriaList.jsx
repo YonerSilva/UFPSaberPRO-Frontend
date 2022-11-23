@@ -60,7 +60,7 @@ const SubcategoriaList = () => {
       type: "SET_FORM_EDITION",
       payload: item
     });
-    navigate('/UFPSaberPRO/subcategorias/crear-subcategoria/' + id_categoria);
+    navigate('/UFPSaberPRO/a/subcategorias/crear-subcategoria/' + id_categoria);
   }
 
   const listarSubCategorias = (response) => {
@@ -118,7 +118,7 @@ const SubcategoriaList = () => {
             if (subcategorias.length !== 0) {
               return (
                 <Barra
-                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/subcategorias/crear-subcategoria/" + id_categoria) }} className="btn btn-danger m-2">Crear Subcategoria</button>}
+                  button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/a/subcategorias/crear-subcategoria/" + id_categoria) }} className="btn btn-danger m-2">Crear Subcategoria</button>}
                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre SubCategoria" placeholder="Buscar Subcategoria" className="form-control me-2" type="search" aria-label="Buscar" />}
                 />
               );

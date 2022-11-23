@@ -264,7 +264,7 @@ const SimulacroPreguntasList = () => {
                }
           },
           onSelectAll: (isSelect, rows, e) => {
-               if (isSelect && rows.length === preguntas.length) {
+               if (isSelect) {
                     Swal.fire({
                          html: "<div class='form-floating'><input type='number' class='form-control' id='valor_preguntas' placeholder='VALOR'/><label for='valor_preguntas'>VALOR DE LAS PREGUNTAS</label></div>",
                          showCancelButton: true,
