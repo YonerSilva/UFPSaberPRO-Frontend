@@ -21,7 +21,8 @@ const API = {
           GUARDAR: "api/simulacros/guardarSimulacro",
           ACTUALIZAR: "api/simulacros/actualizarSimulacro",
           PREGUNTAS: "api/simulacros/getPreguntas",
-          PREGUNTAS_DIFERENTES: "api/simulacros/getPreguntasDiferentes"
+          PREGUNTAS_DIFERENTES: "api/simulacros/getPreguntasDiferentes",
+          GUARDAR_PREGUNTAS: "api/simu_preg/guardarPreguntas"
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",

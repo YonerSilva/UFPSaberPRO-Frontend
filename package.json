@@ -23,14 +23,14 @@
     "react-bootstrap": "2.4.0",
     "react-bootstrap-table-next": "4.0.3",
     "react-bootstrap-table2-paginator": "2.1.2",
+    "react-bootstrap-table2-editor": "1.4.0",
     "react-chartjs-2": "^2.10.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "2.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
     "recharts": "^2.1.9",
-    "sweetalert2": "^11.4.8",
-    "properties-reader": "^2.2.0"
+    "sweetalert2": "^11.4.8"
   },
   "scripts": {
     "start": "react-scripts start",

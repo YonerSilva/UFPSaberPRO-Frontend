@@ -77,4 +77,19 @@ export const getPreguntasDiferentes = async (id_simulacro) => {
   })).json();
 }
 
+export const guardarPreguntas = async (formEdition) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.SIMULACRO.GUARDAR_PREGUNTAS, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "preguntas": formEdition.preguntas,
+      "simulacro": parseInt(formEdition.simulacro)
+    }),
+  })).json();
+}
+
 /*--------------------------------END------------------------------------*/

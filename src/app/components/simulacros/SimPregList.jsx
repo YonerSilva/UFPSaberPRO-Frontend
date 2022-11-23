@@ -2,22 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from "@mui/material/IconButton";
 import Barra from '../extra/BarraBusqueda';
 import Cargador from "../extra/CargadorEventos";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
-import DeleteIcon from '@mui/icons-material/Delete';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { alert_error, alert_loading } from '../../util/functions';
 import NoPreguntas from './NoPreguntasS';
 import { Link } from '@mui/material';
 
 const SimPregList = () => {
-     const dispatch = useDispatch();
      const { formEditionSimu } = useStore();
      const [preguntas, setPreguntas] = useState([]);
      const [busqueda, setBusqueda] = useState("");
@@ -30,6 +25,43 @@ const SimPregList = () => {
                dataField: "preg_descripcion",
                align: "center",
                sort: true,
+          },
+          {
+               text: "VALOR",
+               dataField: "simu_preg_puntaje",
+               align: "center",
+               sort: true,
+          },
+          {
+               text: "IMAGEN",
+               dataField: "preg_imagen",
+               align: "center",
+               isDummyField: true,
+               formatter: (cellContent, row) => {
+                    if (row.preg_imagen !== null && row.preg_imagen !== "") {
+                         return <Link href={row.preg_imagen} target="_blank">Imagen</Link>
+                    }else{
+                         return <span>No disponible.</span>
+                    }
+               }
+          },
+          {
+               text: "ESTADO",
+               dataField: "preg_estado",
+               align: 'center',
+               sort: true,
+               formatter: (cellContent, row) => {
+                    switch (row.preg_estado) {
+                         case "A":
+                              return <span className='estado-color-activo'>ACTIVO</span>
+                         case "I":
+                              return <span className='estado-color-inactivo'>INACTIVO</span>
+                         case "B":
+                              return <span className='estado-color-bloqueado'>BLOQUEADO</span>
+                         default:
+                              return <></>;
+                    }
+               }
           },
           {
                text: "ACCIÓN",
@@ -95,7 +127,7 @@ const SimPregList = () => {
                               if (preguntas.length !== 0) {
                                    return (
                                         <Barra
-                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/simulacro/seleccionar_preguntas") }} className="btn btn-danger m-2">Seleccionar Preguntas</button>}
+                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/simulacros/seleccionar_preguntas") }} className="btn btn-danger m-2">Seleccionar Preguntas</button>}
                                              input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Pregunta" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
                                         />
                                    );

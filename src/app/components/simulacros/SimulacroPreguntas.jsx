@@ -4,7 +4,6 @@ import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from "@mui/material/IconButton";
-import Barra from '../extra/BarraBusqueda';
 import Cargador from "../extra/CargadorEventos";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import BootstrapTable from "react-bootstrap-table-next";
@@ -13,25 +12,31 @@ import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import DeleteIcon from '@mui/icons-material/Delete';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { alert_error, alert_loading } from '../../util/functions';
+import { alert_error, alert_loading, alert_success } from '../../util/functions';
 import NoPreguntas from '../preguntas/NoPreguntas';
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
-import Checkbox from '@material-ui/core/Checkbox';
+import { Button, Card, Form } from 'react-bootstrap';
+import cellEditFactory from 'react-bootstrap-table2-editor';
+import Swal from 'sweetalert2';
 
 const SimulacroPreguntasList = () => {
      const dispatch = useDispatch();
      const { formEditionSimu, lista_categorias_programa, lista_subcategorias_programa } = useStore();
      const [preguntas, setPreguntas] = useState([]);
-     const [busqueda, setBusqueda] = useState("");
+     const [formEdition, setFormEdition] = useState({
+          simulacro: formEditionSimu.id_simulacro,
+          preguntas: [],
+     });
      const [loading, setLoading] = useState(true);
      const navigate = useNavigate();
      const [subcategorias, setSubcategorias] = useState([]);
      const [datos, setDatos] = useState({
           categoria: "",
-          id_subcategoria: ""
+          id_subcategoria: "",
      });
+     const [rowsNotEdit, setRowsNotEdit] = useState([]);
 
      const columnas = [
           {
@@ -39,6 +44,28 @@ const SimulacroPreguntasList = () => {
                dataField: "preg_descripcion",
                align: "center",
                sort: true,
+               editable: (cell, row, rowIndex, colIndex) => {
+                    return false;
+               }
+          },
+          {
+               text: "VALOR (Editable)",
+               dataField: "simu_preg_puntaje",
+               align: "center",
+               editable: (cell, row, rowIndex, colIndex) => {
+                    if(rowsNotEdit.filter(item=> parseInt(item)===parseInt(rowIndex)).length>0){
+                         return false;
+                    }else{
+                         return true;
+                    }
+               },
+               formatter: (cellContent, row) => {
+                    if (row.simu_preg_puntaje === null || row.simu_preg_puntaje === undefined) {
+                         return 0;
+                    } else {
+                         return row.simu_preg_puntaje;
+                    }
+               }
           },
           {
                text: "SUBCATEGORIA",
@@ -47,6 +74,9 @@ const SimulacroPreguntasList = () => {
                isDummyField: true,
                formatter: (cellContent, row) => {
                     return row.subcategoria.sub_nombre;
+               },
+               editable: (cell, row, rowIndex, colIndex) => {
+                    return false;
                }
           },
           {
@@ -58,6 +88,9 @@ const SimulacroPreguntasList = () => {
                     if (row.preg_imagen !== null && row.preg_imgane !== "") {
                          return <span>imagen</span>
                     }
+               },
+               editable: (cell, row, rowIndex, colIndex) => {
+                    return false;
                }
           },
           {
@@ -76,6 +109,9 @@ const SimulacroPreguntasList = () => {
                          default:
                               return <></>;
                     }
+               },
+               editable: (cell, row, rowIndex, colIndex) => {
+                    return false;
                }
           },
           {
@@ -97,20 +133,8 @@ const SimulacroPreguntasList = () => {
                          )
                     }
                },
-          },
-          {
-               text: "SELECCIONAR",
-               dataField: "simu_preg",
-               align: 'center',
-               formatter: (cellCotent, row) => {
-                    return (
-                         <div className="row-cols-2 row-cols-md-auto" align="center">
-                              <Checkbox
-                                   defaultChecked
-                                   color="primary"
-                                   inputProps={{ 'aria-label': 'secondary checkbox' }}
-                              />
-                         </div>)
+               editable: (cell, row, rowIndex, colIndex) => {
+                    return false;
                }
           }
      ];
@@ -163,16 +187,25 @@ const SimulacroPreguntasList = () => {
           navigate('/UFPSaberPRO/a/pregunta/opciones');
      }
 
-     const handleBuscar = (data) => {
-          if (busqueda === "") {
-               return preguntas;
-          } else {
-               return data.filter((item) =>
-                    item.preg_descripcion
-                         .toString()
-                         .toUpperCase()
-                         .includes(busqueda.toUpperCase())
-               );
+     const handleSubmit = async (e) => {
+          e.preventDefault();
+          console.log(formEdition)
+          console.log(rowsNotEdit)
+          try {
+               if (formEdition.preguntas.length > 0) {
+                    serviceSimulacro.guardarPreguntas(formEdition).then(response => {
+                         if (response.error === null) {
+                              alert_success(response.message, "Se han guardado las preguntas.");
+                              setTimeout(()=>{navigate("/UFPSaberPRO/a/simulacros/preguntas")},2000);
+                         } else {
+                              alert_error("¡Error!", response.message);
+                         }
+                    });
+               } else {
+                    alert_error("¡Error!", "Debe seleccionar al menos una pregunta.");
+               }
+          } catch (error) {
+               console.error(error);
           }
      };
 
@@ -189,6 +222,21 @@ const SimulacroPreguntasList = () => {
           }
      };
 
+     const handleLimpiar = () => {
+          let check = document.querySelectorAll('.selection-input-4')[0];
+          if (check.checked === true) {
+               check.click();
+          }
+          let array2 = preguntas;
+          for (let i = 0; i < array2.length; i++) {
+               array2[i].simu_preg_puntaje = 0;
+          }
+          setRowsNotEdit([]);
+          setPreguntas(prev=>(array2));
+          setDatos(prev => ({ ...prev, categoria: "", id_subcategoria: "" }));
+          setFormEdition(prev => ({ ...prev, preguntas: [] }));
+     };
+
      useEffect(() => {
           if (Object.keys(formEditionSimu).length === 0 || formEditionSimu.id_simulacro === undefined) {
                navigate('/UFPSaberPRO/a/simulacros');
@@ -197,6 +245,60 @@ const SimulacroPreguntasList = () => {
           }
      }, []);
 
+     const selectRow = {
+          mode: 'checkbox',
+          clickToSelect: false,
+          bgColor: "#FE8396",
+          onSelect: (row, isSelect, rowIndex, e) => {
+               if (isSelect === true && (row.simu_preg_puntaje <= 0)) {
+                    alert_error("¡Error!", "El valor de la pregunta debe ser mayor a 0.");
+                    return false;
+               }
+               if (isSelect) {
+                    //setFormEdition(prev => ({ ...prev, preguntas: [...formEdition.preguntas, { id_pregunta: row.id_pregunta, simu_preg_puntaje: parseInt(row.simu_preg_puntaje) }] }));
+                    setFormEdition(prev => ({ ...prev, preguntas: [...formEdition.preguntas, row] }));
+                    setRowsNotEdit([...rowsNotEdit, parseInt(rowIndex)]);
+               } else {
+                    setFormEdition(prev => ({ ...prev, preguntas: formEdition.preguntas.filter(item => item?.id_pregunta !== row.id_pregunta) }));
+                    setRowsNotEdit(rowsNotEdit.filter(item => parseInt(item) !== parseInt(rowIndex)));
+               }
+          },
+          onSelectAll: (isSelect, rows, e) => {
+               if (isSelect && rows.length === preguntas.length) {
+                    Swal.fire({
+                         html: "<div class='form-floating'><input type='number' class='form-control' id='valor_preguntas' placeholder='VALOR'/><label for='valor_preguntas'>VALOR DE LAS PREGUNTAS</label></div>",
+                         showCancelButton: true,
+                         confirmButtonColor: '#bb2d3b',
+                         cancelButtonColor: '#bb2d3b',
+                         confirmButtonText: 'GUARDAR',
+                         cancelButtonText: 'CANCELAR',
+                         width: 300
+                    }).then((result) => {
+                         if (result.isConfirmed) {
+                              let valor = document.getElementById("valor_preguntas").value;
+                              if (valor === "" || valor === undefined) {
+                                   alert_error("¡Error!", "Debe completar el campo del valor de las preguntas.");
+                                   return false;
+                              }
+                              let array1 = [];
+                              let array2 = preguntas;
+                              for (let i = 0; i < array2.length; i++) {
+                                   array1.push(i);
+                                   array2[i].simu_preg_puntaje = valor;
+                              }
+                              setRowsNotEdit(array1);
+                              setPreguntas(array2);
+                              setFormEdition(prev => ({ ...prev, preguntas: preguntas }));
+                         } else {
+                              handleLimpiar();
+                         }
+                    })
+               } else {
+                    handleLimpiar();
+               }
+          }
+     };
+
      return (
           <React.Fragment>
                <ResponsiveContainer>
@@ -204,17 +306,7 @@ const SimulacroPreguntasList = () => {
                          <Typography component="h2" variant="h5" color="dark" gutterBottom>
                               Lista de Preguntas del Simulacro
                          </Typography>
-                         {(() => {
-                              if (preguntas.length !== 0) {
-                                   return (
-                                        <Barra
-                                             input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Pregunta" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
-                                        />
-                                   );
-                              }
-                         })()}
 
-                         <hr />
                          <div className="container-fluid">
                               {(() => {
                                    if (!loading) {
@@ -228,65 +320,96 @@ const SimulacroPreguntasList = () => {
                                                             sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
                                                        >
                                                             <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-                                                                 <Grid item xs={12}>
-                                                                      <TextField
-                                                                           id="categoria"
-                                                                           name="categoria"
-                                                                           label="Categoria"
-                                                                           required
-                                                                           select
-                                                                           value={datos.categoria}
-                                                                           onChange={handleChange}
-                                                                           fullWidth
-                                                                           variant="outlined"
-                                                                      >
-                                                                           {lista_categorias_programa.map((categoria) => (
-                                                                                <MenuItem key={categoria.id_categoria} value={categoria.id_categoria}>
-                                                                                     {categoria.cate_nombre}
-                                                                                </MenuItem>
-                                                                           ))}
-                                                                      </TextField>
+                                                                 <Grid item xs={6} className="my-auto">
+                                                                      <Grid item xs={6} className="mb-3 mx-auto">
+                                                                           <TextField
+                                                                                id="categoria"
+                                                                                name="categoria"
+                                                                                label="Categoria"
+                                                                                required
+                                                                                select
+                                                                                value={datos.categoria}
+                                                                                onChange={handleChange}
+                                                                                fullWidth
+                                                                                variant="outlined"
+                                                                           >
+                                                                                {lista_categorias_programa.map((categoria) => (
+                                                                                     <MenuItem key={categoria.id_categoria} value={categoria.id_categoria}>
+                                                                                          {categoria.cate_nombre}
+                                                                                     </MenuItem>
+                                                                                ))}
+                                                                           </TextField>
+                                                                      </Grid>
+                                                                      {
+                                                                           datos.categoria !== ""
+                                                                                ?
+                                                                                <Grid item xs={6} className="mx-auto">
+                                                                                     <TextField
+                                                                                          id="subcategoria"
+                                                                                          name="id_subcategoria"
+                                                                                          label="Subcategorias"
+                                                                                          required
+                                                                                          select
+                                                                                          value={datos.id_subcategoria}
+                                                                                          onChange={handleChange}
+                                                                                          fullWidth
+                                                                                          variant="outlined"
+                                                                                     >
+                                                                                          {subcategorias.map((subcategoria) => (
+                                                                                               <MenuItem key={subcategoria.id_subcategoria} value={subcategoria.id_subcategoria}>
+                                                                                                    {subcategoria.sub_nombre}
+                                                                                               </MenuItem>
+                                                                                          ))}
+                                                                                     </TextField>
+                                                                                </Grid>
+                                                                                :
+                                                                                <></>
+                                                                      }
                                                                  </Grid>
-                                                                 {
-                                                                      datos.categoria !== ""
-                                                                           ?
-                                                                           <Grid item xs={12}>
-                                                                                <TextField
-                                                                                     id="subcategoria"
-                                                                                     name="id_subcategoria"
-                                                                                     label="Subcategorias"
-                                                                                     required
-                                                                                     select
-                                                                                     value={datos.id_subcategoria}
-                                                                                     onChange={handleChange}
-                                                                                     fullWidth
-                                                                                     variant="outlined"
-                                                                                >
-                                                                                     {subcategorias.map((subcategoria) => (
-                                                                                          <MenuItem key={subcategoria.id_subcategoria} value={subcategoria.id_subcategoria}>
-                                                                                               {subcategoria.sub_nombre}
-                                                                                          </MenuItem>
-                                                                                     ))}
-                                                                                </TextField>
-                                                                           </Grid>
-                                                                           :
-                                                                           <></>
-                                                                 }
+                                                                 <Grid item xs={6}>
+                                                                      <Card border="danger">
+                                                                           <Card.Header>SIMULACRO</Card.Header>
+                                                                           <Card.Body>
+                                                                                <Card.Title>{formEditionSimu.simu_nombre}</Card.Title>
+                                                                                <Card.Text>
+                                                                                     {formEditionSimu.simu_descripcion}
+                                                                                </Card.Text>
+                                                                           </Card.Body>
+                                                                      </Card>
+                                                                 </Grid>
                                                             </Grid>
-                                                            <BootstrapTable
-                                                                 headerClasses="table-head"
-                                                                 classes="table-design shadow"
-                                                                 bootstrap4
-                                                                 wrapperClasses="table-responsive"
-                                                                 striped
-                                                                 bordered
-                                                                 hover
-                                                                 keyField="id_pregunta"
-                                                                 data={handleFiltrarPreguntasSub()}
-                                                                 columns={columnas}
-                                                                 pagination={paginationFactory()}
-                                                                 noDataIndication="No hay registros disponibles."
-                                                            />
+                                                            <Form onSubmit={handleSubmit}>
+                                                                 <Grid item xs={12}>
+                                                                      <BootstrapTable
+                                                                           headerClasses="table-head"
+                                                                           classes="table-design shadow"
+                                                                           bootstrap4
+                                                                           wrapperClasses="table-responsive"
+                                                                           striped
+                                                                           bordered
+                                                                           hover
+                                                                           keyField="id_pregunta"
+                                                                           data={handleFiltrarPreguntasSub(preguntas)}
+                                                                           columns={columnas}
+                                                                           pagination={paginationFactory()}
+                                                                           noDataIndication="No hay registros disponibles."
+                                                                           selectRow={selectRow}
+                                                                           cellEdit={cellEditFactory({ mode: 'click'})}
+                                                                      />
+                                                                 </Grid>
+
+                                                                 <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'center' }}>
+                                                                      <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                                                                           Volver
+                                                                      </Button>
+                                                                      <Button onClick={() => { handleLimpiar() }} size="large" className="btn btn-danger m-2">
+                                                                           Limpiar
+                                                                      </Button>
+                                                                      <Button type='submit' size='large' className='btn btn-danger m-2'>
+                                                                           Guardar
+                                                                      </Button>
+                                                                 </Grid>
+                                                            </Form>
                                                        </Paper>
                                                   </>
                                              );
