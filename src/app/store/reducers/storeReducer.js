@@ -12,7 +12,10 @@ const initialState = {
      lista_categorias_programa: [],
      lista_subcategorias_programa: [],
      lista_usuarios_programa: [],
-     lista_preguntas_programa: []
+     lista_preguntas_programa: [],
+
+     lista_convocatoria_usuario: [],
+     lista_convocatoria_activa: [],
 }
 
 export const storeReducer = (state, action) => {
@@ -86,6 +89,18 @@ export const storeReducer = (state, action) => {
                return {
                     ...state,
                     lista_preguntas_programa: payload.preguntas_programa
+               };
+          case ACCION.SET_LISTA_CONVOCATORIA_USUARIO:
+               console.log(action);
+               return{
+                    ...state,
+                    lista_convocatoria_usuario: payload.convocatoria_usuario
+               };
+          case ACCION.SET_LISTA_CONOVOCATORIA_ACTIVA:
+               console.log(action);
+               return{
+                    ...state,
+                    lista_convocatoria_activa: payload.convocatoria_activa
                };
           default:
                return state;

@@ -11,6 +11,7 @@ import Barra from '../../extra/BarraBusqueda';
 import Cargador from '../../extra/CargadorEventos';
 import NoConvocatoria from './NoConvocatoria'
 import { IconButton } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
 import * as serviceConvocatoria from '../../../store/services/ConvocatoriaService';
 import { alert_error, alert_loading, alert_success } from '../../../util/functions';
@@ -18,7 +19,8 @@ import { alert_error, alert_loading, alert_success } from '../../../util/functio
 const ListaConvocatorias = () => {
 
      const dispatch = useDispatch();
-     const { lista_convocatorias_programa } = useStore();
+     const { lista_convocatoria_usuario } = useStore();
+     // const { lista_convocatorias_programa } = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();
@@ -104,8 +106,8 @@ const ListaConvocatorias = () => {
                     if (row.convo_estado === "I") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { updateConvocatoria(row) }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
-                                   <IconButton onClick={() => { deleteConvocatoria(row) }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
+                                   <IconButton onClick={() => { navigate() }} title='Ver Informacion de la Convocatoria' style={{ color: "blue" }}><VisibilityIcon/></IconButton>
+                                   <IconButton onClick={() => { navigate() }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
                               </div>
                          )
                     }
@@ -113,35 +115,12 @@ const ListaConvocatorias = () => {
           }
      ]
 
-     const updateConvocatoria = (item) => {
-          dispatch({
-               type: "SET_FORM_EDITION",
-               payload: item
-          });
-          navigate('/UFPSaberPRO/a/convocatorias/crear_convocatorias');
-     }
-
-     const deleteConvocatoria = (item) => {
-          try {
-               serviceConvocatoria.eliminar(item.id_convocatoria).then(response => {
-                    if (response.error === null) {
-                         alert_success(response.message, "Se ha eliminado la convocatoria.");
-                         listarConvocatorias();
-                    } else {
-                         alert_error("¡Error!", response.message);
-                    }
-               });
-          } catch (error) {
-               console.error(error);
-          }
-     }
-
      const listarConvocatorias = (response) => {
           try {
-               serviceConvocatoria.getDatosGenerales().then(response=>{
+               serviceConvocatoria.getConvocatoriasUsuario.then(response=>{
                     if (response.error === null) {
                          dispatch({
-                              type: "SET_LISTA_CONVOCATORIAS_PRG",
+                              type: "SET_LISTA_CONVOCATORIA_USUARIO",
                               payload: response.general
                          });
                          alert_loading(response.message);
@@ -156,7 +135,7 @@ const ListaConvocatorias = () => {
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
-               return lista_convocatorias_programa;
+               return lista_convocatoria_usuario;
           } else {
                return data.filter(
                     (item) =>
@@ -178,10 +157,9 @@ const ListaConvocatorias = () => {
                          </Typography>
                          {
                               (() => {
-                                   if (lista_convocatorias_programa.length !== 0) {
+                                   if (lista_convocatoria_usuario.length !== 0) {
                                         return (
                                              <Barra
-                                                  button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/a/convocatorias/crear_convocatorias') }} className='btn btn-danger m-2'>Crear Convocatoria</button>}
                                                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Convocatoria' placeholder="Buscar Convocatoria" className="form-control me-2 border border-danger shadow" type="search" aria-label="Buscar" />}
                                              />
                                         )
@@ -193,7 +171,7 @@ const ListaConvocatorias = () => {
                               {
                                    (() => {
                                         if (!loading) {
-                                             if (lista_convocatorias_programa.length === 0) {
+                                             if (lista_convocatoria_usuario.length !== 0) {
                                                   return (
                                                        <NoConvocatoria />
                                                   )
@@ -206,7 +184,7 @@ const ListaConvocatorias = () => {
                                                             striped 
                                                             hover 
                                                             keyField='id_convocatoria' 
-                                                            data={handleBuscar(lista_convocatorias_programa)} 
+                                                            data={handleBuscar(lista_convocatoria_usuario)} 
                                                             columns={columnas} 
                                                             pagination={paginationFactory()} 
                                                             noDataIndication='No hay registros disponibles.'/>

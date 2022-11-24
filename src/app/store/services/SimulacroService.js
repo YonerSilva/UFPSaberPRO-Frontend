@@ -64,7 +64,7 @@ export const getPreguntas = async (id_simulacro) => {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
-  })).json();
+  })).jso
 }
 
 export const getPreguntasDiferentes = async (id_simulacro) => {

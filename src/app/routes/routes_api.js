@@ -14,7 +14,9 @@ const API = {
           GENERAL: "api/convocatorias/general",
           GUARDAR: "api/convocatorias/guardarConvocatoria",
           ACTUALIZAR: "api/convocatorias/actualizarConvocatoria",
-          ELIMINAR: "api/convocatorias/eliminarConvocatoria"
+          ELIMINAR: "api/convocatorias/eliminarConvocatoria",
+          GETUSUARIO: "api/convocatorias/getConvocatoriasUsuario",
+          GETACTIVAS: "api/convocatorias/getConvocatoriasActivas"
      },
      SIMULACRO: {
           GENERAL: "api/simulacros/general",

@@ -67,7 +67,6 @@ const ListaSimulacrosE = () => {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { navigate() }} title='Presentar Simulacro' style={{ color: "blue" }}><EditIcon/></IconButton>
-                                   <IconButton onClick={() => { navigate() }} title='Eliminar Simulacro' style={{ color: "red" }}><DeleteIcon/></IconButton>
                                    <IconButton onClick={() => { navigate() }} title="Ver Resultados" style={{ color: "gray" }}><BarChartIcon/></IconButton>
                               </div>
                          )

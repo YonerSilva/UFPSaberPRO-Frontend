@@ -35,7 +35,7 @@ export const guardar = async (convocatoria) => {
       "simu_fecha_inicial": String(convocatoria.simu_fecha_inicio).trim(),
       "simu_duracion": String(convocatoria.simu_duracion).trim(),
       "programa": parseInt(usuario.programa.id_programa),
-      "simulacro": convocatoria.simulacro!==""?parseInt(convocatoria.simulacro):null,
+      "simulacro": convocatoria.simulacro !== "" ? parseInt(convocatoria.simulacro) : null,
       "usu_creacion": parseInt(usuario.id_usuario),
     }),
   })).json();
@@ -59,7 +59,7 @@ export const actualizar = async (convocatoria) => {
       "simu_fecha_inicial": String(convocatoria.simu_fecha_inicio).trim(),
       "simu_duracion": String(convocatoria.simu_duracion).trim(),
       "programa": parseInt(usuario.programa.id_programa),
-      "simulacro": convocatoria.simulacro!==""?parseInt(convocatoria.simulacro):null,
+      "simulacro": convocatoria.simulacro !== "" ? parseInt(convocatoria.simulacro) : null,
     }),
   })).json();
 }
@@ -68,6 +68,31 @@ export const eliminar = async (id_convocatoria) => {
   const token = await getUserToken();
   return await (await fetch(API_URL + API.CONVOCATORIA.ELIMINAR + "?id_convocatoria=" + id_convocatoria, {
     method: "DELETE",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+
+  })).json();
+}
+
+export const getConvocatoriasUsuario = async () => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.CONVOCATORIA.GETUSUARIO + "?id_usuario=" + usuario.id_usuario, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+
+}
+
+export const getConvocatoriasActivas = async (id_programa) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.CONVOCATORIA.GETACTIVAS + "/?id_programa=" + id_programa, {
+    method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json',
