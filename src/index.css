@@ -125,6 +125,14 @@ font-size: 42px;
   height: 3rem;
 }
 
+.hr:not([size]) {
+  height: 6px;
+  border-width: 3px;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
+
 .auth-wrapper .form-control:focus {
   border-color: #167bff;
   box-shadow: none;

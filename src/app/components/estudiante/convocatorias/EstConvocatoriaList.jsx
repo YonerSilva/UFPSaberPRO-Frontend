@@ -16,11 +16,10 @@ import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
 import * as serviceConvocatoria from '../../../store/services/ConvocatoriaService';
 import { alert_error, alert_loading, alert_success } from '../../../util/functions';
 
-const ListaConvocatorias = () => {
+const ListaConvocatoriasUsuario = () => {
 
      const dispatch = useDispatch();
-     const { lista_convocatoria_usuario } = useStore();
-     // const { lista_convocatorias_programa } = useStore();
+     const { lista_convocatorias_usuario, lista_convocatorias_activa } = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();
@@ -88,9 +87,9 @@ const ListaConvocatorias = () => {
                          return (
                               <span>
                                    Disponible
-                                   <br/>
+                                   <br />
                                    Fecha Inicio: {fecha.toLocaleDateString() + ' - ' + fecha.toLocaleTimeString()}
-                                   <br/>
+                                   <br />
                                    Duración: {row.simu_duracion}</span>
                          )
                     } else {
@@ -103,11 +102,10 @@ const ListaConvocatorias = () => {
                dataField: "fd1",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    if (row.convo_estado === "I") {
+                    if (row.convo_estado === "A") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { navigate() }} title='Ver Informacion de la Convocatoria' style={{ color: "blue" }}><VisibilityIcon/></IconButton>
-                                   <IconButton onClick={() => { navigate() }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
+                                   <IconButton onClick={() => { navigate() }} title='Ver Informacion de la Convocatoria' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
                     }
@@ -115,27 +113,58 @@ const ListaConvocatorias = () => {
           }
      ]
 
-     const listarConvocatorias = (response) => {
+     const listarConvocatoriasU = () => {
           try {
-               serviceConvocatoria.getConvocatoriasUsuario.then(response=>{
+               serviceConvocatoria.getConvocatoriasUsuario().then(response => {
                     if (response.error === null) {
                          dispatch({
-                              type: "SET_LISTA_CONVOCATORIA_USUARIO",
-                              payload: response.general
+                              type: "SET_LISTA_CONVOCATORIAS_USUARIO",
+                              payload: response.convocatorias
                          });
                          alert_loading(response.message);
                     } else {
                          alert_error("¡Error!", response.message);
                     }
+                    setLoading(false);
                });
           } catch (error) {
                console.error(error);
           }
      }
 
-     const handleBuscar = (data) => {
+     const listarConvocatoriasA = () => {
+          try {
+               serviceConvocatoria.getConvocatoriasActivas().then(response => {
+                    if (response.error === null) {
+                         dispatch({
+                              type: "SET_LISTA_CONOVOCATORIAS_ACTIVA",
+                              payload: response.convocatorias
+                         });
+                         alert_loading(response.message);
+                    } else {
+                         alert_error("¡Error!", response.message);
+                    }
+                    setLoading(false);
+               });
+          } catch (error) {
+               console.error(error);
+          }
+     }
+
+     const handleBuscarU = (data) => {
           if (busqueda === "") {
-               return lista_convocatoria_usuario;
+               return lista_convocatorias_usuario;
+          } else {
+               return data.filter(
+                    (item) =>
+                         item.convo_nombre.toString().toUpperCase().includes(busqueda.toUpperCase())
+               );
+          }
+     }
+
+     const handleBuscarA = (data) => {
+          if (busqueda === "") {
+               return lista_convocatorias_activa;
           } else {
                return data.filter(
                     (item) =>
@@ -145,61 +174,113 @@ const ListaConvocatorias = () => {
      }
 
      useEffect(() => {
-          setLoading(false);
+          listarConvocatoriasU();
+          listarConvocatoriasA();
      }, []);
 
      return (
           <React.Fragment>
                <ResponsiveContainer>
                     <div className="container">
-                         <Typography component="h2" variant="h5" color="dark" gutterBottom>
-                              Lista de Convocatorias
-                         </Typography>
                          {
                               (() => {
-                                   if (lista_convocatoria_usuario.length !== 0) {
+                                   if (!loading) {
                                         return (
-                                             <Barra
-                                                  input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Convocatoria' placeholder="Buscar Convocatoria" className="form-control me-2 border border-danger shadow" type="search" aria-label="Buscar" />}
-                                             />
+                                             <>
+                                                  <Typography component="h2" variant="h5" color="dark" gutterBottom>
+                                                       Lista de Convocatorias Activas
+                                                  </Typography>
+                                                  {
+                                                       (() => {
+                                                            if (lista_convocatorias_activa.length !== 0) {
+                                                                 return (
+                                                                      <Barra
+                                                                           input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Convocatoria' placeholder="Buscar Convocatoria" className="form-control me-2 border border-danger shadow" type="search" aria-label="Buscar" />}
+                                                                      />
+                                                                 )
+                                                            }
+                                                       })()
+                                                  }
+                                                  <hr />
+                                                  <div className="container-fluid">
+                                                       {
+                                                            (() => {
+                                                                 if (lista_convocatorias_activa.length === 0) {
+                                                                      return (
+                                                                           <NoConvocatoria />
+                                                                      )
+                                                                 } else {
+                                                                      return (
+                                                                           <BootstrapTable headerClasses='table-head'
+                                                                                classes='table-design shadow'
+                                                                                bootstrap4
+                                                                                wrapperClasses='table-responsive'
+                                                                                striped
+                                                                                hover
+                                                                                keyField='id_convocatoria'
+                                                                                data={handleBuscarA(lista_convocatorias_activa)}
+                                                                                columns={columnas}
+                                                                                pagination={paginationFactory()}
+                                                                                noDataIndication='No hay registros disponibles.' />
+                                                                      )
+                                                                 }
+                                                            })()
+                                                       }
+                                                  </div>
+
+                                                  <hr className="hr" />
+
+                                                  <Typography component="h2" variant="h5" color="dark" gutterBottom>
+                                                       Lista de Convocatorias Presentadas
+                                                  </Typography>
+                                                  {
+                                                       (() => {
+                                                            if (lista_convocatorias_usuario.length !== 0) {
+                                                                 return (
+                                                                      <Barra
+                                                                           input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Convocatoria' placeholder="Buscar Convocatoria" className="form-control me-2 border border-danger shadow" type="search" aria-label="Buscar" />}
+                                                                      />
+                                                                 )
+                                                            }
+                                                       })()
+                                                  }
+                                                  <hr />
+                                                  <div className="container-fluid">
+                                                       {
+                                                            (() => {
+                                                                 if (lista_convocatorias_usuario.length === 0) {
+                                                                      return (
+                                                                           <NoConvocatoria />
+                                                                      )
+                                                                 } else {
+                                                                      return (
+                                                                           <BootstrapTable headerClasses='table-head'
+                                                                                classes='table-design shadow'
+                                                                                bootstrap4
+                                                                                wrapperClasses='table-responsive'
+                                                                                striped
+                                                                                hover
+                                                                                keyField='id_convocatoria'
+                                                                                data={handleBuscarU(lista_convocatorias_usuario)}
+                                                                                columns={columnas}
+                                                                                pagination={paginationFactory()}
+                                                                                noDataIndication='No hay registros disponibles.' />
+                                                                      )
+                                                                 }
+                                                            })()
+                                                       }
+                                                  </div>
+                                             </>
                                         )
+                                   } else {
+                                        return (<Cargador />)
                                    }
                               })()
                          }
-                         <hr />
-                         <div className="container-fluid">
-                              {
-                                   (() => {
-                                        if (!loading) {
-                                             if (lista_convocatoria_usuario.length !== 0) {
-                                                  return (
-                                                       <NoConvocatoria />
-                                                  )
-                                             } else {
-                                                  return (
-                                                       <BootstrapTable headerClasses='table-head' 
-                                                            classes='table-design shadow' 
-                                                            bootstrap4 
-                                                            wrapperClasses='table-responsive' 
-                                                            striped 
-                                                            hover 
-                                                            keyField='id_convocatoria' 
-                                                            data={handleBuscar(lista_convocatoria_usuario)} 
-                                                            columns={columnas} 
-                                                            pagination={paginationFactory()} 
-                                                            noDataIndication='No hay registros disponibles.'/>
-                                                  )
-                                             }
-                                        } else {
-                                             return (<Cargador />)
-                                        }
-                                   })()
-                              }
-                         </div>
                     </div>
                </ResponsiveContainer >
           </React.Fragment >
      )
 }
 
-export default ListaConvocatorias;
+export default ListaConvocatoriasUsuario;

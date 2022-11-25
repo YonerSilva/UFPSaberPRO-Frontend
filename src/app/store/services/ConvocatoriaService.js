@@ -79,7 +79,7 @@ export const eliminar = async (id_convocatoria) => {
 export const getConvocatoriasUsuario = async () => {
   const token = await getUserToken();
   const usuario = await getUser();
-  return await (await fetch(API_URL + API.CONVOCATORIA.GETUSUARIO + "?id_usuario=" + usuario.id_usuario, {
+  return await (await fetch(API_URL + API.CONVOCATORIA.GETUSUARIO + "/?id_usuario=" + usuario.id_usuario, {
     method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,
@@ -89,9 +89,10 @@ export const getConvocatoriasUsuario = async () => {
 
 }
 
-export const getConvocatoriasActivas = async (id_programa) => {
+export const getConvocatoriasActivas = async () => {
   const token = await getUserToken();
-  return await (await fetch(API_URL + API.CONVOCATORIA.GETACTIVAS + "/?id_programa=" + id_programa, {
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.CONVOCATORIA.GETACTIVAS + "/?id_programa=" +  usuario.programa.id_programa, {
     method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,
