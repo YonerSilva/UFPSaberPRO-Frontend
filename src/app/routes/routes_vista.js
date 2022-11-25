@@ -94,7 +94,7 @@ const routes =  {
                          {/* SIMULACROS */}
                          <Route path="/UFPSaberPRO/e/simulacros" key="simE" element={<Dashboard contenedor={<ListaSimulacrosE/>} />} />
 
-                         <Route path="/UFPSaberPRO/e/convocatoria_info" key="simE" element={<Dashboard contenedor={<ConvocatoriaInformacion/>} />} />
+                         <Route path="/UFPSaberPRO/e/convocatoria_info" key="convInfo" element={<Dashboard contenedor={<ConvocatoriaInformacion/>} />} />
                     </Route> 
                </Route>
           ],
