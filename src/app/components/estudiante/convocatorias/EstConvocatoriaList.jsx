@@ -105,7 +105,7 @@ const ListaConvocatoriasUsuario = () => {
                     if (row.convo_estado === "A") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { navigate() }} title='Ver Informacion de la Convocatoria' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
+                                   <IconButton onClick={() => { navigate("/UFPSaberPRO/e/convocatoria_info") }} title='Ver Informacion de la Convocatoria' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
                     }
