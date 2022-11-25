@@ -2,6 +2,7 @@ import { ACCION } from "../actions/Acciones";
 
 const initialState = {
      formEdition: {},
+     formEditionUsu: {},
      formEditionSimu: {},
      formEditionOpc: {},
      formEditionPreg: {},
@@ -27,6 +28,12 @@ export const storeReducer = (state, action) => {
                return {
                     ...state,
                     formEdition: payload
+               };
+          case ACCION.SET_FORM_EDITION_USU:
+               console.log(action);
+               return {
+                    ...state,
+                    formEditionUsu: payload
                };
           case ACCION.SET_FORM_EDITION_OPC:
                console.log(action);
@@ -60,6 +67,12 @@ export const storeReducer = (state, action) => {
                state.lista_usuarios_programa = payload.usuarios_programa;
                state.lista_preguntas_programa = payload.preguntas_programa;
                return state;
+          case ACCION.SET_LISTA_USUARIOS_PRG:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_usuarios_programa: payload
+               };
           case ACCION.SET_LISTA_CONVOCATORIAS_PRG:
                console.log(action);
                return {

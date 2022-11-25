@@ -9,13 +9,13 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import Cargador from '../extra/CargadorEventos';
 import NoUser from './NoUser';
-
-
 import IconButton from "@mui/material/IconButton";
+import useAuth from '../auth/useAuth';
 
 const ListaUsuarios = ()=>{
 
      const dispatch = useDispatch();
+     const {auth} = useAuth();
      const { lista_usuarios_programa } = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
@@ -78,18 +78,20 @@ const ListaUsuarios = ()=>{
                dataField: "fd1",
                isDummyField: true,
                formatter: (cellContent, row) => {
+                    if(auth?.usuario?.id_usuario!==row.id_usuario){
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { updateUsuario(row) }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
                               </div>
                          )
+                    }
                }
           }
      ]
 
      const updateUsuario = (item) => {
           dispatch({
-               type: "SET_FORM_EDITION",
+               type: "SET_FORM_EDITION_USU",
                payload: item
           });
           navigate('/UFPSaberPRO/a/usuarios/editar-usuarios');

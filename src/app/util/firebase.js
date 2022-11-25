@@ -51,20 +51,14 @@ export function createUserFirebase(email, password) {
 export function updateUserFirebase(email, password) {
     const auth = getAuth();
     const user = auth.currentUser;
-    updateEmail(user, email).then(() => {
-        // Email updated!
-        if (password !== "") {
-            updatePassword(user, password).then(() => {
-                // Update successful.
-            }).catch((error) => {
-                // An error ocurred
-                // ...
-            });
-        }
-    }).catch((error) => {
-        // An error occurred
-        // ...
-    });
+    if (password !== "") {
+        updatePassword(user, password).then(() => {
+            // Update successful.
+        }).catch((error) => {
+            // An error ocurred
+            // ...
+        });
+    }
 }
 
 export function sign_in_firebase(email, password) {

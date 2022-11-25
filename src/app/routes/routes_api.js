@@ -3,12 +3,14 @@ import React from "react";
 const API = {
      DATOGENERAL: {
           GENERAL: "api/general/getDatos",
+          USUARIOS: "api/general/getUsuariosPrograma"
      },
      AUTH: {
           SIGN_UP: "auth/register",
           SIGN_IN: "auth/login",
           VALIDATE_TOKEN: "auth/validateToken",
-          GENERAL: "auth/getDatos"
+          GENERAL: "auth/getDatos",
+          ACTUALIZAR: "auth/actualizarUsuario"
      },
      CONVOCATORIA: {
           GENERAL: "api/convocatorias/general",
