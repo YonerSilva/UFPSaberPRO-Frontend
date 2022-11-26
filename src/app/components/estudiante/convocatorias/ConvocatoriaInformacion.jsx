@@ -19,25 +19,29 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, Card, Form } from 'react-bootstrap';
 import cellEditFactory from 'react-bootstrap-table2-editor';
+import Container from '@mui/material/Container';
 import Swal from 'sweetalert2';
 
 const ConvocatoriaInformacion = () => {
+
+     const navigate = useNavigate();
 
      return (
           <React.Fragment>
                <ResponsiveContainer>
                     <div className="container">
-                         <Typography component="h2" variant="h5" color="dark" gutterBottom>
-                              Lista de Preguntas del Simulacro
-                         </Typography>
-
                          <div className="container-fluid">
                               <>
                                    <Paper
                                         variant="outlined"
                                         sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
                                    >
+                                        <Typography component="h2" variant="h5" color="dark" gutterBottom>
+                                             Informacion de la Convocatoria
+                                        </Typography>
+                                        <hr></hr>
                                         <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
+
                                              <Grid item xs={6}>
                                                   <Card border="danger">
                                                        <Card.Header>CONVOCATORIA</Card.Header>
@@ -53,10 +57,8 @@ const ConvocatoriaInformacion = () => {
                                                                  <b>Fecha de Finalizacion: </b>
                                                             </Card.Text>
                                                             <Card.Text>
-                                                                 <b>Programa: </b>
+                                                                 <b>Estado: </b>
                                                                  <br />
-                                                            </Card.Text>
-                                                            <Card.Text>
                                                                  <b>Programa: </b>
                                                                  <br />
                                                             </Card.Text>
@@ -70,27 +72,40 @@ const ConvocatoriaInformacion = () => {
                                                        <Card.Body>
                                                             <Card.Title>
                                                                  <b>Nombre: </b>
+                                                                 <br />
+                                                                 <br />
                                                             </Card.Title>
                                                             <Card.Text>
-                                                                 <b>Puntaje Máximo del Simulacro: </b>
+                                                                 <b>Descripcion: </b>
                                                                  <br />
-                                                                 <b>Sumatoria Valor Preguntas Seleccionadas: </b>
-                                                                 <br />
-                                                                 <b>Puntaje Máximo Futuro del Simulacro: </b>
                                                             </Card.Text>
                                                             <Card.Text>
-                                                                 <b>Descripción: </b>
+                                                            <br />
+                                                                 <b>Estado: </b>
+                                                                 <br />
+                                                                 <b>Programa: </b>
                                                                  <br />
                                                             </Card.Text>
                                                        </Card.Body>
                                                   </Card>
+                                             </Grid>
+                                             <hr></hr>
+                                             <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
+                                                  <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2 flex-start">
+                                                       Volver
+                                                  </Button>
+                                             </Grid>
+                                             <Grid item xs sx={{ display: "flex", justifyContent: "start" }}>
+                                                  <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2 flex-end">
+                                                       Registrarse
+                                                  </Button>
                                              </Grid>
                                         </Grid>
                                    </Paper>
                               </>
                          </div>
                     </div>
-               </ResponsiveContainer>
+               </ResponsiveContainer >
           </React.Fragment >
      );
 };
