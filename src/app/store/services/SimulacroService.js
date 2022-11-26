@@ -18,6 +18,17 @@ export const getDatosGenerales = async () => {
   })).json();
 }
 
+export const getSimulacro = async (id_simulacro) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.SIMULACRO.SIMULACRO + "/?id_simulacro=" + id_simulacro , {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
+
 export const guardar = async (simulacro) => {
   const token = await getUserToken();
   const usuario = await getUser();

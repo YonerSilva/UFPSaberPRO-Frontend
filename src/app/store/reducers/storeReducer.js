@@ -2,6 +2,7 @@ import { ACCION } from "../actions/Acciones";
 
 const initialState = {
      formEdition: {},
+     formEditionConvo: {},
      formEditionUsu: {},
      formEditionSimu: {},
      formEditionOpc: {},
@@ -28,6 +29,12 @@ export const storeReducer = (state, action) => {
                return {
                     ...state,
                     formEdition: payload
+               };
+          case ACCION.SET_FORM_EDITION_CONVO:
+               console.log(action);
+               return {
+                    ...state,
+                    formEditionConvo: payload
                };
           case ACCION.SET_FORM_EDITION_USU:
                console.log(action);
@@ -105,13 +112,13 @@ export const storeReducer = (state, action) => {
                };
           case ACCION.SET_LISTA_CONVOCATORIAS_USUARIO:
                console.log(action);
-               return{
+               return {
                     ...state,
                     lista_convocatorias_usuario: payload
                };
           case ACCION.SET_LISTA_CONOVOCATORIAS_ACTIVA:
                console.log(action);
-               return{
+               return {
                     ...state,
                     lista_convocatorias_activa: payload
                };

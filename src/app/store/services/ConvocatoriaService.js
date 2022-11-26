@@ -92,11 +92,27 @@ export const getConvocatoriasUsuario = async () => {
 export const getConvocatoriasActivas = async () => {
   const token = await getUserToken();
   const usuario = await getUser();
-  return await (await fetch(API_URL + API.CONVOCATORIA.GETACTIVAS + "/?id_programa=" +  usuario.programa.id_programa, {
+  return await (await fetch(API_URL + API.CONVOCATORIA.GETACTIVAS + "/?id_programa=" +  usuario.programa.id_programa + "&id_usuario="+usuario.id_usuario, {
     method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
+  })).json();
+}
+
+export const guardarUsuarioConvo = async (id_convocatoria) => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.CONVOCATORIA.GUARDAR_USUARIO, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "id_convocatoria": parseInt(id_convocatoria),
+      "id_usuario": parseInt(usuario.id_usuario),
+    }),
   })).json();
 }

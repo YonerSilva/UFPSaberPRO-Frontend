@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import Barra from '../../extra/BarraBusqueda';
@@ -14,7 +12,7 @@ import { IconButton } from '@mui/material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
 import * as serviceConvocatoria from '../../../store/services/ConvocatoriaService';
-import { alert_error, alert_loading, alert_success } from '../../../util/functions';
+import { alert_error, alert_loading } from '../../../util/functions';
 
 const ListaConvocatoriasUsuario = () => {
 
@@ -105,13 +103,21 @@ const ListaConvocatoriasUsuario = () => {
                     if (row.convo_estado === "A") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { navigate("/UFPSaberPRO/e/convocatoria_info") }} title='Ver Informacion de la Convocatoria' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
+                                   <IconButton onClick={() => { verInformacionConvo(row) }} title='Ver Informacion de la Convocatoria' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
                     }
                }
           }
      ]
+
+     const verInformacionConvo = (item)=>{
+          dispatch({
+               type: "SET_FORM_EDITION_CONVO",
+               payload: item
+          });
+          navigate("/UFPSaberPRO/e/convocatoria_info");
+     }
 
      const listarConvocatoriasU = () => {
           try {
