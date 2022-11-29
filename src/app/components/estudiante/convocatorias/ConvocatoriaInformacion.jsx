@@ -109,7 +109,7 @@ const ConvocatoriaInformacion = () => {
                                    <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                                         <Form onSubmit={handleSubmit}>
                                              <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-                                                  <Grid item xs={6}>
+                                                  <Grid item xs={6} >
                                                        <Card border="danger">
                                                             <Card.Header>CONVOCATORIA</Card.Header>
                                                             <Card.Body>

@@ -8,6 +8,8 @@ import ListaSimulacros from '../components/simulacros/SimulacrosLista';
 import CrearSimulacros from '../components/simulacros/CrearSimulacros';
 import SimulacroPreguntasList from '../components/simulacros/SimulacroPreguntas';
 import SimPregList from '../components/simulacros/SimPregList';
+import InformacionSimulacroE from '../components/estudiante/Simulacros/InformacionSimulacro';
+import Start_Examen from '../components/estudiante/Simulacros/start_examen';
 //Convocatorias
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
 import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
@@ -88,13 +90,14 @@ const routes =  {
                          <Route path="/UFPSaberPRO/e/Inicio" key="homeEstu" element={<Dashboard contenedor={<HomeE/>} />} />
                     </Route> 
                     {/* FUNCIONALIDADES */}
-                    <Route key="menuadmin" element={<RequireAuth allowedRoles={[ROLES.ESTUDIANTE]} />}>
+                    <Route key="menEst" element={<RequireAuth allowedRoles={[ROLES.ESTUDIANTE]} />}>
                          {/* CONVOCATORIAS */}
                          <Route path="/UFPSaberPRO/e/convocatorias" key="convE" element={<Dashboard contenedor={<ListaConvocatoriasE/>} />} />
+                         <Route path="/UFPSaberPRO/e/convocatoria_info" key="convInfoE" element={<Dashboard contenedor={<ConvocatoriaInformacion/>} />} />
                          {/* SIMULACROS */}
                          <Route path="/UFPSaberPRO/e/simulacros" key="simE" element={<Dashboard contenedor={<ListaSimulacrosE/>} />} />
-
-                         <Route path="/UFPSaberPRO/e/convocatoria_info" key="convInfo" element={<Dashboard contenedor={<ConvocatoriaInformacion/>} />} />
+                         <Route path="/UFPSaberPRO/e/informacion_simulacro" key="simE" element={<Dashboard contenedor={<InformacionSimulacroE/>} />} />
+                         <Route path="/UFPSaberPRO/e/presentar_simulacro" key="preSimE" element={<Dashboard contenedor={<Start_Examen/>} />} />
                     </Route> 
                </Route>
           ],

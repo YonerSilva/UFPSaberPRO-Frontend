@@ -12,8 +12,7 @@ const PersistAuth = () => {
 
      const auth = useAuth();
      const [loading, setLoading] = useState(true);
-     const { lista_convocatorias_programa, lista_simulacros_programa, lista_categorias_programa, lista_subcategorias_programa,
-          lista_convocatorias_usuario, lista_convocatorias_activa } = useStore();
+     const { lista_convocatorias_programa, lista_simulacros_programa, lista_categorias_programa, lista_subcategorias_programa} = useStore();
      const dispatch = useDispatch();
      const location = useLocation();
 
@@ -35,7 +34,7 @@ const PersistAuth = () => {
      }
 
      const validateDatosGenerales = () => {
-          return !lista_convocatorias_programa && !lista_simulacros_programa && !lista_categorias_programa && !lista_subcategorias_programa && !lista_convocatorias_usuario && !lista_convocatorias_activa;
+          return !lista_convocatorias_programa && !lista_simulacros_programa && !lista_categorias_programa && !lista_subcategorias_programa;
      }
 
      const persist = async () => {

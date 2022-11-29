@@ -119,4 +119,15 @@ export const eliminarPreguntas = async (formEdition) => {
   })).json();
 }
 
+export const getSimulacrosConvo = async () => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.SIMULACRO.SIMULACROS_CONVO + "?id_usuario=" + usuario.id_usuario, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
 /*--------------------------------END------------------------------------*/

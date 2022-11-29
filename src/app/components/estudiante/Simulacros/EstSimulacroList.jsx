@@ -5,14 +5,20 @@ import Typography from '@mui/material/Typography';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import Cargador from '../../extra/CargadorEventos';
 import Barra from '../../extra/BarraBusqueda';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import NoSimulacro from './NoSimulacro';
-import { useStore } from '../../../store/Provider/storeProvider';
+import * as serviceSimulacro from '../../../store/services/SimulacroService';
+import { useStore,useDispatch } from '../../../store/Provider/storeProvider';
+import { alert_error, alert_loading } from '../../../util/functions';
 
 const ListaSimulacrosE = () => {
+     const dispatch = useDispatch();
      const { lista_simulacros_usuario } = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
@@ -60,10 +66,10 @@ const ListaSimulacrosE = () => {
                dataField: "fd1",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    if (row.simu_estado === "I") {
+                    if (row.simu_estado === "A") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { navigate() }} title='Presentar Simulacro' style={{ color: "blue" }}><EditIcon/></IconButton>
+                                   <IconButton onClick={() => { presentarSimulacro(row) }} title='Presentar Simulacro' style={{ color: "blue" }}><HistoryEduIcon/></IconButton>
                                    <IconButton onClick={() => { navigate() }} title="Ver Resultados" style={{ color: "gray" }}><BarChartIcon/></IconButton>
                               </div>
                          )
@@ -72,6 +78,36 @@ const ListaSimulacrosE = () => {
           }
      ]
 
+     const listarSimulacros = () => {
+          try {
+               serviceSimulacro.getSimulacrosConvo().then(response => {
+                    if (response.error === null) {
+                         dispatch({
+                              type: "SET_LISTA_SIMULACROS_USUARIO",
+                              payload: response.simulacros
+                         });
+                         alert_loading(response.message);
+                    } else {
+                         alert_error("¡Error!", response.message);
+                    }
+                    setLoading(false);
+               });
+          } catch (error) {
+               console.error(error);
+          }
+     }
+
+
+     const presentarSimulacro = (item) => {
+          dispatch({
+               type: "SET_FORM_EDITION_SIMU",
+               payload: item
+          });
+          navigate("/UFPSaberPRO/e/informacion_simulacro");
+     }
+
+
+     
      const handleBuscar = (data) => {
           if (busqueda === "") {
                return lista_simulacros_usuario;
@@ -84,7 +120,7 @@ const ListaSimulacrosE = () => {
      }
 
      useEffect(() => {
-          setLoading(false);
+          listarSimulacros();
      }, []);
 
      return (
@@ -99,7 +135,6 @@ const ListaSimulacrosE = () => {
                                    if (lista_simulacros_usuario.length !== 0) {
                                         return (
                                              <Barra
-                                                  button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/a/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>}
                                                   input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />}
                                              />
                                         )
@@ -118,7 +153,19 @@ const ListaSimulacrosE = () => {
                                                   )
                                              } else {
                                                   return (
-                                                       <BootstrapTable headerClasses='table-head' classes='table-design shadow' bootstrap4 wrapperClasses='table-responsive' striped bordered hover keyField='id_simulacro' data={handleBuscar(lista_simulacros_usuario)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.' />
+                                                       <BootstrapTable 
+                                                       headerClasses='table-head' 
+                                                       classes='table-design shadow' 
+                                                       bootstrap4 
+                                                       wrapperClasses='table-responsive' 
+                                                       striped 
+                                                       bordered 
+                                                       hover 
+                                                       keyField='id_simulacro' 
+                                                       data={handleBuscar(lista_simulacros_usuario)} 
+                                                       columns={columnas} 
+                                                       pagination={paginationFactory()} 
+                                                       noDataIndication='No hay registros disponibles.' />
                                                   )
                                              }
                                         } else {

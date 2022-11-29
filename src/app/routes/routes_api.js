@@ -1,5 +1,3 @@
-import React from "react";
-
 const API = {
      DATOGENERAL: {
           GENERAL: "api/general/getDatos",
@@ -29,6 +27,7 @@ const API = {
           PREGUNTAS: "api/simulacros/getPreguntas",
           PREGUNTAS_DIFERENTES: "api/simulacros/getPreguntasDiferentes",
           GUARDAR_PREGUNTAS: "api/simu_preg/guardarPreguntas",
+          SIMULACROS_CONVO: "api/simulacros/getSimulacrosConvo",
           ELIMINAR_PREGUNTAS: "api/simu_preg/eliminarPreguntas"
      },
      CATEGORIA: {

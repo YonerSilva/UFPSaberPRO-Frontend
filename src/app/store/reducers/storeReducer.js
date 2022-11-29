@@ -74,9 +74,6 @@ export const storeReducer = (state, action) => {
                state.lista_subcategorias_programa = payload.subcategorias_programa;
                state.lista_usuarios_programa = payload.usuarios_programa;
                state.lista_preguntas_programa = payload.preguntas_programa;
-               state.lista_convocatorias_activa = payload.convocatorias_activa;
-               state.lista_convocatorias_usuario = payload.convocatorias_usuario;
-               state.lista_simulacros_usuario = payload.simulacros_usuario;
                return state;
           case ACCION.SET_LISTA_USUARIOS_PRG:
                console.log(action);
@@ -125,6 +122,12 @@ export const storeReducer = (state, action) => {
                return {
                     ...state,
                     lista_convocatorias_activa: payload
+               };
+          case ACCION.SET_LISTA_SIMULACROS_USUARIO:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_simulacros_usuario: payload
                };
           default:
                return state;
