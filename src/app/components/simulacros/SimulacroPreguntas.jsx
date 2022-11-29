@@ -282,17 +282,24 @@ const SimulacroPreguntasList = () => {
      };
 
      useEffect(() => {
-          if (Object.keys(formEditionSimu).length === 0 || formEditionSimu.id_simulacro === undefined) {
+          if (Object.keys(formEditionSimu).length === 0 || formEditionSimu.id_simulacro === undefined || formEditionSimu.simu_estado !== "I") {
                navigate('/UFPSaberPRO/a/simulacros');
           } else {
                listarPreguntas();
+          }
+
+          return () => {
+               dispatch({
+                    type: "SET_FORM_EDITION",
+                    payload: {}
+               })
           }
      }, []);
 
      const selectRow = {
           mode: 'checkbox',
           clickToSelect: false,
-          bgColor: "#FE8396",
+          bgColor: "#83E4FE",
           onSelect: (row, isSelect, rowIndex, e) => {
                if (isSelect === true && (row.simu_preg_puntaje <= 0)) {
                     alert_error("¡Error!", "El valor de la pregunta debe ser mayor a 0.");

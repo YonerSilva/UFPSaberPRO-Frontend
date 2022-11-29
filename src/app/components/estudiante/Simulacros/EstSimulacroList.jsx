@@ -5,18 +5,15 @@ import Typography from '@mui/material/Typography';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from "@mui/material/IconButton";
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import Cargador from '../../extra/CargadorEventos';
 import Barra from '../../extra/BarraBusqueda';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import NoSimulacro from './NoSimulacro';
-import { useStore,useDispatch } from '../../../store/Provider/storeProvider';
+import { useStore } from '../../../store/Provider/storeProvider';
 
 const ListaSimulacrosE = () => {
-     const dispatch = useDispatch();
-     const { lista_simulacros_programa } = useStore();
+     const { lista_simulacros_usuario } = useStore();
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();
@@ -77,7 +74,7 @@ const ListaSimulacrosE = () => {
 
      const handleBuscar = (data) => {
           if (busqueda === "") {
-               return lista_simulacros_programa;
+               return lista_simulacros_usuario;
           } else {
                return data.filter(
                     (item) =>
@@ -99,7 +96,7 @@ const ListaSimulacrosE = () => {
                          </Typography>
                          {
                               (() => {
-                                   if (lista_simulacros_programa.length !== 0) {
+                                   if (lista_simulacros_usuario.length !== 0) {
                                         return (
                                              <Barra
                                                   button={<button type='button' onClick={() => { navigate('/UFPSaberPRO/a/simulacros/crear_simulacro') }} className='btn btn-danger m-2'>Crear Simulacro</button>}
@@ -115,13 +112,13 @@ const ListaSimulacrosE = () => {
                               {
                                    (() => {
                                         if (!loading) {
-                                             if (lista_simulacros_programa.length === 0) {
+                                             if (lista_simulacros_usuario.length === 0) {
                                                   return (
                                                        <NoSimulacro/>
                                                   )
                                              } else {
                                                   return (
-                                                       <BootstrapTable headerClasses='table-head' classes='table-design shadow' bootstrap4 wrapperClasses='table-responsive' striped bordered hover keyField='id_simulacro' data={handleBuscar(lista_simulacros_programa)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.' />
+                                                       <BootstrapTable headerClasses='table-head' classes='table-design shadow' bootstrap4 wrapperClasses='table-responsive' striped bordered hover keyField='id_simulacro' data={handleBuscar(lista_simulacros_usuario)} columns={columnas} pagination={paginationFactory()} noDataIndication='No hay registros disponibles.' />
                                                   )
                                              }
                                         } else {

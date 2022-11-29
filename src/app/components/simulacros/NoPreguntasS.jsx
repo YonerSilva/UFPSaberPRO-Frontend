@@ -5,11 +5,20 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material';
 import { Button, Form } from "react-bootstrap";
 import Grid from "@mui/material/Grid";
+import { useStore } from '../../store/Provider/storeProvider';
+import { useEffect } from 'react';
 
 export default function NoPreguntasS() {
 
+    const { formEditionSimu } = useStore();
     const navigate = useNavigate();
     const theme = createTheme();
+
+    useEffect(() => {
+        if (Object.keys(formEditionSimu).length === 0) {
+            navigate('/UFPSaberPRO/a/simulacros');
+        }
+    }, []);
 
     return (
         <ThemeProvider theme={theme}>
@@ -20,19 +29,30 @@ export default function NoPreguntasS() {
                 </h2>
                 <div className='mx-auto row d-flex flex-column'>
                     <div className='col-12 d-flex justify-content-center'>
-                        <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200}/>
+                        <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
                     </div>
                     <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
-                        <Grid item xs sm={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                            <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
-                                Volver
-                            </Button>
-                        </Grid >
-                        <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button  onClick={() => { navigate('/UFPSaberPRO/a/simulacros/seleccionar_preguntas') }} size="large" className="btn-v btn-danger m-2">
-                                Seleccionar Preguntas
-                            </Button>
-                        </Grid >
+                        {
+                            formEditionSimu.simu_estado === 'I'
+                                ?
+                                <>
+                                    <Grid item xs sm={12} sx={{ display: "flex", justifyContent: "center" }}>
+                                        <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn btn-danger m-2">
+                                            Volver
+                                        </Button>
+                                        <Button onClick={() => { navigate('/UFPSaberPRO/a/simulacros/seleccionar_preguntas') }} size="large" className="btn btn-danger m-2">
+                                            Seleccionar Preguntas
+                                        </Button>
+                                    </Grid >
+                                </>
+                                :
+                                <Grid item xs sm={12} sx={{ display: "flex", justifyContent: "center" }}>
+                                    <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn-v btn-danger m-2">
+                                        Volver
+                                    </Button>
+                                </Grid >
+                        }
+
                     </Grid>
                 </div>
             </Container>

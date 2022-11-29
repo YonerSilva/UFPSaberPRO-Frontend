@@ -70,6 +70,12 @@ const ListaSimulacros = () => {
                                    <IconButton onClick={() => {verPreguntas(row)}} title="Ver Preguntas" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
+                    }else{
+                         return (
+                              <div className='row-cols-2 row-cols-md-auto' align='center'>
+                                   <IconButton onClick={() => {verPreguntas(row)}} title="Ver Preguntas" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
+                              </div>
+                         )
                     }
                }
           }

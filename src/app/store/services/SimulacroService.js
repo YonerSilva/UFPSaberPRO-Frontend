@@ -75,7 +75,7 @@ export const getPreguntas = async (id_simulacro) => {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json',
     },
-  })).jso
+  })).json();
 }
 
 export const getPreguntasDiferentes = async (id_simulacro) => {
@@ -93,6 +93,21 @@ export const guardarPreguntas = async (formEdition) => {
   const token = await getUserToken();
   return await (await fetch(API_URL + API.SIMULACRO.GUARDAR_PREGUNTAS, {
     method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "preguntas": formEdition.preguntas,
+      "simulacro": parseInt(formEdition.simulacro)
+    }),
+  })).json();
+}
+
+export const eliminarPreguntas = async (formEdition) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.SIMULACRO.ELIMINAR_PREGUNTAS, {
+    method: 'DELETE',
     headers: {
       'Authorization': 'Bearer ' + token,
       'Content-Type': 'application/json',

@@ -21,11 +21,12 @@ const ConvocatoriaInformacion = () => {
      const handleSubmit = (e) => {
           e.preventDefault();
           try {
-               serviceConvocatoria.guardarUsuarioConvo(formEditionConvo.id_convocatoria).then(response=>{
-                    if(response.error===null){
-                         alert_success(response.message,"Usted se ha registrado con éxito a la convocatoria.");
+               serviceConvocatoria.guardarUsuarioConvo(formEditionConvo.id_convocatoria).then(response => {
+                    if (response.error === null) {
+                         listarConvocatorias();
+                         alert_success(response.message, "Usted se ha registrado con éxito a la convocatoria.");
                          navigate("/UFPSaberPRO/e/convocatorias");
-                    }else{
+                    } else {
                          alert_error("¡Error!", response.message);
                     }
                });
@@ -34,7 +35,39 @@ const ConvocatoriaInformacion = () => {
           }
      }
 
-     const getsimulacro = () => {
+     const listarConvocatorias = () => {
+          try {
+               serviceConvocatoria.getConvocatoriasUsuario().then(response => {
+                    if (response.error === null) {
+                         dispatch({
+                              type: "SET_LISTA_CONVOCATORIAS_USUARIO",
+                              payload: response.convocatorias
+                         });
+                    } else {
+                         alert_error("¡Error!", response.message);
+                    }
+               });
+          } catch (error) {
+               console.error(error);
+          }
+
+          try {
+               serviceConvocatoria.getConvocatoriasActivas().then(response => {
+                    if (response.error === null) {
+                         dispatch({
+                              type: "SET_LISTA_CONOVOCATORIAS_ACTIVA",
+                              payload: response.convocatorias
+                         });
+                    } else {
+                         alert_error("¡Error!", response.message);
+                    }
+               });
+          } catch (error) {
+               console.error(error);
+          }
+     }
+
+     const getSimulacro = () => {
           try {
                serviceSimulacro.getSimulacro(formEditionConvo.simulacro).then(response => {
                     if (response.error === null) {
@@ -52,7 +85,7 @@ const ConvocatoriaInformacion = () => {
           if (Object.keys(formEditionConvo).length === 0 || formEditionConvo.id_convocatoria === undefined) {
                navigate("/UFPSaberPRO/e/convocatorias");
           } else {
-               getsimulacro();
+               getSimulacro();
           }
           return () => {
                // Anything in here is fired on component unmount.

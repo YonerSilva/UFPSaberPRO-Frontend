@@ -8,7 +8,7 @@ export function alert_success(success, message) {
      });
 };
 
-export function alert_loading(success, message) {
+export function alert_loading(success) {
      toast.promise(
           new Promise((resolve, reject) => {
                setTimeout(() => {
