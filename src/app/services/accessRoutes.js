@@ -8,13 +8,13 @@ const ProtectedRoutes = () => {
 
   async function validateToken() {
     try {
-      /*let token = service.getUserToken();
+      let token = service.getUserToken();
       if (token != null && token !== "" && token !== 'null' && token !== undefined) {
         const response = await service.validateToken(token);
         if(parseInt(response.status)===200){
           return true;
         }
-      }*/
+      }
       return true;
     } catch (error) {
       console.log(error);

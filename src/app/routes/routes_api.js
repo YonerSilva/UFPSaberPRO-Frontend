@@ -28,7 +28,8 @@ const API = {
           PREGUNTAS_DIFERENTES: "api/simulacros/getPreguntasDiferentes",
           GUARDAR_PREGUNTAS: "api/simu_preg/guardarPreguntas",
           SIMULACROS_CONVO: "api/simulacros/getSimulacrosConvo",
-          ELIMINAR_PREGUNTAS: "api/simu_preg/eliminarPreguntas"
+          ELIMINAR_PREGUNTAS: "api/simu_preg/eliminarPreguntas",
+          PREGUNTAS_OPCIONES: "api/simulacros/getPregOpcSimu",
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",

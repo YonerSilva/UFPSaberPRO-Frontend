@@ -89,14 +89,16 @@ const ListaConvocatorias = () => {
                isDummyField: true,
                formatter: (cellContent, row) => {
                     if (row.simulacro !== null && row.simulacro !== undefined) {
-                         const fecha = new Date(row.simu_fecha_inicial);
+                         const fecha_inicio = new Date(row.simu_fecha_inicial);
+                         const fecha_final = new Date(row.simu_fecha_final);
                          return (
                               <span>
                                    Disponible
                                    <br />
-                                   Fecha Inicio: {fecha.toLocaleDateString() + ' - ' + fecha.toLocaleTimeString()}
+                                   Fecha Inicio: {fecha_inicio.toLocaleDateString() + ' - ' + fecha_inicio.toLocaleTimeString()}
                                    <br />
-                                   Duración: {row.simu_duracion}</span>
+                                   Fecha Final: {fecha_final.toLocaleDateString() + ' - ' + fecha_final.toLocaleTimeString()}
+                              </span>
                          )
                     } else {
                          return <span>No disponible.</span>

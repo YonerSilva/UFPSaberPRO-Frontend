@@ -1,32 +1,30 @@
-import { useState, useEffect } from "react";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useTimer } from 'react-timer-hook';
+import { useDispatch } from '../../store/Provider/storeProvider';
 
-const SECOND = 1_000;
-const MINUTE = SECOND * 60;
-const HOUR = MINUTE * 60;
-const DAY = HOUR * 12;
 
-export default function useTimer(deadline, interval = SECOND) {
-  const [timespan, setTimespan] = useState(new Date(deadline) - Date.now());
+const Timer = ({ expiryTimestamp }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setTimespan((_timespan) => _timespan - interval);
-    }, interval);
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({ expiryTimestamp, onExpire: () => { alert("Se termino esa monda") } });
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [interval]);
-
-  /* If the initial deadline value changes */
-  useEffect(() => {
-    setTimespan(new Date(deadline) - Date.now());
-  }, [deadline]);
-
-  return {
-    days: Math.floor(timespan / DAY),
-    hours: Math.floor((timespan / HOUR) % 12),
-    minutes: Math.floor((timespan / MINUTE) % 60),
-    seconds: Math.floor((timespan / SECOND) % 60)
-  };
+  return (
+    <h4 className='text-center'>
+      {hours}:{minutes}:{seconds}
+    </h4>
+  );
 }
+
+export default Timer;
