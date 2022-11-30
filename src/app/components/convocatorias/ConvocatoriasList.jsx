@@ -5,6 +5,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import Barra from '../extra/BarraBusqueda';
@@ -106,13 +107,28 @@ const ListaConvocatorias = () => {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { updateConvocatoria(row) }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
+                                   <IconButton onClick={() => { listarEstudiantes(row)}} title='Ver estudiantes' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
                                    <IconButton onClick={() => { deleteConvocatoria(row) }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
+                              </div>
+                         )
+                    }else{
+                         return(
+                              <div className='row-cols-2 row-cols-md-auto' align='center'>
+                                   <IconButton onClick={() => { listarEstudiantes(row)}} title='Ver estudiantes' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
                               </div>
                          )
                     }
                }
           }
      ]
+
+     const listarEstudiantes = (item) => {
+          dispatch({
+               type: "SET_FORM_EDITION",
+               payload: item
+          });
+          navigate('/UFPSaberPRO/a/convocatoria_estudiantes');
+     }
 
      const updateConvocatoria = (item) => {
           dispatch({

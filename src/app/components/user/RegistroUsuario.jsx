@@ -11,7 +11,7 @@ import { createUserFirebase } from "../../util/firebase.js";
 
 function RegistroUsuario() {
   const navigate = useNavigate();
-  const {lista_programas, lista_roles} = useStore();
+  const { lista_programas, lista_roles } = useStore();
 
   const valores_iniciales = {
     nombre: "",
@@ -30,14 +30,14 @@ function RegistroUsuario() {
     try {
       const usuario = upperCase();
       service.sign_up(usuario).then(response => {
-        if (response.error!==null || response.error !== undefined) {
-          if(usuario.rol===1 || usuario.rol===2){
-            createUserFirebase(usuario.email,usuario.password);
+        if (response.error === null) {
+          if (parseInt(usuario.rol) === 1 || parseInt(usuario.rol) === 2) {
+            createUserFirebase(usuario.email, usuario.password);
           }
           alert_success(response.message, "Bienvenido (a)" + usuario.nombre + " " + usuario.apellido + ".");
-          setTimeout(()=>{
+          setTimeout(() => {
             navigate("/")
-          },5000);
+          }, 5000);
         } else {
           alert_error("¡Error!", response.error);
         }
@@ -50,7 +50,7 @@ function RegistroUsuario() {
   const handleInputChange = (e) => {
     const name = e.target.name;
     const value = e.target.value;
-    setUser(prevUser=>({ ...prevUser, [name]: value }));
+    setUser(prevUser => ({ ...prevUser, [name]: value }));
     if (name === "programa") {
       let select = document.getElementById("programa");
       if (value === "") {
@@ -95,8 +95,8 @@ function RegistroUsuario() {
                 <div className="col-lg-10 col-xl-12 mx-auto">
                   <h3 className="text-center">U F P S a b e r P R O</h3>
                   <p className="text-muted text-center">
-                      Ingresa tus datos para registrarte
-                    </p>
+                    Ingresa tus datos para registrarte
+                  </p>
                   <form onSubmit={handleSubmit} >
                     <div className="form-group">
                       <input
@@ -148,8 +148,8 @@ function RegistroUsuario() {
                       >
                         <option key="0" defaultValue={""} hidden value="">Programa</option>
                         {
-                          lista_programas.map((programa, index)=>(
-                            <option key={(index+1)} value={programa.prg_codigo}>{programa.prg_codigo+"-"+programa.prg_nombre}</option>
+                          lista_programas.map((programa, index) => (
+                            <option key={(index + 1)} value={programa.prg_codigo}>{programa.prg_codigo + "-" + programa.prg_nombre}</option>
                           ))
                         }
                       </select>
@@ -165,8 +165,8 @@ function RegistroUsuario() {
                       >
                         <option key="0" defaultValue={""} hidden value="">Rol</option>
                         {
-                          lista_roles.map((rol, index)=>(
-                            <option key={(index+1)} value={rol.id_rol}>{rol.rol_nombre?rol.rol_nombre.split("_")[1]:""}</option>
+                          lista_roles.map((rol, index) => (
+                            <option key={(index + 1)} value={rol.id_rol}>{rol.rol_nombre ? rol.rol_nombre.split("_")[1] : ""}</option>
                           ))
                         }
                       </select>

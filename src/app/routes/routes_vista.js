@@ -13,6 +13,7 @@ import Start_Examen from '../components/estudiante/Simulacros/start_examen';
 //Convocatorias
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
 import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
+import ConvocatoriaEstudiantes from '../components/convocatorias/ConvocatoriaEstudiantes';
 //Opciones
 import CrearOpcion from '../components/opciones/CrearOpciones';
 import OpcionesList from '../components/opciones/OpcionesList';
@@ -36,9 +37,16 @@ import Home from '../components/home/Home';
 import ListaConvocatoriasE from '../components/estudiante/convocatorias/EstConvocatoriaList';
 import ListaSimulacrosE from '../components/estudiante/Simulacros/EstSimulacroList';
 import ConvocatoriaInformacion from '../components/estudiante/convocatorias/ConvocatoriaInformacion';
-
 //Home
 import HomeE from '../components/estudiante/home/Home';
+
+// DOCENTE
+//Home
+import HomeDoc from '../components/docente/home/Home';
+//PREGUNTAS
+import PreguntasListDocente from '../components/docente/preguntas/PreguntasList';
+import CrearPreguntaDocente from '../components/docente/preguntas/CrearPregunta';
+
 
 import PersistAuth from '../components/auth/PersistentAuth';
 import RequireAuth from '../components/auth/RequireAuth';
@@ -63,6 +71,8 @@ const routes =  {
                          {/* CONVOCATORIAS */}
                          <Route path="/UFPSaberPRO/a/convocatorias" key="conv" element={<Dashboard contenedor={<ListaConvocatorias/>} />} />
                          <Route path="/UFPSaberPRO/a/convocatorias/crear_convocatorias" key="creconv" element={<Dashboard contenedor={<CrearConvocatoria/>} />} />
+                         <Route path="/UFPSaberPRO/a/convocatorias/participantes_convocatoria" key="particonv" element={<Dashboard contenedor={<ConvocatoriaEstudiantes/>} />} />
+                         <Route path="/UFPSaberPRO/a/convocatoria_estudiantes" key="convListEs" element={<Dashboard contenedor={<ConvocatoriaEstudiantes/>} />} />
                          {/* SIMULACROS */}
                          <Route path="/UFPSaberPRO/a/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
                          <Route path="/UFPSaberPRO/a/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacros/>} />} />
@@ -99,6 +109,18 @@ const routes =  {
                          <Route path="/UFPSaberPRO/e/informacion_simulacro" key="simE" element={<Dashboard contenedor={<InformacionSimulacroE/>} />} />
                          <Route path="/UFPSaberPRO/e/presentar_simulacro" key="preSimE" element={<Dashboard contenedor={<Start_Examen/>} />} />
                     </Route> 
+
+               {/* DOCENTE */}
+                    {/* HOME */} 
+                    <Route key="homeDoc" element={<RequireAuth allowedRoles={[ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/d/Inicio" key="homedoc" element={<Dashboard contenedor={<HomeDoc/>} />} />
+                    </Route> 
+                     {/* FUNCIONALIDADES */} 
+                     <Route key="menuDoc" element={<RequireAuth allowedRoles={[ROLES.DOCENTE]} />}>
+                         <Route path="/UFPSaberPRO/d/preguntas" key="predoc" element={<Dashboard contenedor={<PreguntasListDocente/>} />} />
+                         <Route path="/UFPSaberPRO/d/preguntas/crear_pregunta" key="crepredoc" element={<Dashboard contenedor={<CrearPreguntaDocente/>} />} />
+                    </Route> 
+
                </Route>
           ],
           public: [

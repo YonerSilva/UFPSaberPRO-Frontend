@@ -80,10 +80,34 @@ export default function MenuList() {
                          :
                          <div hidden></div>
                }
+                {
+                     role_docente
+                         ?
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/d/Inicio') }}>
+                              <ListItemIcon>
+                                   <HomeIcon sx={{ color: "red" }} />
+                              </ListItemIcon>
+                              <ListItemText primary="Inicio" />
+                         </ListItemButton>
+                         :
+                         <div hidden></div>
+               }
                {
-                    role_docente || role_admin
+                    role_admin
                          ?
                          <ListItemButton onClick={() => { navigate('/UFPSaberPRO/a/preguntas'); }}>
+                              <ListItemIcon>
+                                   <CloudUploadIcon sx={{ color: "red" }} />
+                              </ListItemIcon>
+                              <ListItemText primary="Preguntas" />
+                         </ListItemButton>
+                         :
+                         <div hidden></div>
+               }
+               {
+                    role_docente
+                         ?
+                         <ListItemButton onClick={() => { navigate('/UFPSaberPRO/d/preguntas'); }}>
                               <ListItemIcon>
                                    <CloudUploadIcon sx={{ color: "red" }} />
                               </ListItemIcon>
