@@ -8,6 +8,7 @@ import { Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
 import { useState } from 'react';
+import moment from 'moment';
 
 const InformacionSimulacro = () => {
 
@@ -50,9 +51,17 @@ const InformacionSimulacro = () => {
                                         <h1>Instrucciones importantes</h1>
                                         <hr></hr>
                                         <ul>
-                                            <li>Tienes que enviar el cuestionario en <b>NN minutos</b></li>
+                                            <li>Tienes que enviar el cuestionario en 
+                                                <b>
+                                                    {(()=>{
+                                                        let fecha_inicio = moment(formEditionSimu.simu_fecha_inicial);
+                                                        let fecha_final = moment(formEditionSimu.simu_fecha_final);
+                                                        var diff = fecha_final.diff(fecha_inicio, 'minutes');
+                                                        return " "+diff + " minutos";
+                                                    })()}
+                                                </b></li>
                                             <li>Puede intentar el cuestionario cualquier cantidad de veces</li>
-                                            <li>Hay NN puntos por pregunta</li>
+                                            <li>Hay puntajes diferentes por pregunta</li>
                                         </ul>
                                         <hr></hr>
                                         <h1>Intentos de la prueba</h1>

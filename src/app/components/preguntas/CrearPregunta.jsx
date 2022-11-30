@@ -277,7 +277,7 @@ export default function CrearPregunta() {
                           <MenuItem key={2} value={2}>
                             SELECCION MULTIPLE
                           </MenuItem>
-                          <MenuItem key={3} value={2}>
+                          <MenuItem key={3} value={3}>
                             COMPARACION
                           </MenuItem>
                         </TextField>

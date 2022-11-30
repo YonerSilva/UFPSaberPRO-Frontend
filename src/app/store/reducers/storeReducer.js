@@ -18,13 +18,21 @@ const initialState = {
 
      lista_convocatorias_usuario: [],
      lista_convocatorias_activa: [],
-     lista_simulacros_usuario: []
+     lista_simulacros_usuario: [],
+
+     formSimulacro: {}
 }
 
 export const storeReducer = (state, action) => {
      const { type, payload } = action;
 
      switch (type) {
+          case ACCION.SET_FORM_SIMULACRO:
+               console.log(action);
+               return {
+                    ...state,
+                    formSimulacro: payload
+               };
           case ACCION.SET_FORM_EDITION:
                console.log(action);
                return {

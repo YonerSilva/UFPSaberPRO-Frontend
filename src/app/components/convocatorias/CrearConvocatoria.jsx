@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
-import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import { alert_error, alert_loading, alert_success, parseDateLocal } from '../../util/functions';
 import { MenuItem } from '@mui/material';
 import Cargador from '../extra/CargadorEventos';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
@@ -18,8 +18,8 @@ import dayjs from 'dayjs';
 import Stack from '@mui/material/Stack';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import moment from 'moment';
 
 const theme = createTheme();
 
@@ -36,15 +36,17 @@ export default function CrearConvocatoria() {
         descripcion: "",
         fecha_inicio: "",
         fecha_final: "",
+        estado: "",
         simulacro: "",
         simu_fecha_inicio: "",
-        simu_duracion: "",
+        simu_fecha_final: "",
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const convocatoria_aux = convertirDatos();
         try {
+            console.log(convocatoria_aux)
             if (update) {
                 serviceConvocatoria.actualizar(convocatoria_aux).then(response => {
                     serviceConvocatoria.getDatosGenerales().then(res => {
@@ -67,8 +69,6 @@ export default function CrearConvocatoria() {
                         }
                         listarConvocatorias(res);
                     });
-
-                    
                 });
             }
         } catch (error) {
@@ -97,11 +97,12 @@ export default function CrearConvocatoria() {
             id_convocatoria: convocatoria.id_convocatoria,
             nombre: convocatoria.nombre,
             descripcion: convocatoria.descripcion,
-            fecha_inicio: new Date(convocatoria.fecha_inicio).toISOString(),
-            fecha_final: new Date(convocatoria.fecha_final).toISOString(),
+            fecha_inicio: moment(new Date(convocatoria.fecha_inicio)).format(),
+            fecha_final: moment(new Date(convocatoria.fecha_final)).format(),
+            estado: convocatoria.estado,
             simulacro: convocatoria.simulacro,
-            simu_fecha_inicio: convocatoria.simu_fecha_inicio!==""?new Date(convocatoria.simu_fecha_inicio).toISOString():"",
-            simu_duracion: convocatoria.simu_duracion!==""?new Date(convocatoria.simu_duracion).toTimeString():""
+            simu_fecha_inicio: convocatoria.simu_fecha_inicio!==""? moment(new Date(convocatoria.simu_fecha_inicio)).format():"",
+            simu_fecha_final: convocatoria.simu_fecha_final!==""? moment(new Date(convocatoria.simu_fecha_final)).format():""
         }
         return convo;
     }
@@ -116,9 +117,10 @@ export default function CrearConvocatoria() {
                 descripcion: formEdition.convo_descripcion,
                 fecha_inicio: formEdition.convo_fecha_inicial,
                 fecha_final: formEdition.convo_fecha_final,
+                estado: formEdition.convo_estado,
                 simulacro: formEdition.simulacro!==null?formEdition.simulacro: "",
                 simu_fecha_inicio: formEdition.simu_fecha_inicial!==null? formEdition.simu_fecha_inicial:"",
-                simu_duracion: formEdition.simu_duracion!==null? formEdition.simu_duracion: ""
+                simu_fecha_final: formEdition.simu_fecha_final!==null? formEdition.simu_fecha_final: ""
             });
         }
         setLoading(false);
@@ -133,41 +135,21 @@ export default function CrearConvocatoria() {
 
     function validarFechasConvocatoria() {
         try {
-            const fecha_inicio = new Date(convocatoria.fecha_inicio).toISOString();
-            const fecha_final = new Date(convocatoria.fecha_final).toISOString();
+            const fecha_inicio = moment(new Date(convocatoria.fecha_inicio)).format();
+            const fecha_final = moment(new Date(convocatoria.fecha_final)).format();
             const simulacro = convocatoria.simulacro;
             if (fecha_inicio === "" || fecha_final === "") {
                 throw new Error("Los campos no pueden estar vacios.");
             } else {
-                let dateTime1 = fecha_inicio.split("T");
-                let dateTime2 = fecha_final.split("T");
-                let date1 = new Date(dateTime1[0]).getTime();
-                let date2 = new Date(dateTime2[0]).getTime();
-                let diff = date2 - date1;
-                if (diff < 0) {
-                    throw new Error("La fecha inicial debe ser menor a la fecha final.");
-                } else {
-                    //Dias de diferencia
-                    const resta = diff / (1000 * 60 * 60 * 24);
-
-                    if (resta == 0) {
-                        let fecha1 = new Date(fecha_inicio).toLocaleTimeString().split(":");
-                        let fecha2 = new Date(fecha_final).toLocaleTimeString().split(":");
-                        let diferencia = ((parseInt(fecha2[0]) * 60) + parseInt(fecha2[1])) - ((parseInt(fecha1[0]) * 60) + parseInt(fecha1[1]));
-                        if (diferencia <= 0) {
-                            throw new Error("La fecha inicial debe ser menor a la fecha final.");
-                        }
-                    }
-                    if (resta >= 0) {
-                        let button = document.getElementById("button_register");
+                if(fecha_inicio > fecha_final){
+                    throw new Error("La fecha inicial de la convocatoria debe ser menor a la fecha final de la convocatoria.");
+                }else{
+                    let button = document.getElementById("button_register");
                         if (simulacro !== "") {
                             validarFechasSimulacro();
                         } else {
                             button.setAttribute('type', 'submit');
                         }
-                    } else {
-                        throw new Error("La convocatoria debe tener al menos un día de diferencia.");
-                    }
                 }
             }
         } catch (error) {
@@ -177,29 +159,22 @@ export default function CrearConvocatoria() {
 
     function validarFechasSimulacro() {
         try {
-            const simu_fecha_inicio = new Date(convocatoria.simu_fecha_inicio).toISOString();
-            const fecha_final = new Date(convocatoria.fecha_final).toISOString();
+            const simu_fecha_inicio = moment(new Date(convocatoria.simu_fecha_inicio)).format();
+            const simu_fecha_final = moment(new Date(convocatoria.simu_fecha_final)).format();
+            const convo_fecha_final = moment(new Date(convocatoria.fecha_final)).format();
 
-            const duracion = convocatoria.simu_duracion;
-
-            if (simu_fecha_inicio === "" || fecha_final === "" || duracion === "") {
+            if (simu_fecha_inicio === "" || convo_fecha_final === "" || simu_fecha_final === "") {
                 throw new Error("Los campos no pueden estar vacios.");
             } else {
-                let dateTime1 = simu_fecha_inicio.split("T");
-                let dateTime2 = fecha_final.split("T");
-                let date1 = new Date(dateTime1[0]).getTime();
-                let date2 = new Date(dateTime2[0]).getTime();
-                let diff = date1 - date2;
-                if (diff < 0) {
+
+                if(convo_fecha_final > simu_fecha_final){
                     throw new Error("La fecha inicial del simulacro debe ser mayor a la fecha final de la convocatoria.");
-                } else {
-                    //Dias de diferencia
-                    const resta = diff / (1000 * 60 * 60 * 24);
-                    if (resta > 0) {
+                }else{
+                    if(simu_fecha_inicio > simu_fecha_final){
+                        throw new Error("La fecha final del simulacro debe ser mayor a la fecha inicial del simulacro.");
+                    }else{
                         let button = document.getElementById("button_register");
                         button.setAttribute('type', 'submit');
-                    } else {
-                        throw new Error("El simulacro debe tener al menos un día de diferencia respecto a la fecha final de la convocatoria.");
                     }
                 }
             }
@@ -328,7 +303,7 @@ export default function CrearConvocatoria() {
                                                 convocatoria.simulacro
                                                     ?
                                                     <>
-                                                        <Grid item xs={8}>
+                                                        <Grid item xs={6}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
                                                                 <Stack spacing={3}>
                                                                     <DateTimePicker
@@ -349,23 +324,25 @@ export default function CrearConvocatoria() {
                                                                 </Stack>
                                                             </LocalizationProvider>
                                                         </Grid>
-                                                        <Grid item xs={4} className="d-flex">
+                                                        <Grid item xs={6}>
                                                             <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                                                <TimePicker
-                                                                    label="Duracion del Simulacro"
-                                                                    value={convocatoria.simu_duracion}
-                                                                    inputFormat="hh:mm"
-                                                                    ampm={false}
-                                                                    ampmInClock={false}
-                                                                    onChange={(value) => { setConvocatoria({ ...convocatoria, simu_duracion: value }) }}
-                                                                    renderInput={(params) =>
-                                                                        <TextField
-                                                                            inputProps={{
-                                                                                id: "simu_duracion",
-                                                                                "aria-required": true,
-                                                                            }}
-                                                                            {...params} />}
-                                                                />
+                                                                <Stack spacing={3}>
+                                                                    <DateTimePicker
+                                                                        label="Fecha y Hora Final del Simulacro"
+                                                                        value={dayjs(convocatoria.simu_fecha_final)}
+                                                                        inputFormat="YYYY-MM-DD HH:mm"
+                                                                        ampm={false}
+                                                                        ampmInClock={false}
+                                                                        onChange={(value) => { setConvocatoria({ ...convocatoria, simu_fecha_final: value }) }}
+                                                                        renderInput={(params) =>
+                                                                            <TextField
+                                                                                inputProps={{
+                                                                                    id: "simu_fecha_final",
+                                                                                    "aria-required": true,
+                                                                                }}
+                                                                                {...params} />}
+                                                                    />
+                                                                </Stack>
                                                             </LocalizationProvider>
                                                         </Grid>
                                                     </>
