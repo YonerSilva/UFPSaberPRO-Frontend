@@ -4,21 +4,22 @@ import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
 import IconButton from "@mui/material/IconButton";
+import { Button, Form } from "react-bootstrap";
 import Barra from '../../extra/BarraBusqueda';
 import Cargador from "../../extra/CargadorEventos";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import BootstrapTable from "react-bootstrap-table-next";
 import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
 import DeleteIcon from '@mui/icons-material/Delete';
-import * as servicePregunta from '../../../store/services/PreguntasService';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import * as serviceOpcion from '../../../store/services/OpcionService';
 import { alert_error, alert_loading } from '../../../util/functions';
-import NoPreguntas from './NoPreguntas';
-import { Link } from '@mui/material';
+import NoOpciones from './NoOpciones';
+import { Grid, Link } from '@mui/material';
 
-const PreguntasListDocente = () => {
+const OpcionesListDoc = () => {
      const dispatch = useDispatch();
-     const { lista_preguntas_programa } = useStore();
+     const { formEditionPreg } = useStore();
+     const [opciones, setOpciones] = useState([]);
      const [busqueda, setBusqueda] = useState("");
      const [loading, setLoading] = useState(true);
      const navigate = useNavigate();
@@ -26,64 +27,33 @@ const PreguntasListDocente = () => {
      const columnas = [
           {
                text: "DESCRIPCION",
-               dataField: "preg_descripcion",
+               dataField: "opc_descripcion",
                align: "center",
                sort: true,
           },
           {
-               text: "SUBCATEGORIA",
-               dataField: "preg_subcategoria",
+               text: "RESPUESTA",
+               dataField: "opc_respuesta",
                align: "center",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    return row.subcategoria.sub_nombre;
+                    if (row.opc_respuesta === true) {
+                         return <span>VERDAD</span>
+                    } else {
+                         return <span>FALSO</span>
+                    }
                }
           },
           {
                text: "IMAGEN",
-               dataField: "preg_imagen",
+               dataField: "opc_imagen",
                align: "center",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    if (row.preg_imagen !== null && row.preg_imagen !== "") {
-                         return <Link href={row.preg_imagen} target="_blank">Imagen</Link>
-                    }else{
+                    if (row.opc_imagen !== null && row.opc_imagen !== "") {
+                         return <Link href={row.opc_imagen} target="_blank">Imagen</Link>
+                    } else {
                          return <span>No disponible.</span>
-                    }
-               }
-          },
-          {
-               text: "ESTADO",
-               dataField: "preg_estado",
-               align: 'center',
-               sort: true,
-               formatter: (cellContent, row) => {
-                    switch (row.preg_estado) {
-                         case "A":
-                              return <span className='estado-color-activo'>ACTIVO</span>
-                         case "I":
-                              return <span className='estado-color-inactivo'>INACTIVO</span>
-                         case "B":
-                              return <span className='estado-color-bloqueado'>BLOQUEADO</span>
-                         default:
-                              return <></>;
-                    }
-               }
-          },
-          {
-               text: "TIPO",
-               dataField: "preg_tipo",
-               align: 'center',
-               formatter: (cellContent, row) => {
-                    switch (row.preg_tipo) {
-                         case 1:
-                              return <span>VERDADERO O FALSO</span>
-                         case 2:
-                              return <span>SELECCION MULTIPLE</span>
-                         case 3:
-                              return <span>COMPARACION</span>
-                         default:
-                              return <></>;
                     }
                }
           },
@@ -92,63 +62,49 @@ const PreguntasListDocente = () => {
                dataField: "fd1",
                isDummyField: true,
                formatter: (cellContent, row) => {
-                    if (row.preg_estado === 'I') {
+                    if (formEditionPreg.preg_estado === 'I') {
                          return (
                               <div className="row-cols-2 row-cols-md-auto" align="center">
-                                   <IconButton onClick={() => { updatePregunta(row) }} title='Actualizar Pregunta' style={{ color: "blue" }}><EditIcon /></IconButton>
-                                   <IconButton title='Eliminar Pregunta' style={{ color: "red" }}> <DeleteIcon /></IconButton>
-                                   <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
+                                   <IconButton onClick={() => { updateOpcion(row) }} title='Actualizar Opcion' style={{ color: "blue" }}><EditIcon /></IconButton>
+                                   <IconButton title='Eliminar Opcion' style={{ color: "red" }}> <DeleteIcon /></IconButton>
                               </div>
-                         )
-                    } else {
-                         return (
-                              <IconButton onClick={() => { verOpciones(row) }} title="Ver Opciones" style={{ color: "gray" }}><VisibilityIcon /></IconButton>
                          )
                     }
                },
           },
      ];
 
-     const updatePregunta = (item) => {
+     const updateOpcion = (item) => {
           dispatch({
-               type: "SET_FORM_EDITION",
+               type: "SET_FORM_EDITION_OPC",
                payload: item
           });
-          navigate('/UFPSaberPRO/d/preguntas/crear_pregunta');
+          navigate('/UFPSaberPRO/d/opciones/crear_opcion');
      }
 
-     const listarPreguntas = (response) => {
+     const listarOpciones = () => {
           try {
-               servicePregunta.getDatosGenerales().then(response => {
+               const id_pregunta = formEditionPreg.id_pregunta;
+               serviceOpcion.getOpcionesPregunta(id_pregunta).then(response => {
                     if (response.error === null) {
-                         dispatch({
-                              type: "SET_LISTA_PREGUNTAS_PRG",
-                              payload: response.general
-                         });
+                         setOpciones(response.opciones);
                          alert_loading(response.message);
                     } else {
                          alert_error("¡Error!", response.message);
                     }
+                    setLoading(false);
                });
           } catch (error) {
                console.error(error);
           }
      }
 
-     const verOpciones = (item) => {
-          dispatch({
-               type: "SET_FORM_EDITION_PREG",
-               payload: item
-          });
-          navigate('/UFPSaberPRO/d/pregunta/opciones');
-     }
-
      const handleBuscar = (data) => {
           if (busqueda === "") {
-               return lista_preguntas_programa;
+               return opciones;
           } else {
                return data.filter((item) =>
-                    item.preg_descripcion
+                    item.opc_descripcion
                          .toString()
                          .toUpperCase()
                          .includes(busqueda.toUpperCase())
@@ -157,7 +113,11 @@ const PreguntasListDocente = () => {
      };
 
      useEffect(() => {
-          setLoading(false);
+          if (Object.keys(formEditionPreg).length === 0 || formEditionPreg.id_pregunta === undefined) {
+               navigate('/UFPSaberPRO/d/preguntas');
+          } else {
+               listarOpciones();
+          }
      }, []);
 
      return (
@@ -165,14 +125,14 @@ const PreguntasListDocente = () => {
                <ResponsiveContainer>
                     <div className="container">
                          <Typography component="h2" variant="h5" color="dark" gutterBottom>
-                              Lista de Preguntas
+                              Lista de Opciones
                          </Typography>
                          {(() => {
-                              if (lista_preguntas_programa.length !== 0) {
+                              if (opciones.length !== 0) {
                                    return (
                                         <Barra
-                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/d/preguntas/crear_pregunta") }} className="btn btn-danger m-2">Crear Pregunta</button>}
-                                             input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Pregunta" placeholder="Buscar Pregunta" className="form-control me-2" type="search" aria-label="Buscar" />}
+                                             button={<button type="button" onClick={() => { navigate("/UFPSaberPRO/d/opciones/crear_opcion") }} className="btn btn-danger m-2">Crear Opcion</button>}
+                                             input={<input onChange={(e) => { setBusqueda(e.target.value) }} title="Nombre Opcion" placeholder="Buscar Opcion" className="form-control me-2" type="search" aria-label="Buscar" />}
                                         />
                                    );
                               }
@@ -182,8 +142,8 @@ const PreguntasListDocente = () => {
                          <div className="container-fluid">
                               {(() => {
                                    if (!loading) {
-                                        if (lista_preguntas_programa.length === 0) {
-                                             return <NoPreguntas />;
+                                        if (opciones.length === 0) {
+                                             return <NoOpciones />;
                                         } else {
                                              return (
                                                   <>
@@ -195,12 +155,17 @@ const PreguntasListDocente = () => {
                                                             striped
                                                             bordered
                                                             hover
-                                                            keyField="id_pregunta"
-                                                            data={handleBuscar(lista_preguntas_programa)}
+                                                            keyField="id_opcion"
+                                                            data={handleBuscar(opciones)}
                                                             columns={columnas}
                                                             pagination={paginationFactory()}
                                                             noDataIndication="No hay registros disponibles."
                                                        />
+                                                       <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                                                            <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas") }} size="large" className="btn btn-danger m-2">
+                                                                 Volver
+                                                            </Button>
+                                                       </Grid >
                                                   </>
                                              );
                                         }
@@ -215,4 +180,4 @@ const PreguntasListDocente = () => {
      );
 };
 
-export default PreguntasListDocente;
+export default OpcionesListDoc;

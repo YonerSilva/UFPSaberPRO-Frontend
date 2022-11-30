@@ -46,6 +46,9 @@ import HomeDoc from '../components/docente/home/Home';
 //PREGUNTAS
 import PreguntasListDocente from '../components/docente/preguntas/PreguntasList';
 import CrearPreguntaDocente from '../components/docente/preguntas/CrearPregunta';
+//OPCIONES
+import OpcionesListDoc from '../components/docente/opciones/OpcionesList';
+import CrearOpcionDoc from '../components/docente/opciones/CrearOpciones';
 
 
 import PersistAuth from '../components/auth/PersistentAuth';
@@ -119,6 +122,8 @@ const routes =  {
                      <Route key="menuDoc" element={<RequireAuth allowedRoles={[ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/d/preguntas" key="predoc" element={<Dashboard contenedor={<PreguntasListDocente/>} />} />
                          <Route path="/UFPSaberPRO/d/preguntas/crear_pregunta" key="crepredoc" element={<Dashboard contenedor={<CrearPreguntaDocente/>} />} />
+                         <Route path="/UFPSaberPRO/d/preguntas/crear_opcion" key="creopcdoc" element={<Dashboard contenedor={<CrearOpcionDoc/>} />} />
+                         <Route path="/UFPSaberPRO/d/preguntas/opciones_list" key="listopcdoc" element={<Dashboard contenedor={<OpcionesListDoc/>} />} />
                     </Route> 
 
                </Route>
