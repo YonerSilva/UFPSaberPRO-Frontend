@@ -137,3 +137,4 @@ export function verificarImagen() {
      }
      return false;
 }
+

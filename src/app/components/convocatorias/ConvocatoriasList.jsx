@@ -5,17 +5,21 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import Barra from '../extra/BarraBusqueda';
+import { Button } from 'react-bootstrap';
 import Cargador from '../extra/CargadorEventos';
 import NoConvocatoria from '../convocatorias/NoConvocatoria'
+import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import { IconButton } from '@mui/material';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import emailjs from 'emailjs-com';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import Swal from 'sweetalert2';
+import Form from 'react-bootstrap/Form';
 
 const ListaConvocatorias = () => {
 
@@ -24,6 +28,7 @@ const ListaConvocatorias = () => {
      const [loading, setLoading] = useState(true);
      const [busqueda, setBusqueda] = useState("");
      const navigate = useNavigate();
+     const [formCargar, setFormCargar] = useState(false);
 
      const columnas = [
           {
@@ -107,20 +112,44 @@ const ListaConvocatorias = () => {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { updateConvocatoria(row) }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
-                                   <IconButton onClick={() => { listarEstudiantes(row)}} title='Ver estudiantes' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
+                                   <IconButton onClick={() => { listarEstudiantes(row) }} title='Ver estudiantes' style={{ color: "blue" }}><RecentActorsIcon /></IconButton>
                                    <IconButton onClick={() => { deleteConvocatoria(row) }} title='Eliminar Convocatoria' style={{ color: "red" }}><DeleteIcon /></IconButton>
                               </div>
                          )
-                    }else{
-                         return(
+                    } else {
+                         return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { listarEstudiantes(row)}} title='Ver estudiantes' style={{ color: "blue" }}><VisibilityIcon /></IconButton>
+                                   <IconButton onClick={() => { listarEstudiantes(row) }} title='Ver estudiantes' style={{ color: "blue" }}><RecentActorsIcon /></IconButton>
+                                   <IconButton onClick={() => { cargarInvitaciones(row) }} title='Cargar Invitaciones' style={{ color: "blue" }}><UploadFileIcon /></IconButton>
                               </div>
                          )
                     }
                }
           }
      ]
+
+
+     const cargarInvitaciones = async (item) => {
+          await setFormCargar(true);
+          window.location.href = "#list-item-1";
+     }
+
+     const subirArchivo = () => {
+          try {
+               let file = document.getElementById("formFile").files[0];
+               let reader = new FileReader();
+               reader.readAsText(file);
+               reader.onload = function() {
+                    console.log(reader.result);
+                  };
+                
+                  reader.onerror = function() {
+                    console.log(reader.error);
+                  };
+          } catch (error) {
+               console.error(error);
+          }
+     }
 
      const listarEstudiantes = (item) => {
           dispatch({
@@ -230,17 +259,34 @@ const ListaConvocatorias = () => {
                                                   )
                                              } else {
                                                   return (
-                                                       <BootstrapTable headerClasses='table-head'
-                                                            classes='table-design shadow'
-                                                            bootstrap4
-                                                            wrapperClasses='table-responsive'
-                                                            striped
-                                                            hover
-                                                            keyField='id_convocatoria'
-                                                            data={handleBuscar(lista_convocatorias_programa)}
-                                                            columns={columnas}
-                                                            pagination={paginationFactory()}
-                                                            noDataIndication='No hay registros disponibles.' />
+                                                       <div>
+                                                            <BootstrapTable headerClasses='table-head'
+                                                                 classes='table-design shadow'
+                                                                 bootstrap4
+                                                                 wrapperClasses='table-responsive'
+                                                                 striped
+                                                                 hover
+                                                                 keyField='id_convocatoria'
+                                                                 data={handleBuscar(lista_convocatorias_programa)}
+                                                                 columns={columnas}  
+                                                                 pagination={paginationFactory()}
+                                                                 noDataIndication='No hay registros disponibles.' />
+                                                            {
+                                                                 formCargar
+                                                                      ?
+                                                                      <div data-bs-spy="scroll" data-bs-target="#list-example" data-bs-smooth-scroll="true" className="scrollspy-example" tabIndex="0">
+                                                                           <Form.Group controlId="formFile" className="mb-3" id="list-item-1">
+                                                                                <Form.Label style={{ fontWeight: 1000, fontSize: 25 }}>SUBE EL ARCHIVO CON LA INFORMACION ⬇️ </Form.Label>
+                                                                                <Form.Control type="file" accept=".csv, .xls, .xlt, .xla" />
+                                                                                <Button onClick={() => { subirArchivo() }} size="large" className="btn btn-danger m-2">
+                                                                                     Cargar
+                                                                                </Button>
+                                                                           </Form.Group>
+                                                                      </div>
+                                                                      :
+                                                                      <></>
+                                                            }
+                                                       </div>
                                                   )
                                              }
                                         } else {
