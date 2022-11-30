@@ -175,7 +175,7 @@ const ConvocatoriaEstudiantes = () => {
                                                                 <Button_Usuarios {...props.csvProps} />
                                                                 <Button_Email {...props.csvProps} />
                                                                 <Button onClick={() => { enviarCorreo() }} size="large" className="btn btn-danger m-2">
-                                                                    Informar a los Usuarios
+                                                                    Enviar Correo a Participantes
                                                                 </Button>
                                                                 <hr />
                                                                 <BootstrapTable

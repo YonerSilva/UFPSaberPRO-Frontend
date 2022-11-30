@@ -14,6 +14,7 @@ import Start_Examen from '../components/estudiante/Simulacros/start_examen';
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
 import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
 import ConvocatoriaEstudiantes from '../components/convocatorias/ConvocatoriaEstudiantes';
+import EnviarInvitaciones from '../components/convocatorias/EnviarInvitaciones';
 //Opciones
 import CrearOpcion from '../components/opciones/CrearOpciones';
 import OpcionesList from '../components/opciones/OpcionesList';
@@ -76,6 +77,7 @@ const routes =  {
                          <Route path="/UFPSaberPRO/a/convocatorias/crear_convocatorias" key="creconv" element={<Dashboard contenedor={<CrearConvocatoria/>} />} />
                          <Route path="/UFPSaberPRO/a/convocatorias/participantes_convocatoria" key="particonv" element={<Dashboard contenedor={<ConvocatoriaEstudiantes/>} />} />
                          <Route path="/UFPSaberPRO/a/convocatoria_estudiantes" key="convListEs" element={<Dashboard contenedor={<ConvocatoriaEstudiantes/>} />} />
+                         <Route path="/UFPSaberPRO/a/convocatorias/envio_invitaciones" key="envInvi" element={<Dashboard contenedor={<EnviarInvitaciones/>} />} />
                          {/* SIMULACROS */}
                          <Route path="/UFPSaberPRO/a/simulacros" key="sims" element={<Dashboard contenedor={<ListaSimulacros/>} />} />
                          <Route path="/UFPSaberPRO/a/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacros/>} />} />

@@ -120,7 +120,7 @@ const ListaConvocatorias = () => {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { listarEstudiantes(row) }} title='Ver estudiantes' style={{ color: "blue" }}><RecentActorsIcon /></IconButton>
-                                   <IconButton onClick={() => { cargarInvitaciones(row) }} title='Cargar Invitaciones' style={{ color: "blue" }}><UploadFileIcon /></IconButton>
+                                   <IconButton onClick={() => { cargarInvitaciones(row) }} title='Generar Invitaciones' style={{ color: "blue" }}><UploadFileIcon /></IconButton>
                               </div>
                          )
                     }
@@ -129,9 +129,17 @@ const ListaConvocatorias = () => {
      ]
 
 
+     // const cargarInvitaciones = async (item) => {
+     //      await setFormCargar(true);
+     //      window.location.href = "#list-item-1";
+     // }
+
      const cargarInvitaciones = async (item) => {
-          await setFormCargar(true);
-          window.location.href = "#list-item-1";
+          dispatch({
+               type: "SET_FORM_EDITION",
+               payload: item
+          });
+          navigate('/UFPSaberPRO/a/convocatorias/envio_invitaciones');
      }
 
      const subirArchivo = () => {
