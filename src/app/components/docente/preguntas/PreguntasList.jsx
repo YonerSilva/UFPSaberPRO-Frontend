@@ -140,7 +140,7 @@ const PreguntasListDocente = () => {
                type: "SET_FORM_EDITION_PREG",
                payload: item
           });
-          navigate('/UFPSaberPRO/d/pregunta/opciones');
+          navigate('/UFPSaberPRO/d/preguntas/opciones_list');
      }
 
      const handleBuscar = (data) => {

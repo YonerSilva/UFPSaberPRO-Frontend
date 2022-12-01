@@ -12,29 +12,47 @@ export default function Home() {
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Container component="main" maxWidth="lg" sx={{ mb: 6 }}>
-                <Paper variant="outlined" sx={{ my: { xs: 4, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h3" align="center" p={5}>
+            <Container component="main" maxWidth="lg">
+                <Paper variant="outlined" sx={{  p: { xs: 2, md: 3 } }}>
+                <Typography component="h1" variant="h2" align="center" p={3}>
                         Bienvenido a la plataforma de Pruebas Saber Pro!
                     </Typography>
-                    <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                    <Grid container spacing={1} sx={{ display: "flex", justifyContent: "center" }}>
                         <Grid
                             item
                             xs={12}
                             sx={{ display: "flex", justifyContent: "center" }}
                         >
                             <Typography component="h3" variant="h6" align="center">
-                                Para entender mejor el funcionamiento de la pagina, puedes ver este
-                                video que explica todas las opciones que estan disponibles.
-                                Puedes contactar a soporte atravez de este correo: 
-                                <hr></hr>
-                                aydufps@gmail.com
+                                ¡Bienvenido! Para entender mejor el funcionamiento de la página, puedes ver este video que explica todas las opciones que están disponibles. Puedes contactar a soporte a través de este correo:  <b>aydufps@gmail.com</b>
                                 <hr></hr>
                             </Typography>
                         </Grid>
                         <Grid
                             item
-                            xs={12}
+                            xs={6}
+                            sx={{ display: "flex", justifyContent: "center", p:3 }}
+                        >
+                            <Typography variant="body1">
+                                <h5 className='mb-2'>Acciones que puedes hacer como administrador: </h5>
+                                <ul>
+                                    <li>Crear convocatorias </li>
+                                    <li>Divulgar convocatorias </li>
+                                    <li>Crear simulacros </li>
+                                    <li>Ver un listado de preguntas con acciones de eliminar, editar y admitir </li>
+                                    <li>Crear categorias y subcategorias</li>
+                                    <li>Crear preguntas segun la categoria y subcategoria</li>
+                                    <li>Ver una listado de correos de estudiantes  que se registraron en la convocatoria</li>
+                                    <li>Cargar documentos tipo hoja de calculo con un listado de correos para generar invitaciones</li>
+                                    <li>Ver un listado de los estudiantes que presentan un simulacro</li>
+                                </ul>
+                                <hr></hr>
+
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={6}
                             sx={{ display: "flex", justifyContent: "center" }}
                         >
                             <iframe width="560" height="315" src="https://www.youtube.com/embed/JkQ05tONYNY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>

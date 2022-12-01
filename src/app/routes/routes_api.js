@@ -30,6 +30,7 @@ const API = {
           SIMULACROS_CONVO: "api/simulacros/getSimulacrosConvo",
           ELIMINAR_PREGUNTAS: "api/simu_preg/eliminarPreguntas",
           PREGUNTAS_OPCIONES: "api/simulacros/getPregOpcSimu",
+          SIMULACRO_ESTUDIANTES: "api/simu_usu/getUsuariosSimu"
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",

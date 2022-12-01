@@ -32,7 +32,7 @@ export default function CrearPreguntaDocente() {
     id_pregunta: "",
     imagen: "",
     descripcion: "",
-    estado: "",
+    estado: "I",
     tipo: "",
     categoria: "",
     id_subcategoria: ""
@@ -282,36 +282,6 @@ export default function CrearPreguntaDocente() {
                           </MenuItem>
                         </TextField>
                       </Grid>
-                      {
-                        auth?.usuario?.rol?.rol_nombre === "ROLE_ADMINISTRADOR"
-                          ?
-                          <Grid item xs={12}>
-                            <TextField
-                              required
-                              id="estado"
-                              name="estado"
-                              select
-                              fullWidth
-                              label="Estado de la Pregunta"
-                              value={pregunta.estado}
-                              variant="outlined"
-                              maxLength="1"
-                              onChange={handleChange}
-                            >
-                              <MenuItem key={1} value={'A'}>
-                                ACTIVAR
-                              </MenuItem>
-                              <MenuItem key={2} value={'I'}>
-                                INACTIVAR
-                              </MenuItem>
-                              <MenuItem key={3} value={'B'}>
-                                BLOQUEAR
-                              </MenuItem>
-                            </TextField>
-                          </Grid>
-                          :
-                          <></>
-                      }
                       <Grid item xs={12}>
                         <Form.Group className="mb-3">
                           <Form.Label>Seleecione una imagen (opcional)</Form.Label>

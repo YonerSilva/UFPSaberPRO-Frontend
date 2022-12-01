@@ -10,6 +10,7 @@ import SimulacroPreguntasList from '../components/simulacros/SimulacroPreguntas'
 import SimPregList from '../components/simulacros/SimPregList';
 import InformacionSimulacroE from '../components/estudiante/Simulacros/InformacionSimulacro';
 import Start_Examen from '../components/estudiante/Simulacros/start_examen';
+import SimulacroEstudiantes from '../components/simulacros/SimulacroEstudiantes';
 //Convocatorias
 import ListaConvocatorias from '../components/convocatorias/ConvocatoriasList';
 import CrearConvocatoria from '../components/convocatorias/CrearConvocatoria';
@@ -83,6 +84,7 @@ const routes =  {
                          <Route path="/UFPSaberPRO/a/simulacros/crear_simulacro" key="cresim" element={<Dashboard contenedor={<CrearSimulacros/>} />} />
                          <Route path="/UFPSaberPRO/a/simulacros/seleccionar_preguntas" key="selepreg" element={<Dashboard contenedor={<SimulacroPreguntasList/>} />} />
                          <Route path="/UFPSaberPRO/a/simulacros/preguntas" key="simupreg" element={<Dashboard contenedor={<SimPregList/>} />} />
+                         <Route path="/UFPSaberPRO/a/simulacros/simulacro_estudiantes" key="simuEstud" element={<Dashboard contenedor={<SimulacroEstudiantes/>} />} />
                          {/* PREGUNTAS */}
                          <Route path="/UFPSaberPRO/a/preguntas" key="preg" element={<Dashboard contenedor={<PreguntasList/>} />} />
                          <Route path="/UFPSaberPRO/a/pregunta/opciones" key="opc" element={<Dashboard contenedor={<OpcionesList/>} />} />
@@ -124,7 +126,7 @@ const routes =  {
                      <Route key="menuDoc" element={<RequireAuth allowedRoles={[ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/d/preguntas" key="predoc" element={<Dashboard contenedor={<PreguntasListDocente/>} />} />
                          <Route path="/UFPSaberPRO/d/preguntas/crear_pregunta" key="crepredoc" element={<Dashboard contenedor={<CrearPreguntaDocente/>} />} />
-                         <Route path="/UFPSaberPRO/d/preguntas/crear_opcion" key="creopcdoc" element={<Dashboard contenedor={<CrearOpcionDoc/>} />} />
+                         <Route path="/UFPSaberPRO/d/opciones/crear_opcion" key="creopcdoc" element={<Dashboard contenedor={<CrearOpcionDoc/>} />} />
                          <Route path="/UFPSaberPRO/d/preguntas/opciones_list" key="listopcdoc" element={<Dashboard contenedor={<OpcionesListDoc/>} />} />
                     </Route> 
 

@@ -141,4 +141,16 @@ export const getPreguntasOpcionesSimu = async (id_simulacro) => {
     },
   })).json();
 }
+
+export const getEstudiantesSimu = async (id_simulacro) => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.SIMULACRO.SIMULACRO_ESTUDIANTES + "/?id_simulacro=" + id_simulacro + "&id_usuario=" + usuario.id_usuario, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
 /*--------------------------------END------------------------------------*/
