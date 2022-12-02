@@ -29,23 +29,33 @@ export default function HomeDoc() {
             <CssBaseline />
             <Container component="main" maxWidth="lg" sx={{ mb: 6 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 4, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h3" align="center" p={5}>
+                <Typography component="h1" variant="h2" align="center" p={3}>
                         Bienvenido a la plataforma de Pruebas Saber Pro!
                     </Typography>
-                    <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
+                    <Grid container spacing={1} sx={{ display: "flex", justifyContent: "center" }}>
                         <Grid
                             item
                             xs={12}
                             sx={{ display: "flex", justifyContent: "center" }}
                         >
                             <Typography component="h3" variant="h6" align="center">
-                                Bienvenido Estudiante!
-                                Para entender mejor el funcionamiento de la pagina, puedes ver este
-                                video que explica todas las opciones que estan disponibles.
-                                Puedes contactar a soporte atravez de este correo: 
+                                ¡Bienvenido Docente! Para entender mejor el funcionamiento de la página, puedes ver este video que explica todas las opciones que están disponibles. Puedes contactar a soporte a través de este correo:  <b>aydufps@gmail.com</b>
                                 <hr></hr>
-                                aydufps@gmail.com
+                            </Typography>
+                        </Grid>
+                        <Grid
+                            item
+                            xs={12}
+                            sx={{ display: "flex", justifyContent: "center" }}
+                        >
+                            <Typography variant="body1">
+                                <h5 className='mb-2'>Acciones que puedes hacer como docente: </h5>
+                                <ul>
+                                    <li>Ver una lista de preguntas segun el programa academico</li>
+                                    <li>Crear preguntas segun las categoria y subcategoria</li>
+                                </ul>
                                 <hr></hr>
+
                             </Typography>
                         </Grid>
                         <Grid
