@@ -141,4 +141,23 @@ export const getPreguntasOpcionesSimu = async (id_simulacro) => {
     },
   })).json();
 }
+
+export const presentar_simulacro = async (simu_usu, preguntas) => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.SIMULACRO.PRESENTAR_SIMULACRO, {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      "simu_usu_presentado": simu_usu.presentado,
+      "simu_usu_codigo": String(simu_usu.codigo).trim(),
+      "simulacro": parseInt(simu_usu.simulacro),
+      "usuario": parseInt(usuario.id_usuario),
+      "preguntas_respondidas": preguntas
+    }),
+  })).json();
+}
 /*--------------------------------END------------------------------------*/

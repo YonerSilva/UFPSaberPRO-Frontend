@@ -97,7 +97,6 @@ const ListaSimulacrosE = () => {
           }
      }
 
-
      const presentarSimulacro = (item) => {
           dispatch({
                type: "SET_FORM_EDITION_SIMU",
@@ -105,8 +104,6 @@ const ListaSimulacrosE = () => {
           });
           navigate("/UFPSaberPRO/e/informacion_simulacro");
      }
-
-
      
      const handleBuscar = (data) => {
           if (busqueda === "") {

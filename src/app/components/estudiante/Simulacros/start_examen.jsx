@@ -5,26 +5,33 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { ResponsiveContainer } from 'recharts';
 import Paper from "@mui/material/Paper";
-import { Button, CardActions, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { CardActions, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import { useNavigate } from 'react-router-dom';
-import { useStore } from '../../../store/Provider/storeProvider';
+import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
 import moment from 'moment';
 import Timer from '../../extra/Temporizador';
 import { useState } from 'react';
 import * as serviceSimulacro from '../../../store/services/SimulacroService';
-import { alert_error } from '../../../util/functions';
+import { alert_error, alert_loading } from '../../../util/functions';
 import Cargador from '../../extra/CargadorEventos';
 import { Form } from 'react-bootstrap';
-import useAuth from '../../auth/useAuth';
+import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const Start_Examen = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { formEditionSimu } = useStore();
-  const {auth} = useAuth();
   const [loading, setLoading] = useState(true);
   const [preguntas, setPreguntas] = useState([]);
   const duracion = parseInt(moment(formEditionSimu.simu_fecha_final).diff(moment(formEditionSimu.simu_fecha_inicial), 'seconds'));
+  const simu_usu = {
+    presentado: true,
+    codigo: moment(new Date()).format("YYYY-MM-DD").replace("-", ""),
+    simulacro: formEditionSimu.id_simulacro
+  }
+  var valida = false;
 
   const time = new Date();
   time.setSeconds(time.getSeconds() + duracion);
@@ -32,7 +39,13 @@ const Start_Examen = () => {
   const listarPreguntas = () => {
     serviceSimulacro.getPreguntasOpcionesSimu(formEditionSimu.id_simulacro).then(response => {
       if (response.error === null) {
-        setPreguntas(response.preguntas);
+        let array = response.preguntas;
+        array.forEach(pregunta => {
+          pregunta.opciones.forEach(opcion => {
+            opcion.opc_respuesta = false;
+          });
+        });
+        setPreguntas(array);
       } else {
         alert_error("¡Error!", response.message);
       }
@@ -40,12 +53,67 @@ const Start_Examen = () => {
     });
   }
 
-  const handleSubmit = (e) =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      
+      if (!valida) {
+        Swal.fire({
+          title: '¿Quieres finalizar el examen?',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Finalizar',
+          icon: 'info'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            sendSimulacro();
+          }
+        });
+      } else {
+        sendSimulacro();
+      }
+
     } catch (error) {
-      
+      console.error(error);
+    }
+  }
+
+  const sendSimulacro = () => {
+    toast.promise(new Promise((resolve, reject) => {
+      serviceSimulacro.presentar_simulacro(simu_usu, preguntas).then(response => {
+        if (response.error === null) {
+          resolve();
+          listarSimulacros();
+          setTimeout(() => { navigate("/UFPSaberPRO/e/simulacros") }, 2000);
+        } else {
+          reject();
+        }
+      });
+    }), {
+      loading: "Cargando...",
+      error: "¡Error! \n" + "¡Oops!, no se ha podido enviar el simulacro.",
+      success: "¡Se ha enviado el simulacro con éxito!",
+    });
+  }
+
+  const sendByTempo = async () => {
+    valida = true;
+  }
+
+  const listarSimulacros = () => {
+    try {
+      serviceSimulacro.getSimulacrosConvo().then(response => {
+        if (response.error === null) {
+          dispatch({
+            type: "SET_LISTA_SIMULACROS_USUARIO",
+            payload: response.simulacros
+          });
+          alert_loading(response.message);
+        } else {
+          alert_error("¡Error!", response.message);
+        }
+      });
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -54,6 +122,13 @@ const Start_Examen = () => {
       navigate("/UFPSaberPRO/e/simulacros");
     } else {
       listarPreguntas();
+    }
+
+    return () => {
+      dispatch({
+        type: "SET_FORM_EDITION_SIMU",
+        payload: {}
+      });
     }
   }, []);
 
@@ -100,7 +175,7 @@ const Start_Examen = () => {
                                           El cuestionario se enviará automáticamente cuando el temporizador llegue a
                                         </Typography>
                                         <span className="text-center"><b>Duracion: </b></span>
-                                        <Timer expiryTimestamp={time} />
+                                        <Timer expiryTimestamp={time} sendByTempo={sendByTempo} />
                                       </CardContent>
                                     </Card>
                                     : <></>
@@ -125,33 +200,12 @@ const Start_Examen = () => {
                                       <></>
                                   }
                                 </div>
-                                <button type='submit' size="large" className="btn btn-danger m-2">
+                                <button id="btn_presentar" type='submit' size="large" className="btn btn-danger m-2">
                                   Enviar Simulacro
                                 </button>
                               </Form>
                             </Grid>
                           </Grid>
-                        </div >
-                      </Paper>
-                      <Paper>
-                        <div className="container mt-2">
-                          <div className="col-md-6 offset-md-3">
-                            <Card>
-                              <CardHeader>
-                                <Typography>
-                                  Resultado de la prueba
-                                </Typography>
-                              </CardHeader>
-                              <CardContent className="text-center">
-                                <h2>Puntos conseguidos : {/*{ puntosConseguidos }*/}</h2>
-                                <h2>Respuestas correctas : {/*{ respuestasCorrectas }*/}</h2>
-                              </CardContent>
-                              <CardActions className="text-center" sx={{ display: "flex", justifyContent: "center" }}>
-                                <button onClick={() => {/*imprimirPagina()*/ }} color="primary">Imprimir</button>
-                                <button color="accent">Inicio</button>
-                              </CardActions>
-                            </Card>
-                          </div>
                         </div >
                       </Paper>
                     </>
@@ -161,7 +215,6 @@ const Start_Examen = () => {
                 }
               })()
             }
-
           </div>
         </div>
       </ResponsiveContainer>
@@ -174,16 +227,16 @@ export default Start_Examen;
 
 const Generar_Preguntas = ({ preguntas, tipo }) => {
 
-  const handleChange = (e) =>{
+  const handleChange = (e) => {
     let valor = String(e.target.value).split(",");
     const id_pregunta = parseInt(valor[0]);
     const id_opcion = parseInt(valor[1]);
-    const pregunta = preguntas.filter(preg => parseInt(preg.id_pregunta)===id_pregunta)[0];
-    if(pregunta !== undefined && pregunta !== null){
+    const pregunta = preguntas.filter(preg => parseInt(preg.id_pregunta) === id_pregunta)[0];
+    if (pregunta !== undefined && pregunta !== null) {
       pregunta.opciones.forEach(opc => {
-        if(id_opcion===opc.id_opcion){
+        if (id_opcion === opc.id_opcion) {
           opc.opc_respuesta = true;
-        }else{
+        } else {
           opc.opc_respuesta = false;
         }
       });
@@ -233,13 +286,12 @@ const Generar_Preguntas = ({ preguntas, tipo }) => {
                                   >
                                     {
                                       pregunta.opciones.map((opcion, i) => (
-                                        <FormControlLabel key={opcion.id_opcion} value={pregunta.id_pregunta+","+opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion}/>
+                                        <FormControlLabel key={opcion.id_opcion} value={pregunta.id_pregunta + "," + opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion} />
                                       ))
                                     }
                                   </RadioGroup>
                                 </FormControl>
                               </div>
-
                             }
                           </div>
                         </CardContent>
@@ -282,26 +334,20 @@ const Generar_Preguntas = ({ preguntas, tipo }) => {
                           }
                           <div className="row mt-2">
                             {
-                              pregunta.opciones.map((opcion, i) => (
-                                <div className="col-md-8 mt-10">
-                                  <div>
-                                    <input type="radio" className='mx-2' />
-                                    {opcion.opc_descripcion}
-                                  </div>
-                                  {
-                                    opcion.opc_imagen !== "" && pregunta.opc_imagen !== null && pregunta.opc_imagen !== undefined
-                                      ?
-                                      <>
-                                        <div className="card shadow" style={{ width: '18rem' }}>
-                                          <img src={opcion.opc_imagen} className="card-img-top" style={{ height: '30vh', width: '100%', objectFit: 'cover' }} />
-                                        </div>
-                                        <hr />
-                                      </>
-                                      :
-                                      <></>
-                                  }
-                                </div>
-                              ))
+                              <div className="col-md-8 mt-10">
+                                <FormControl>
+                                  <RadioGroup
+                                    name="opcion"
+                                    onChange={handleChange}
+                                  >
+                                    {
+                                      pregunta.opciones.map((opcion, i) => (
+                                        <FormControlLabel key={opcion.id_opcion} value={pregunta.id_pregunta + "," + opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion} />
+                                      ))
+                                    }
+                                  </RadioGroup>
+                                </FormControl>
+                              </div>
                             }
                           </div>
                         </CardContent>
