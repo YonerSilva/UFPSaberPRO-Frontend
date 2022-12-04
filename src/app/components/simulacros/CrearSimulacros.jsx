@@ -9,7 +9,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from '@mui/material/Grid';
 import { useNavigate } from 'react-router-dom';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
-import { useEffect ,useState } from "react";
+import { useEffect, useState } from "react";
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
 import { useDispatch, useStore } from "../../store/Provider/storeProvider";
 import Cargador from "../extra/CargadorEventos";
@@ -129,7 +129,7 @@ export default function CrearSimulacros() {
                                                     onChange={handleChange}
                                                     multiline
                                                     fullWidth
-                                                    maxLength="100"
+                                                    inputProps={{ maxLength: 100 }}
                                                     autoComplete="cc-name"
                                                     variant="outlined"
                                                 />
@@ -147,11 +147,11 @@ export default function CrearSimulacros() {
                                                     multiline
                                                     autoComplete="shipping postal-code"
                                                     variant="outlined"
-                                                    maxLength="256"
+                                                    inputProps={{ maxLength: 256 }}
                                                 />
                                             </Grid>
                                             <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                                                <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                                                <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn btn-danger m-2">
                                                     Volver
                                                 </Button>
                                             </Grid>

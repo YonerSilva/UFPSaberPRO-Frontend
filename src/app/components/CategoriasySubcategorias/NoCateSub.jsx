@@ -18,22 +18,19 @@ export default function NoCateSub({ id_categoria }) {
                 <h2 align="center">
                     ¡No se encontraron Subcategorias! Te recomendamos crearlos o retroceder.
                 </h2>
-                <div className='mx-auto row d-flex flex-column'>
-                    <div className='col-12 d-flex justify-content-center'>
+
+                <div className='mx-auto'>
+                    <Grid container sx={{ display: "flex", justifyContent: "center" }}>
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
-                    </div>
-                    <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
-                        <Grid item xs sm={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                            <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
+                        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                            <Button onClick={() => { navigate("/UFPSaberPRO/a/subcategorias/"+ id_categoria) }} size="large" className="btn btn-danger m-2">
                                 Volver
                             </Button>
-                        </Grid >
-                        <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button onClick={() => { navigate('/a/subcategorias/crear-subcategoria/' + id_categoria) }} size="large" className="btn-v btn-danger m-2">
+                            <Button onClick={() => { navigate('/UFPSaberPRO/a/subcategorias/crear-subcategoria/' + id_categoria) }} size="large" className="btn btn-danger m-2">
                                 Crear
                             </Button>
-                        </Grid >
-                    </Grid >
+                        </Grid>
+                    </Grid>
                 </div>
             </Container>
         </ThemeProvider>

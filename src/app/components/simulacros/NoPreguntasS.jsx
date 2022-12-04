@@ -31,29 +31,31 @@ export default function NoPreguntasS() {
                     <div className='col-12 d-flex justify-content-center'>
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
                     </div>
-                    <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
-                        {
-                            formEditionSimu.simu_estado === 'I'
-                                ?
-                                <>
+                    <div className='mx-auto'>
+                        <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+                            <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
+                            {
+                                formEditionSimu.simu_estado === 'I'
+                                    ?
+                                    <>
+                                        <Grid item xs={12} sm={12} sx={{ display: "flex", justifyContent: "center" }}>
+                                            <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn btn-danger m-2">
+                                                Volver
+                                            </Button>
+                                            <Button onClick={() => { navigate('/UFPSaberPRO/a/simulacros/seleccionar_preguntas') }} size="large" className="btn btn-danger m-2">
+                                                Seleccionar Preguntas
+                                            </Button>
+                                        </Grid >
+                                    </>
+                                    :
                                     <Grid item xs sm={12} sx={{ display: "flex", justifyContent: "center" }}>
-                                        <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn btn-danger m-2">
+                                        <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn-v btn-danger m-2">
                                             Volver
                                         </Button>
-                                        <Button onClick={() => { navigate('/UFPSaberPRO/a/simulacros/seleccionar_preguntas') }} size="large" className="btn btn-danger m-2">
-                                            Seleccionar Preguntas
-                                        </Button>
                                     </Grid >
-                                </>
-                                :
-                                <Grid item xs sm={12} sx={{ display: "flex", justifyContent: "center" }}>
-                                    <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn-v btn-danger m-2">
-                                        Volver
-                                    </Button>
-                                </Grid >
-                        }
-
-                    </Grid>
+                            }
+                        </Grid>
+                    </div>
                 </div>
             </Container>
         </ThemeProvider>

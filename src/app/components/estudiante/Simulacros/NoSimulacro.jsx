@@ -18,13 +18,15 @@ export default function NoSimulacroE() {
                 <h2 align="center">
                     ¡No te has inscrito en ninguna convocatoria! Acepta una para ver las opciones.
                 </h2>
-                <div className='mx-auto row d-flex flex-column justify-content-center align-items-center'>
-                    <div className='col-12 d-flex justify-content-center'>
-                        <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200}/>
-                    </div>
-                    <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
-                        Volver
-                    </Button>
+                <div className='mx-auto'>
+                    <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+                        <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
+                        <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                            <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas/opciones_list") }} size="large" className="btn btn-danger m-2">
+                                Volver
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </div>
             </Container>
         </ThemeProvider>

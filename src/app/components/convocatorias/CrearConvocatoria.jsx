@@ -101,8 +101,8 @@ export default function CrearConvocatoria() {
             fecha_final: moment(new Date(convocatoria.fecha_final)).format(),
             estado: convocatoria.estado,
             simulacro: convocatoria.simulacro,
-            simu_fecha_inicio: convocatoria.simu_fecha_inicio!==""? moment(new Date(convocatoria.simu_fecha_inicio)).format():"",
-            simu_fecha_final: convocatoria.simu_fecha_final!==""? moment(new Date(convocatoria.simu_fecha_final)).format():""
+            simu_fecha_inicio: convocatoria.simu_fecha_inicio !== "" ? moment(new Date(convocatoria.simu_fecha_inicio)).format() : "",
+            simu_fecha_final: convocatoria.simu_fecha_final !== "" ? moment(new Date(convocatoria.simu_fecha_final)).format() : ""
         }
         return convo;
     }
@@ -118,9 +118,9 @@ export default function CrearConvocatoria() {
                 fecha_inicio: formEdition.convo_fecha_inicial,
                 fecha_final: formEdition.convo_fecha_final,
                 estado: formEdition.convo_estado,
-                simulacro: formEdition.simulacro!==null?formEdition.simulacro: "",
-                simu_fecha_inicio: formEdition.simu_fecha_inicial!==null? formEdition.simu_fecha_inicial:"",
-                simu_fecha_final: formEdition.simu_fecha_final!==null? formEdition.simu_fecha_final: ""
+                simulacro: formEdition.simulacro !== null ? formEdition.simulacro : "",
+                simu_fecha_inicio: formEdition.simu_fecha_inicial !== null ? formEdition.simu_fecha_inicial : "",
+                simu_fecha_final: formEdition.simu_fecha_final !== null ? formEdition.simu_fecha_final : ""
             });
         }
         setLoading(false);
@@ -141,15 +141,15 @@ export default function CrearConvocatoria() {
             if (fecha_inicio === "" || fecha_final === "") {
                 throw new Error("Los campos no pueden estar vacios.");
             } else {
-                if(fecha_inicio > fecha_final){
+                if (fecha_inicio > fecha_final) {
                     throw new Error("La fecha inicial de la convocatoria debe ser menor a la fecha final de la convocatoria.");
-                }else{
+                } else {
                     let button = document.getElementById("button_register");
-                        if (simulacro !== "") {
-                            validarFechasSimulacro();
-                        } else {
-                            button.setAttribute('type', 'submit');
-                        }
+                    if (simulacro !== "") {
+                        validarFechasSimulacro();
+                    } else {
+                        button.setAttribute('type', 'submit');
+                    }
                 }
             }
         } catch (error) {
@@ -167,12 +167,12 @@ export default function CrearConvocatoria() {
                 throw new Error("Los campos no pueden estar vacios.");
             } else {
 
-                if(convo_fecha_final > simu_fecha_final){
+                if (convo_fecha_final > simu_fecha_final) {
                     throw new Error("La fecha inicial del simulacro debe ser mayor a la fecha final de la convocatoria.");
-                }else{
-                    if(simu_fecha_inicio > simu_fecha_final){
+                } else {
+                    if (simu_fecha_inicio > simu_fecha_final) {
                         throw new Error("La fecha final del simulacro debe ser mayor a la fecha inicial del simulacro.");
-                    }else{
+                    } else {
                         let button = document.getElementById("button_register");
                         button.setAttribute('type', 'submit');
                     }
@@ -211,9 +211,7 @@ export default function CrearConvocatoria() {
                                                     fullWidth
                                                     autoComplete="given-name"
                                                     variant="outlined"
-                                                    inputProps={{
-                                                        maxLength: 100
-                                                    }}
+                                                    inputProps={{maxLength: 100}}
                                                     value={convocatoria.nombre}
                                                     onChange={handleChange}
                                                 />
@@ -229,9 +227,7 @@ export default function CrearConvocatoria() {
                                                     multiline
                                                     autoComplete="shipping postal-code"
                                                     variant="outlined"
-                                                    inputProps={{
-                                                        maxLength: 256
-                                                    }}
+                                                    inputProps={{ maxLength: 256 }}
                                                     value={convocatoria.descripcion}
                                                     onChange={handleChange}
                                                 />
@@ -350,7 +346,7 @@ export default function CrearConvocatoria() {
                                                     <></>
                                             }
                                             <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                                <Button type='button' onClick={() => { navigate(-1) }} size='medium' className='btn btn-danger m-2'>
+                                                <Button type='button' onClick={() => { navigate("/UFPSaberPRO/a/convocatorias")}} size='medium' className='btn btn-danger m-2'>
                                                     Volver
                                                 </Button>
                                             </Grid>

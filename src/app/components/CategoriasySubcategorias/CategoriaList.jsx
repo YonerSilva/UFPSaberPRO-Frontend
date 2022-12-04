@@ -43,12 +43,12 @@ const CategoriaList = () => {
         return (
           <div className="row-cols-2 row-cols-md-auto" align="center">
             <IconButton onClick={() => { updateCategoria(row) }}
-              title='Actualizar Convocatoria'
+              title='Actualizar Categoria'
               style={{ color: "blue" }}><EditIcon />
             </IconButton>
             <IconButton
               onClick={() => { verSubCategoria(row) }}
-              title="Ver Categoria"
+              title="Ver Subcategoria"
               style={{ color: "gray" }}
             >
               <VisibilityIcon />

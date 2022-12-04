@@ -113,7 +113,7 @@ export default function CrearOpcionDoc() {
   const listarOpciones = (response) => {
     if (response.error === null) {
       alert_success(response.message, "Se ha guardado la opcion.");
-      setTimeout(() => { navigate(-1) }, 2000);
+      setTimeout(() => { navigate("/UFPSaberPRO/a/pregunta/opciones") }, 2000);
     } else {
       alert_error("¡Error!", response.message);
     }
@@ -181,7 +181,7 @@ export default function CrearOpcionDoc() {
                           value={opcion.descripcion}
                           onChange={handleChange}
                           variant="outlined"
-                          maxLength="500"
+                          inputProps={{ maxLength: 500 }}                          
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -194,7 +194,6 @@ export default function CrearOpcionDoc() {
                           label="Seleccione si la Opcion es Correcta"
                           value={opcion.respuesta}
                           variant="outlined"
-
                           onChange={handleChange}
                         >
                           <MenuItem key={1} value={true}>
@@ -214,7 +213,7 @@ export default function CrearOpcionDoc() {
                         </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                        <Button onClick={() => { navigate("/UFPSaberPRO/a/pregunta/opciones") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                         <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>

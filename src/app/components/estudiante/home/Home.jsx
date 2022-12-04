@@ -29,7 +29,7 @@ export default function HomeE() {
             <CssBaseline />
             <Container component="main" maxWidth="lg" sx={{ mb: 6 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 4, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h2" align="center" p={3}>
+                    <Typography component="h1" variant="h4" align="center" p={3}>
                         Bienvenido a la plataforma de Pruebas Saber Pro!
                     </Typography>
                     <Grid container spacing={1} sx={{ display: "flex", justifyContent: "center" }}>
@@ -59,14 +59,10 @@ export default function HomeE() {
 
                             </Typography>
                         </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            sx={{ display: "flex", justifyContent: "center" }}
-                        >
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/JkQ05tONYNY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                        </Grid>
                     </Grid>
+                    <div class="contenedor-responsivo">
+                        <iframe class="iframe-responsivo" src='https://www.youtube.com/embed/JkQ05tONYNY' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    </div>
                 </Paper>
             </Container>
         </ThemeProvider >

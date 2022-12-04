@@ -255,7 +255,7 @@ export default function CrearPreguntaDocente() {
                           value={pregunta.descripcion}
                           onChange={handleChange}
                           variant="outlined"
-                          maxLength="500"
+                          inputProps={{ maxLength: 500 }}                          
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -268,7 +268,6 @@ export default function CrearPreguntaDocente() {
                           label="Tipo de Pregunta"
                           value={pregunta.tipo}
                           variant="outlined"
-                          maxLength="1"
                           onChange={handleChange}
                         >
                           <MenuItem key={1} value={1}>
@@ -290,7 +289,7 @@ export default function CrearPreguntaDocente() {
                         </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                        <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas/crear_pregunta") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                       </Grid>

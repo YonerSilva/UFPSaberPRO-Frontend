@@ -22,18 +22,19 @@ export default function NoOpciones() {
                     <div className='col-12 d-flex justify-content-center'>
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
                     </div>
-                    <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center" }}>
-                        <Grid item xs sm={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-                            <Button onClick={() => { navigate(-1) }} size="large" className="btn-v btn-danger m-2">
-                                Volver
-                            </Button>
-                        </Grid >
-                        <Grid item xs sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                            <Button onClick={() => { navigate('/UFPSaberPRO/a/opciones/crear_opcion/') }} size="large" className="btn-v btn-danger m-2">
-                                Crear
-                            </Button>
-                        </Grid >
-                    </Grid >
+                    <div className='mx-auto'>
+                        <Grid container sx={{ display: "flex", justifyContent: "center" }}>
+                            <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
+                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
+                                <Button onClick={() => { navigate("/UFPSaberPRO/a/preguntas") }} size="large" className="btn btn-danger m-2">
+                                    Volver
+                                </Button>
+                                <Button onClick={() => { navigate('/UFPSaberPRO/a/opciones/crear_opcion/') }} size="large" className="btn btn-danger m-2">
+                                    Crear
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </div>
                 </div>
             </Container>
         </ThemeProvider>
