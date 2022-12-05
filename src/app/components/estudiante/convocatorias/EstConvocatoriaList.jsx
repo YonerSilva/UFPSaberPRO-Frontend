@@ -141,8 +141,47 @@ const ListaConvocatoriasUsuario = () => {
           }
      }
 
+     const listarConvocatoriasU = () => {
+          try {
+               serviceConvocatoria.getConvocatoriasUsuario().then(response => {
+                    if (response.error === null) {
+                         dispatch({
+                              type: "SET_LISTA_CONVOCATORIAS_USUARIO",
+                              payload: response.convocatorias
+                         });
+                         alert_loading(response.message);
+                    } else {
+                         alert_error("¡Error!", response.message);
+                    }
+                    setLoading(false);
+               });
+          } catch (error) {
+               console.error(error);
+          }
+     }
+
+     const listarConvocatoriasA = () => {
+          try {
+               serviceConvocatoria.getConvocatoriasActivas().then(response => {
+                    if (response.error === null) {
+                         dispatch({
+                              type: "SET_LISTA_CONOVOCATORIAS_ACTIVA",
+                              payload: response.convocatorias
+                         });
+                         alert_loading(response.message);
+                    } else {
+                         alert_error("¡Error!", response.message);
+                    }
+                    setLoading(false);
+               });
+          } catch (error) {
+               console.error(error);
+          }
+     }
+
      useEffect(() => {
-          setLoading(false);
+          listarConvocatoriasA();
+          listarConvocatoriasU();
      }, []);
 
      return (

@@ -45,7 +45,7 @@ const InformacionSimulacro = () => {
                             <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
                                 <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
                                     <Grid item xs={12} md={12} >
-                                        <Typography component="h2" variant="h3" color="dark" gutterBottom sx={{ textAlign: "center" }}>
+                                        <Typography component="h4" variant="h4" color="dark" gutterBottom sx={{ textAlign: "center" }}>
                                             Lea las Instrucciones de esta pagina cuidadosamente!
                                         </Typography>
                                         <h1>Instrucciones importantes</h1>
@@ -57,7 +57,8 @@ const InformacionSimulacro = () => {
                                                         let fecha_inicio = moment(formEditionSimu.simu_fecha_inicial);
                                                         let fecha_final = moment(formEditionSimu.simu_fecha_final);
                                                         var diff = fecha_final.diff(fecha_inicio, 'minutes');
-                                                        return " "+diff + " minutos";
+                                                        diff /= 60;
+                                                        return " "+diff + " horas";
                                                     })()}
                                                 </b></li>
                                             <li>Puede intentar el cuestionario cualquier cantidad de veces</li>

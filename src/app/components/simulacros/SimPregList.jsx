@@ -92,7 +92,6 @@ const SimPregList = () => {
 
      const eliminarPreguntas = ()=>{
           try {
-               console.log(formEdition);
                if(formEdition.preguntas.length!==0){
                     serviceSimulacro.eliminarPreguntas(formEdition).then(response=>{
                          if(response.error===null){

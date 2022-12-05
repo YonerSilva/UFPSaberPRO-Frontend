@@ -27,35 +27,30 @@ export default function NoPreguntasS() {
                 <h2 align="center">
                     ¡No se encontraron Preguntas relacionadas al Simulacro! Te recomendamos seleccionarlas.
                 </h2>
-                <div className='mx-auto row d-flex flex-column'>
-                    <div className='col-12 d-flex justify-content-center'>
+                <div className='mx-auto'>
+                    <Grid container sx={{ display: "flex", justifyContent: "center" }}>
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
-                    </div>
-                    <div className='mx-auto'>
-                        <Grid container sx={{ display: "flex", justifyContent: "center" }}>
-                            <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
-                            {
-                                formEditionSimu.simu_estado === 'I'
-                                    ?
-                                    <>
-                                        <Grid item xs={12} sm={12} sx={{ display: "flex", justifyContent: "center" }}>
-                                            <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn btn-danger m-2">
-                                                Volver
-                                            </Button>
-                                            <Button onClick={() => { navigate('/UFPSaberPRO/a/simulacros/seleccionar_preguntas') }} size="large" className="btn btn-danger m-2">
-                                                Seleccionar Preguntas
-                                            </Button>
-                                        </Grid >
-                                    </>
-                                    :
-                                    <Grid item xs sm={12} sx={{ display: "flex", justifyContent: "center" }}>
-                                        <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn-v btn-danger m-2">
+                        {
+                            formEditionSimu.simu_estado === 'I'
+                                ?
+                                <>
+                                    <Grid item xs={12} sm={12} sx={{ display: "flex", justifyContent: "center" }}>
+                                        <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn btn-danger m-2">
                                             Volver
                                         </Button>
+                                        <Button onClick={() => { navigate('/UFPSaberPRO/a/simulacros/seleccionar_preguntas') }} size="large" className="btn btn-danger m-2">
+                                            Seleccionar Preguntas
+                                        </Button>
                                     </Grid >
-                            }
-                        </Grid>
-                    </div>
+                                </>
+                                :
+                                <Grid item xs sm={12} sx={{ display: "flex", justifyContent: "center" }}>
+                                    <Button onClick={() => { navigate("/UFPSaberPRO/a/simulacros") }} size="large" className="btn-v btn-danger m-2">
+                                        Volver
+                                    </Button>
+                                </Grid >
+                        }
+                    </Grid>
                 </div>
             </Container>
         </ThemeProvider>

@@ -3,7 +3,7 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Grid from "@mui/material/Grid";
 
 export default function NoConvocatoriaE() {
@@ -22,7 +22,7 @@ export default function NoConvocatoriaE() {
                     <Grid container sx={{ display: "flex", justifyContent: "center" }}>
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
                         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-                            <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas/opciones_list") }} size="large" className="btn btn-danger m-2">
+                            <Button onClick={() => { navigate("/UFPSaberPRO/e/Inicio") }} size="large" className="btn btn-danger m-2">
                                 Volver
                             </Button>
                         </Grid>

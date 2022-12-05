@@ -1,27 +1,13 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
 
 export default function HomeE() {
 
-    const isWeekend = (date) => {
-        const day = date.day();
-
-        return day === 0 || day === 6;
-    };
-
-    const [value, setValue] = React.useState(null);
-
-    const navigate = useNavigate();
     const theme = createTheme();
 
     return (

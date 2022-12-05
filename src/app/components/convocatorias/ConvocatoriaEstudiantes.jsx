@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import { Button, Card, Form } from 'react-bootstrap';
 import Cargador from '../extra/CargadorEventos';
 import Barra from '../extra/BarraBusqueda';
-import NoUser from '../convocatorias/NoConvocatoria';
+import NoUser from '../convocatorias/NoUser';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
