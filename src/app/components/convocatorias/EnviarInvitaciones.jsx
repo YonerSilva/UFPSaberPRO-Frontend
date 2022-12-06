@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import { Button, Form } from 'react-bootstrap';
+import Grid from "@mui/material/Grid";
 import Cargador from '../extra/CargadorEventos';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import emailjs from 'emailjs-com';
@@ -28,7 +29,7 @@ const EnviarInvitaciones = () => {
             };
 
             reader.onerror = function () {
-                alert_error("¡Error!","Ocurrió un problema al leer el archivo, intente nuevamente.");
+                alert_error("¡Error!", "Ocurrió un problema al leer el archivo, intente nuevamente.");
             };
         } catch (error) {
             console.error(error);
@@ -57,19 +58,19 @@ const EnviarInvitaciones = () => {
                         reject();
                     });
                 });
-              }), {
+            }), {
                 loading: "Cargando...",
                 error: "¡Error! \n" + "Ha ocurrido un imprevisto al enviar las invitaciones.",
                 success: "¡Proceso Exitoso!",
-              });
-            
+            });
+
         } catch (error) {
             console.error(error);
         }
     }
 
     useEffect(() => {
-        if(Object.keys(formEdition).length===0 && formEdition.id_convocatoria===undefined){
+        if (Object.keys(formEdition).length === 0 && formEdition.id_convocatoria === undefined) {
             navigate("/UFPSaberPRO/a/convocatorias");
         }
         setLoading(false);
@@ -91,11 +92,18 @@ const EnviarInvitaciones = () => {
                                             <Form.Label style={{ fontWeight: 1000, fontSize: 25 }}>SUBE EL ARCHIVO CON LA INFORMACION⬇️ </Form.Label>
                                             <Form.Control type="file" accept=".csv, .xls, .xlt, .xla" />
                                             <Typography component="h6" variant="caption" color="dark" gutterBottom>
-                                            Solo puedes subir archivos .csv separados por (,) coma 
+                                                Solo puedes subir archivos .csv separados por (,) coma
                                             </Typography>
-                                            <Button onClick={() => { subirArchivo() }} size="large" className="btn btn-danger m-2">
-                                                Cargar
-                                            </Button>
+                                            <Grid container spacing={3}>
+                                                <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-start" }}>
+                                                    <Button onClick={() => { subirArchivo() }} size="large" className="btn btn-danger m-2">
+                                                        Cargar
+                                                    </Button>
+                                                    <Button onClick={() => { navigate("/UFPSaberPRO/a/convocatorias") }} size="large" className="btn btn-danger m-2">
+                                                        Volver
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
                                         </Form.Group>
                                     )
                                 } else {

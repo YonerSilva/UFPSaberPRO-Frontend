@@ -213,7 +213,7 @@ export default function CrearOpcionDoc() {
                         </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate("/UFPSaberPRO/a/pregunta/opciones") }} size="large" className="btn btn-danger m-2">
+                        <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas/opciones_list") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                         <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>

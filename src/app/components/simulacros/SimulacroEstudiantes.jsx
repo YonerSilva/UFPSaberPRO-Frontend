@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Cargador from '../extra/CargadorEventos';
 import Barra from '../extra/BarraBusqueda';
-import NoUser from '../convocatorias/NoConvocatoria';
+import NoEstudiante from '../simulacros/NoEstudiantes';
 import { useStore } from '../../store/Provider/storeProvider';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
@@ -130,7 +130,7 @@ const SimulacroEstudiantes = () => {
                                 if (!loading) {
                                     if (usuarios.length === 0) {
                                         return (
-                                            <NoUser />
+                                            <NoEstudiante />
                                         )
                                     } else {
                                         return (

@@ -345,12 +345,12 @@ export default function CrearConvocatoria() {
                                                     :
                                                     <></>
                                             }
-                                            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                            <Grid item xs={6} sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                                                 <Button type='button' onClick={() => { navigate("/UFPSaberPRO/a/convocatorias")}} size='medium' className='btn btn-danger m-2'>
                                                     Volver
                                                 </Button>
                                             </Grid>
-                                            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
+                                            <Grid item xs={6} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start',  alignItems: 'center'  }}>
                                                 <Button id="button_register" onClick={() => { validarFechasConvocatoria() }} type='button' size='medium' className='btn btn-danger m-2'>
                                                     {
                                                         update

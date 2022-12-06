@@ -289,7 +289,7 @@ export default function CrearPreguntaDocente() {
                         </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas/crear_pregunta") }} size="large" className="btn btn-danger m-2">
+                        <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                       </Grid>
