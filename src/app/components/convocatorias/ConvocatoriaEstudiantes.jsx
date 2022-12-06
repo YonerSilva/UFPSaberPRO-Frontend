@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 import { Button, Card, Form } from 'react-bootstrap';
 import Cargador from '../extra/CargadorEventos';
 import Barra from '../extra/BarraBusqueda';
-import NoUser from '../convocatorias/NoConvocatoria';
+import NoUser from '../convocatorias/NoUser';
 import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
@@ -172,12 +172,8 @@ const ConvocatoriaEstudiantes = () => {
                                                     {
                                                         props => (
                                                             <React.Fragment>
-                                                                <Button_Usuarios {...props.csvProps} />
-                                                                <Button_Email {...props.csvProps} />
-                                                                <Button onClick={() => { enviarCorreo() }} size="large" className="btn btn-danger m-2">
-                                                                    Enviar Correo a Participantes
-                                                                </Button>
-                                                                <hr />
+
+
                                                                 <BootstrapTable
                                                                     headerClasses='table-head'
                                                                     classes='table-design shadow'
@@ -192,6 +188,20 @@ const ConvocatoriaEstudiantes = () => {
                                                                     noDataIndication='No hay usuarios disponibles.'
                                                                     {...props.baseProps}
                                                                 />
+                                                                <hr />
+                                                                <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center", alignItems: 'center' }}>
+                                                                    <Grid item xs={12} md={4}>
+                                                                        <Button_Usuarios {...props.csvProps} />
+                                                                    </Grid>
+                                                                    <Grid item xs={12} md={4}>
+                                                                        <Button_Email {...props.csvProps} />
+                                                                    </Grid>
+                                                                    <Grid item xs={12} md={4}>
+                                                                        <Button onClick={() => { navigate("/UFPSaberPRO/a/convocatorias") }} size="large" className="btn btn-danger m-2">
+                                                                            Volver
+                                                                        </Button>
+                                                                    </Grid>
+                                                                </Grid>
                                                             </React.Fragment>
                                                         )
                                                     }

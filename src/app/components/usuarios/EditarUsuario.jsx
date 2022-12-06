@@ -24,7 +24,7 @@ export default function EditarUsuario() {
     const navigate = useNavigate();
     const { formEditionUsu } = useStore();
     const dispatch = useDispatch();
-    const [showPassword,setShowPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const valores_iniciales = {
         id_usuario: "",
@@ -45,10 +45,10 @@ export default function EditarUsuario() {
             const usuario = upperCase();
             service.update(usuario).then(response => {
                 if (response.error === null) {
-                    if(usuario.rol.id_rol!==3){
+                    if (usuario.rol.id_rol !== 3) {
                         updateUserFirebase(usuario.email.toLowerCase(), usuario.password);
                     }
-                    alert_success("¡Proceso Exitoso!",response.message);
+                    alert_success("¡Proceso Exitoso!", response.message);
                     listarUsuarios();
                 } else {
                     alert_error("¡Error!", response.error);
@@ -90,7 +90,7 @@ export default function EditarUsuario() {
                 email: formEditionUsu.usu_email,
                 rol: formEditionUsu.rol
             });
-        }else{
+        } else {
             navigate("/UFPSaberPRO/a/usuarios");
         }
         return () => {
@@ -146,7 +146,7 @@ export default function EditarUsuario() {
                                     fullWidth
                                     autoComplete="given-name"
                                     variant="outlined"
-                                    maxLength="100"
+                                    inputProps={{ maxLength: 7 }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -161,7 +161,7 @@ export default function EditarUsuario() {
                                     fullWidth
                                     autoComplete="given-name"
                                     variant="outlined"
-                                    maxLength="100"
+                                    inputProps={{ maxLength: 100 }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -176,7 +176,7 @@ export default function EditarUsuario() {
                                     fullWidth
                                     autoComplete="given-name"
                                     variant="outlined"
-                                    maxLength="100"
+                                    inputProps={{ maxLength: 100 }}
                                 />
                             </Grid>
                             <Grid item xs={12} >
@@ -192,7 +192,7 @@ export default function EditarUsuario() {
                                     multiline
                                     autoComplete="shipping postal-code"
                                     variant="outlined"
-                                    maxLength="256"
+                                    inputProps={{ maxLength: 100 }}
                                     disabled
                                 />
                             </Grid>
@@ -204,6 +204,7 @@ export default function EditarUsuario() {
                                         type={showPassword ? 'text' : 'password'}
                                         value={user.password}
                                         onChange={handleChange}
+                                        inputProps={{ maxLength: 16 }}
                                         endAdornment={
                                             <InputAdornment position="end">
                                                 <IconButton
@@ -221,7 +222,7 @@ export default function EditarUsuario() {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <Button type='button' size='medium' onClick={() => { navigate(-1) }} className='btn btn-danger m-2'>
+                                <Button type='button' size='medium' onClick={() => { navigate("/UFPSaberPRO/a/usuarios") }} className='btn btn-danger m-2'>
                                     Volver
                                 </Button>
                             </Grid>

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { ResponsiveContainer } from 'recharts';
 import Paper from "@mui/material/Paper";
-import { CardActions, FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import {  FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import Grid from "@mui/material/Grid";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
@@ -28,9 +27,11 @@ const Start_Examen = () => {
   const duracion = parseInt(moment(formEditionSimu.simu_fecha_final).diff(moment(formEditionSimu.simu_fecha_inicial), 'seconds'));
   const simu_usu = {
     presentado: true,
-    codigo: moment(new Date()).format("YYYY-MM-DD").replace("-", ""),
+    codigo: moment(new Date()).format("YYYY/MM/DD").replace('/', "").replace('/',""),
     simulacro: formEditionSimu.id_simulacro
   }
+
+  console.log()
   var valida = false;
 
   const time = new Date();
@@ -118,7 +119,7 @@ const Start_Examen = () => {
   }
 
   useEffect(() => {
-    if (Object.keys(formEditionSimu).length === 0) {
+    if (Object.keys(formEditionSimu).length === 0 && formEditionSimu.id_simulacro===undefined) {
       navigate("/UFPSaberPRO/e/simulacros");
     } else {
       listarPreguntas();
@@ -136,7 +137,7 @@ const Start_Examen = () => {
     <React.Fragment>
       <ResponsiveContainer>
         <div className='container'>
-          <div className='container-fluid p-5'>
+          <div className='container-fluid mt-5'>
             {
               (() => {
                 if (!loading) {
@@ -171,7 +172,7 @@ const Start_Examen = () => {
                                           Temporizador
                                         </Typography>
                                         <hr />
-                                        <Typography variant='h6' component="div">
+                                        <Typography variant="h5">
                                           El cuestionario se enviará automáticamente cuando el temporizador llegue a
                                         </Typography>
                                         <span className="text-center"><b>Duracion: </b></span>
@@ -192,17 +193,16 @@ const Start_Examen = () => {
                                   {
                                     preguntas.length > 0
                                       ?
-                                      <>
-                                        <Generar_Preguntas preguntas={preguntas.filter(item => parseInt(item.preg_tipo) === 1)} tipo={1} />
-                                        <Generar_Preguntas preguntas={preguntas.filter(item => parseInt(item.preg_tipo) === 2)} tipo={2} />
-                                      </>
+                                      <GenerarPreguntas key={1} preguntas={preguntas} />
                                       :
                                       <></>
                                   }
                                 </div>
-                                <button id="btn_presentar" type='submit' size="large" className="btn btn-danger m-2">
-                                  Enviar Simulacro
-                                </button>
+                                <div className='d-flex justify-content-center'>
+                                  <button id="btn_presentar" type='submit' size="large" className="btn btn-danger m-2">
+                                    Enviar Simulacro
+                                  </button>
+                                </div>
                               </Form>
                             </Grid>
                           </Grid>
@@ -225,7 +225,9 @@ const Start_Examen = () => {
 export default Start_Examen;
 
 
-const Generar_Preguntas = ({ preguntas, tipo }) => {
+const GenerarPreguntas = ({ preguntas }) => {
+  const { lista_subcategorias_programa } = useStore();
+  const [subcategorias, setSubcategorias] = useState([]);
 
   const handleChange = (e) => {
     let valor = String(e.target.value).split(",");
@@ -243,121 +245,199 @@ const Generar_Preguntas = ({ preguntas, tipo }) => {
     }
   }
 
+  const listarSubcategorias = () => {
+    const unicos = [];
+    let array = preguntas.reduce((acc, valor) => {
+      if (!unicos.includes(valor.id_subcategoria)) {
+        unicos.push(valor.id_subcategoria);
+        acc.push(valor.id_subcategoria);
+      }
+      return acc;
+    }, []);
+
+    setSubcategorias(array);
+  }
+
+  useEffect(() => {
+    listarSubcategorias();
+  }, []);
+
   return (
     <>
       {
         (() => {
-          if (tipo === 1 && preguntas.length > 0) {
+          console.log(subcategorias)
+          if (subcategorias.length > 0) {
             return (
-              <div className='mt-4'>
-                <div className='d-flex row'>
-                  <h4 className='col-8'>PREGUNTAS VERDADERO O FALSO</h4>
-                  <h5 className='col-4 my-auto'>PREGUNTAS TOTALES({preguntas.length})</h5>
-                </div>
-                {
-                  preguntas.map((pregunta, index) => {
-                    return (
-                      <Card>
-                        <CardContent>
-                          <div className='d-flex'>
-                            <h5 className='col-10 mx-2' ><b>{(index + 1) + ") "}</b> <span>{pregunta.preg_descripcion}</span></h5>
-                            <h5 className='col-2'>VALOR({pregunta.simu_preg_puntaje})</h5>
-                          </div>
-                          <hr />
-                          {
-                            pregunta.preg_imagen !== "" && pregunta.preg_imagen !== null && pregunta.preg_imagen !== undefined
-                              ?
-                              <>
-                                <div className="card shadow mx-auto" style={{ width: '18rem' }}>
-                                  <img src={pregunta.preg_imagen} className="card-img-top" style={{ height: '30vh', width: '100%', objectFit: 'cover' }} />
-                                </div>
-                                <hr />
-                              </>
-                              :
-                              <></>
-                          }
-                          <div className="row mt-2">
-                            {
-                              <div className="col-md-8 mt-10">
-                                <FormControl>
-                                  <RadioGroup
-                                    name="opcion"
-                                    onChange={handleChange}
-                                  >
-                                    {
-                                      pregunta.opciones.map((opcion, i) => (
-                                        <FormControlLabel key={opcion.id_opcion} value={pregunta.id_pregunta + "," + opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion} />
-                                      ))
-                                    }
-                                  </RadioGroup>
-                                </FormControl>
+              subcategorias.map((sub, index) => {
+                return (
+                  <div className='mt-4'>
+                    <div className='d-flex row'>
+                      <h4 className='col-8' style={{ fontWeight: 'bold' }}>{lista_subcategorias_programa.find(element => element.id_subcategoria == sub).sub_nombre}</h4>
+                      <h5 className='col-4 my-auto'>CANTIDAD PREGUNTAS({preguntas.filter(item => item.id_subcategoria === sub).length})</h5>
+                    </div>
+                    {
+                      preguntas.filter(item => item.id_subcategoria === sub).map((pregunta, index) => {
+                        return (
+                          <Card>
+                            <CardContent>
+                              <div className='d-flex row'>
+                                <h5 className='col-10' ><b>{(index + 1) + ") "}</b> <span>{pregunta.preg_descripcion}</span></h5>
+                                <h5 className='col-2' style={{ fontWeight: 'bold' }}>VALOR({pregunta.simu_preg_puntaje})</h5>
                               </div>
-                            }
-                          </div>
-                        </CardContent>
-                      </Card >
-                    )
-                  })
-                }
-              </div>
+                              <hr />
+                              {
+                                pregunta.preg_imagen !== "" && pregunta.preg_imagen !== null && pregunta.preg_imagen !== undefined
+                                  ?
+                                  <div className="uk-cover-container d-flex justify-content-center">
+                                    <img src={pregunta.preg_imagen} alt="imagen" />
+                                  </div>
+                                  :
+                                  <></>
+                              }
+                              <div className="row mt-2">
+                                <div className="col-12 mt-10">
+                                  <FormControl>
+                                    <RadioGroup name="opcion" onChange={handleChange}>
+                                      {
+                                        pregunta.opciones.map((opcion, i) => (
+                                          <>
+                                            <FormControlLabel className='mb-2' key={opcion.id_opcion} value={pregunta.id_pregunta + "," + opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion} />
+                                            {
+                                              opcion.opc_imagen !== "" && opcion.opc_imagen !== null && opcion.opc_imagen !== undefined
+                                                ?
+                                                <div className="uk-cover-container d-flex justify-content-center">
+                                                  <img src={opcion.opc_imagen} alt="imagen" />
+                                                </div>
+                                                :
+                                                <></>
+                                            }
+                                          </>
+                                        ))
+                                      }
+                                    </RadioGroup>
+                                  </FormControl>
+                                </div>
+                              </div>
+                            </CardContent>
+                          </Card >
+                        )
+                      })
+                    }
+                  </div>
+                )
+              })
             )
           }
-
-          if (tipo === 2 && preguntas.length > 0) {
-            return (
-              <div className='mt-4'>
-                <div className='d-flex row'>
-                  <h4 className='col-8'>PREGUNTAS SELECCION MULTIPLE</h4>
-                  <h5 className='col-4 my-auto'>PREGUNTAS TOTALES({preguntas.length})</h5>
-                </div>
-                {
-                  preguntas.map((pregunta, index) => {
-                    return (
-                      <Card>
-                        <CardContent>
-                          <div className='d-flex'>
-                            <h5 className='col-10 mx-2' ><b>{(index + 1) + ") "}</b> <span>{pregunta.preg_descripcion}</span></h5>
-                            <h5 className='col-2'>VALOR({pregunta.simu_preg_puntaje})</h5>
-                          </div>
-                          <hr />
-                          {
-                            pregunta.preg_imagen !== "" && pregunta.preg_imagen !== null && pregunta.preg_imagen !== undefined
-                              ?
-                              <>
-                                <div className="card shadow mx-auto" style={{ width: '18rem' }}>
-                                  <img src={pregunta.preg_imagen} className="card-img-top" style={{ height: '30vh', width: '100%', objectFit: 'cover' }} />
-                                </div>
-                                <hr />
-                              </>
-                              :
-                              <></>
-                          }
-                          <div className="row mt-2">
+          /*
+                    if (tipo === 1 && preguntas.length > 0) {
+                      return (
+                <div className='mt-4'>
+                  <div className='d-flex row'>
+                    <h5 className='col-8'>PREGUNTAS VERDADERO O FALSO</h5>
+                    <h5 className='col-4 my-auto'>PREGUNTAS TOTALES({preguntas.length})</h5>
+                  </div>
+                  {
+                    preguntas.map((pregunta, index) => {
+                      return (
+                        <Card>
+                          <CardContent>
+                            <Grid item xs={12}>
+                              <h5 className='col-10 mx-2' ><b>{(index + 1) + ") "}</b> <span>{pregunta.preg_descripcion}</span></h5>
+                              <h5 className='col-2'>VALOR({pregunta.simu_preg_puntaje})</h5>
+                            </Grid>
+                            <hr />
                             {
-                              <div className="col-md-8 mt-10">
-                                <FormControl>
-                                  <RadioGroup
-                                    name="opcion"
-                                    onChange={handleChange}
-                                  >
-                                    {
-                                      pregunta.opciones.map((opcion, i) => (
-                                        <FormControlLabel key={opcion.id_opcion} value={pregunta.id_pregunta + "," + opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion} />
-                                      ))
-                                    }
-                                  </RadioGroup>
-                                </FormControl>
-                              </div>
+                              pregunta.preg_imagen !== "" && pregunta.preg_imagen !== null && pregunta.preg_imagen !== undefined
+                                ?
+                                <div className="uk-cover-container d-flex justify-content-center">
+                                  <img src={pregunta.preg_imagen} alt="" uk-cover />
+                                </div>
+                                :
+                                <></>
                             }
-                          </div>
-                        </CardContent>
-                      </Card >
-                    )
-                  })
-                }
-              </div>
-            )
-          }
+                            <div className="row mt-2">
+                              {
+                                <div className="col-md-8 mt-10">
+                                  <FormControl>
+                                    <RadioGroup
+                                      name="opcion"
+                                      onChange={handleChange}
+                                    >
+                                      {
+                                        pregunta.opciones.map((opcion, i) => (
+                                          <FormControlLabel key={opcion.id_opcion} value={pregunta.id_pregunta + "," + opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion} />
+                                        ))
+                                      }
+                                    </RadioGroup>
+                                  </FormControl>
+                                </div>
+                              }
+                            </div>
+                          </CardContent>
+                        </Card >
+                      )
+                    })
+                  }
+                </div>
+                )
+                    }
+          
+                    if (tipo === 2 && preguntas.length > 0) {
+                      return (
+                <div className='mt-4'>
+                  <div className='d-flex row'>
+                    <h5 className='col-8'>PREGUNTAS SELECCION MULTIPLE</h5>
+                    <h5 className='col-4 my-auto'>PREGUNTAS TOTALES({preguntas.length})</h5>
+                  </div>
+                  {
+                    preguntas.map((pregunta, index) => {
+                      return (
+                        <Card>
+                          <CardContent>
+                            <Grid item xs={12}>
+                              <h5 className='col-10 mx-2' ><b>{(index + 1) + ") "}</b> <span>{pregunta.preg_descripcion}</span></h5>
+                              <h5 className='col-2'>VALOR({pregunta.simu_preg_puntaje})</h5>
+                            </Grid>
+                            <hr />
+                            {
+                              pregunta.preg_imagen !== "" && pregunta.preg_imagen !== null && pregunta.preg_imagen !== undefined
+                                ?
+                                <>
+                                  <div className="uk-cover-container d-flex justify-content-center">
+                                    <img src={pregunta.preg_imagen} alt="" uk-cover />
+                                  </div>
+                                  <hr />
+                                </>
+                                :
+                                <></>
+                            }
+                            <div className="row mt-2">
+                              {
+                                <div className="col-md-8 mt-10">
+                                  <FormControl>
+                                    <RadioGroup
+                                      name="opcion"
+                                      onChange={handleChange}
+                                    >
+                                      {
+                                        pregunta.opciones.map((opcion, i) => (
+                                          <FormControlLabel key={opcion.id_opcion} value={pregunta.id_pregunta + "," + opcion.id_opcion} control={<Radio />} label={opcion.opc_descripcion} />
+                                        ))
+                                      }
+                                    </RadioGroup>
+                                  </FormControl>
+                                </div>
+                              }
+                            </div>
+                          </CardContent>
+                        </Card >
+                      )
+                    })
+                  }
+                </div>
+                )
+                    }*/
         })()
       }
     </>

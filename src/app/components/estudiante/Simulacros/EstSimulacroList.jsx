@@ -14,7 +14,7 @@ import Barra from '../../extra/BarraBusqueda';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import NoSimulacro from './NoSimulacro';
 import * as serviceSimulacro from '../../../store/services/SimulacroService';
-import { useStore,useDispatch } from '../../../store/Provider/storeProvider';
+import { useStore, useDispatch } from '../../../store/Provider/storeProvider';
 import { alert_error, alert_loading } from '../../../util/functions';
 
 const ListaSimulacrosE = () => {
@@ -69,8 +69,7 @@ const ListaSimulacrosE = () => {
                     if (row.simu_estado === "A") {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { presentarSimulacro(row) }} title='Presentar Simulacro' style={{ color: "blue" }}><HistoryEduIcon/></IconButton>
-                                   <IconButton onClick={() => { navigate() }} title="Ver Resultados" style={{ color: "gray" }}><BarChartIcon/></IconButton>
+                                   <IconButton onClick={() => { presentarSimulacro(row) }} title='Presentar Simulacro' style={{ color: "blue" }}><HistoryEduIcon /></IconButton>
                               </div>
                          )
                     }
@@ -104,7 +103,7 @@ const ListaSimulacrosE = () => {
           });
           navigate("/UFPSaberPRO/e/informacion_simulacro");
      }
-     
+
      const handleBuscar = (data) => {
           if (busqueda === "") {
                return lista_simulacros_usuario;
@@ -127,50 +126,58 @@ const ListaSimulacrosE = () => {
                          <Typography component="h2" variant="h5" color="dark" gutterBottom>
                               Lista de Simulacros
                          </Typography>
-                         {
-                              (() => {
-                                   if (lista_simulacros_usuario.length !== 0) {
-                                        return (
-                                             <Barra
-                                                  input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />}
-                                             />
-                                        )
-                                   }
-                              })()
-                         }
-
-                         <hr />
-                         <div className="container-fluid">
+                         <>
                               {
                                    (() => {
                                         if (!loading) {
-                                             if (lista_simulacros_usuario.length === 0) {
-                                                  return (
-                                                       <NoSimulacro/>
-                                                  )
-                                             } else {
-                                                  return (
-                                                       <BootstrapTable 
-                                                       headerClasses='table-head' 
-                                                       classes='table-design shadow' 
-                                                       bootstrap4 
-                                                       wrapperClasses='table-responsive' 
-                                                       striped 
-                                                       bordered 
-                                                       hover 
-                                                       keyField='id_simulacro' 
-                                                       data={handleBuscar(lista_simulacros_usuario)} 
-                                                       columns={columnas} 
-                                                       pagination={paginationFactory()} 
-                                                       noDataIndication='No hay registros disponibles.' />
-                                                  )
-                                             }
+                                             return (<>
+                                                  {
+                                                       (() => {
+                                                            if (lista_simulacros_usuario.length !== 0) {
+                                                                 return (
+                                                                      <Barra
+                                                                           input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Simulacro' placeholder="Buscar Simulacro" className="form-control me-2" type="search" aria-label="Buscar" />}
+                                                                      />
+                                                                 )
+                                                            }
+                                                       })()
+                                                  }
+
+                                                  <hr />
+                                                  <div className="container-fluid">
+                                                       {
+                                                            (() => {
+                                                                 if (lista_simulacros_usuario.length === 0) {
+                                                                      return (
+                                                                           <NoSimulacro />
+                                                                      )
+                                                                 } else {
+                                                                      return (
+                                                                           <BootstrapTable
+                                                                                headerClasses='table-head'
+                                                                                classes='table-design shadow'
+                                                                                bootstrap4
+                                                                                wrapperClasses='table-responsive'
+                                                                                striped
+                                                                                bordered
+                                                                                hover
+                                                                                keyField='id_simulacro'
+                                                                                data={handleBuscar(lista_simulacros_usuario)}
+                                                                                columns={columnas}
+                                                                                pagination={paginationFactory()}
+                                                                                noDataIndication='No hay registros disponibles.' />
+                                                                      )
+                                                                 }
+                                                            })()
+                                                       }
+                                                  </div>
+                                             </>)
                                         } else {
                                              return (<Cargador />)
                                         }
                                    })()
                               }
-                         </div>
+                         </>
                     </div>
                </ResponsiveContainer >
           </React.Fragment >

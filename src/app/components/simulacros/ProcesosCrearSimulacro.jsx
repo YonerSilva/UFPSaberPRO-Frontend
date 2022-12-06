@@ -142,7 +142,7 @@ export function NomDescSimulacro() {
             onChange={handleChange}
             multiline
             fullWidth
-            maxLength="100"
+            inputProps={{ maxLength: 100 }}
             autoComplete="cc-name"
             variant="outlined"
           />
@@ -160,7 +160,8 @@ export function NomDescSimulacro() {
             multiline
             autoComplete="shipping postal-code"
             variant="outlined"
-            maxLength="256"
+            inputProps={{ maxLength: 256 }}
+
           />
         </Grid>
         <Grid item xs={12}>

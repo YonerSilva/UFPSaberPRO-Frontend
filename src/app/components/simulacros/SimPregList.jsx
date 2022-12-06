@@ -81,8 +81,6 @@ const SimPregList = () => {
                               return <span>VERDADERO O FALSO</span>
                          case 2:
                               return <span>SELECCION MULTIPLE</span>
-                         case 3:
-                              return <span>COMPARACION</span>
                          default:
                               return <></>;
                     }
@@ -92,7 +90,6 @@ const SimPregList = () => {
 
      const eliminarPreguntas = ()=>{
           try {
-               console.log(formEdition);
                if(formEdition.preguntas.length!==0){
                     serviceSimulacro.eliminarPreguntas(formEdition).then(response=>{
                          if(response.error===null){

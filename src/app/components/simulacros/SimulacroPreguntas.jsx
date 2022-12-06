@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
@@ -87,7 +87,9 @@ const SimulacroPreguntasList = () => {
                isDummyField: true,
                formatter: (cellContent, row) => {
                     if (row.preg_imagen !== null && row.preg_imgane !== "") {
-                         return <span>imagen</span>
+                         return <Link href={row.preg_imagen} target="_blank">Imagen</Link>
+                    }else{
+                         return <span>No disponible.</span>
                     }
                },
                editable: (cell, row, rowIndex, colIndex) => {
@@ -125,8 +127,6 @@ const SimulacroPreguntasList = () => {
                               return <span>VERDADERO O FALSO</span>
                          case 2:
                               return <span>SELECCION MULTIPLE</span>
-                         case 3:
-                              return <span>COMPARACION</span>
                          default:
                               return <></>;
                     }

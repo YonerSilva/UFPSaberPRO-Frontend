@@ -1,33 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useAuth from '../auth/useAuth';
-import { useNavigate } from 'react-router-dom';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
-import Paper from "@mui/material/Paper";
 import BootstrapTable from 'react-bootstrap-table-next';
-import Grid from "@mui/material/Grid";
-import { Button, Card, Form } from 'react-bootstrap';
 import Cargador from '../extra/CargadorEventos';
 import Barra from '../extra/BarraBusqueda';
-import NoUser from '../convocatorias/NoConvocatoria';
-import { useDispatch, useStore } from '../../store/Provider/storeProvider';
+import NoEstudiante from '../simulacros/NoEstudiantes';
+import { useStore } from '../../store/Provider/storeProvider';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import * as serviceConvocatoria from '../../store/services/ConvocatoriaService';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
-import ToolkitProvider, { Search, CSVExport } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
-import { alert_error, alert_loading, alert_success } from '../../util/functions';
+import ToolkitProvider, { CSVExport } from 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit';
+import { alert_error, alert_loading } from '../../util/functions';
+import { useNavigate } from 'react-router-dom';
 
 const SimulacroEstudiantes = () => {
-    const dispatch = useDispatch();
-    const { auth } = useAuth();
     const { formEditionSimu } = useStore();
     const [loading, setLoading] = useState(true);
     const [busqueda, setBusqueda] = useState("");
+    const [usuarios, setUsuarios] = useState([]);
     const navigate = useNavigate();
-    const [simu, setSimu] = useState([]);
-    const { ExportCSVButton } = CSVExport;
-    const [showMessage, setShowMessage] = useState(false);
-
     const columnas = [
         {
             text: "NOMBRE",
@@ -58,20 +48,20 @@ const SimulacroEstudiantes = () => {
             formatter: (cellContent, row) => {
                 return <a href={"mailto:" + row.usu_email}>{row.usu_email}</a>
             },
-            
+
         },
         {
             text: "PROGRAMA",
             dataField: "cod_programa",
             align: 'center',
             sort: true,
-            
+
         }
     ]
 
     const handleBuscar = (data) => {
         if (busqueda === "") {
-            return formEditionSimu.usuarios;
+            return usuarios;
         } else {
             return data.filter(
                 (item) =>
@@ -82,23 +72,26 @@ const SimulacroEstudiantes = () => {
 
     const listarSimulacroEstudiantes = () => {
         try {
-             serviceSimulacro.getEstudiantesSimu(formEditionSimu.id_simulacro).then(response => {
-                  if (response.error === null) {
-                       alert_loading(response.message);
-                       setSimu(response.simulacros);
-                  } else {
-                       alert_error("¡Error!", response.message);
-                  }
-                  setLoading(false);
-             });
+            serviceSimulacro.getEstudiantesSimu(formEditionSimu.id_simulacro).then(response => {
+                if (response.error === null) {
+                    alert_loading(response.message);
+                    setUsuarios(response.usuarios);
+                } else {
+                    alert_error("¡Error!", response.message);
+                }
+                setLoading(false);
+            });
         } catch (error) {
-             console.error(error);
+            console.error(error);
         }
-   }
+    }
 
     useEffect(() => {
-        listarSimulacroEstudiantes();
-        setLoading(false);
+        if(Object.keys(formEditionSimu).length===0 && formEditionSimu.id_simulacro===undefined){
+            navigate("/UFPSaberPRO/a/simulacros");
+        }else{
+            listarSimulacroEstudiantes();
+        }
     }, []);
 
     const Button_Usuarios = (props) => {
@@ -121,7 +114,7 @@ const SimulacroEstudiantes = () => {
                     </Typography>
                     {
                         (() => {
-                            if (simu.length !== 0) {
+                            if (usuarios.length !== 0) {
                                 return (
                                     <Barra
                                         input={<input onChange={(e) => { setBusqueda(e.target.value) }} title='Nombre Usuario' placeholder="Buscar Usuario" className="form-control me-2 border border-danger shadow" type="search" aria-label="Buscar" />}
@@ -135,9 +128,9 @@ const SimulacroEstudiantes = () => {
                         {
                             (() => {
                                 if (!loading) {
-                                    if (simu.length === 0) {
+                                    if (usuarios.length === 0) {
                                         return (
-                                            <NoUser />
+                                            <NoEstudiante />
                                         )
                                     } else {
                                         return (
@@ -145,7 +138,7 @@ const SimulacroEstudiantes = () => {
                                                 <ToolkitProvider
                                                     bootstrap4
                                                     keyField='id_usuario'
-                                                    data={handleBuscar(simu.usuarios)}
+                                                    data={handleBuscar(usuarios)}
                                                     columns={columnas}
                                                     exportCSV={{
                                                         fileName: 'lista_usuarios.csv',
@@ -165,10 +158,6 @@ const SimulacroEstudiantes = () => {
                                                                     wrapperClasses='table-responsive'
                                                                     striped
                                                                     hover
-                                                                    //bootstrap4
-                                                                    //keyField='id_usuario'
-                                                                    //data={handleBuscar(formEditionSimu.usuarios)}
-                                                                    //columns={columnas}
                                                                     pagination={paginationFactory()}
                                                                     noDataIndication='No hay usuarios disponibles.'
                                                                     {...props.baseProps}

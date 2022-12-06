@@ -255,7 +255,7 @@ export default function CrearPreguntaDocente() {
                           value={pregunta.descripcion}
                           onChange={handleChange}
                           variant="outlined"
-                          maxLength="500"
+                          inputProps={{ maxLength: 500 }}                          
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -268,7 +268,6 @@ export default function CrearPreguntaDocente() {
                           label="Tipo de Pregunta"
                           value={pregunta.tipo}
                           variant="outlined"
-                          maxLength="1"
                           onChange={handleChange}
                         >
                           <MenuItem key={1} value={1}>
@@ -276,9 +275,6 @@ export default function CrearPreguntaDocente() {
                           </MenuItem>
                           <MenuItem key={2} value={2}>
                             SELECCION MULTIPLE
-                          </MenuItem>
-                          <MenuItem key={3} value={2}>
-                            COMPARACION
                           </MenuItem>
                         </TextField>
                       </Grid>
@@ -290,7 +286,7 @@ export default function CrearPreguntaDocente() {
                         </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                        <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                       </Grid>

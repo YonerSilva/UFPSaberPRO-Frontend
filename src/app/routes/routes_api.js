@@ -31,7 +31,7 @@ const API = {
           ELIMINAR_PREGUNTAS: "api/simu_preg/eliminarPreguntas",
           PREGUNTAS_OPCIONES: "api/simulacros/getPregOpcSimu",
           SIMULACRO_ESTUDIANTES: "api/simu_usu/getUsuariosSimu",
-          PRESENTAR_SIMULACRO: "api/simu_usu/presentarSimulacro"
+          PRESENTAR_SIMULACRO: "api/simulacros/presentarSimulacro"
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",
@@ -39,6 +39,7 @@ const API = {
           ACTUALIZAR: "api/categorias/actualizarCategoria"
      },
      SUBCATEGORIA: {
+          GET: "api/subcategorias/getSubcategoria",
           GENERAL: "api/subcategorias/general",
           GUARDAR: "api/subcategorias/guardarSubcategoria",
           ACTUALIZAR: "api/subcategorias/actualizarSubcategoria"

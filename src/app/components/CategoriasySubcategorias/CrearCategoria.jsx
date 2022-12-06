@@ -130,7 +130,7 @@ export default function CrearCategoria() {
                           fullWidth
                           autoComplete="given-name"
                           variant="outlined"
-                          maxLength="100"
+                          inputProps={{ maxLength: 100 }}
                           onChange={handleChange}
                         />
                       </Grid>
@@ -146,23 +146,21 @@ export default function CrearCategoria() {
                           fullWidth
                           autoComplete="given-name"
                           variant="outlined"
-                          maxLength="256"
+                          inputProps={{ maxLength: 256 }}
                           onChange={handleChange}
                         />
                       </Grid>
-                      <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                      <Grid item xs sx={{ display: "flex", justifyContent: "center" }}>
+                        <Button onClick={() => { navigate("/UFPSaberPRO/a/categorias") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
-                        <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: 'flex-start' }}>
-                          <Button type='submit' size='medium' className='btn btn-danger m-2'>
-                            {
-                              update
-                                ? "Actualizar"
-                                : "Crear"
-                            }
-                          </Button>
-                        </Grid>
+                        <Button type='submit' size='medium' className='btn btn-danger m-2'>
+                          {
+                            update
+                              ? "Actualizar"
+                              : "Crear"
+                          }
+                        </Button>
                       </Grid>
                     </Grid>
                   </Form>

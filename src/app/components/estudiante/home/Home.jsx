@@ -1,27 +1,13 @@
 import * as React from 'react';
 import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
 
 export default function HomeE() {
 
-    const isWeekend = (date) => {
-        const day = date.day();
-
-        return day === 0 || day === 6;
-    };
-
-    const [value, setValue] = React.useState(null);
-
-    const navigate = useNavigate();
     const theme = createTheme();
 
     return (
@@ -29,7 +15,7 @@ export default function HomeE() {
             <CssBaseline />
             <Container component="main" maxWidth="lg" sx={{ mb: 6 }}>
                 <Paper variant="outlined" sx={{ my: { xs: 4, md: 6 }, p: { xs: 2, md: 3 } }}>
-                    <Typography component="h1" variant="h2" align="center" p={3}>
+                    <Typography component="h1" variant="h4" align="center" p={3}>
                         Bienvenido a la plataforma de Pruebas Saber Pro!
                     </Typography>
                     <Grid container spacing={1} sx={{ display: "flex", justifyContent: "center" }}>
@@ -59,14 +45,10 @@ export default function HomeE() {
 
                             </Typography>
                         </Grid>
-                        <Grid
-                            item
-                            xs={12}
-                            sx={{ display: "flex", justifyContent: "center" }}
-                        >
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/JkQ05tONYNY" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
-                        </Grid>
                     </Grid>
+                    <div className="contenedor-responsivo">
+                        <iframe className="iframe-responsivo" src='https://www.youtube.com/embed/JkQ05tONYNY' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    </div>
                 </Paper>
             </Container>
         </ThemeProvider >

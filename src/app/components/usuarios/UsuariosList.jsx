@@ -81,7 +81,7 @@ const ListaUsuarios = ()=>{
                     if(auth?.usuario?.id_usuario!==row.id_usuario){
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
-                                   <IconButton onClick={() => { updateUsuario(row) }} title='Actualizar Convocatoria' style={{ color: "blue" }}><EditIcon /></IconButton>
+                                   <IconButton onClick={() => { updateUsuario(row) }} title='Actualizar Usuario' style={{ color: "blue" }}><EditIcon /></IconButton>
                               </div>
                          )
                     }

@@ -255,7 +255,7 @@ export default function CrearPregunta() {
                           value={pregunta.descripcion}
                           onChange={handleChange}
                           variant="outlined"
-                          maxLength="500"
+                          inputProps={{ maxLength: 500 }}                          
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -268,7 +268,6 @@ export default function CrearPregunta() {
                           label="Tipo de Pregunta"
                           value={pregunta.tipo}
                           variant="outlined"
-                          maxLength="1"
                           onChange={handleChange}
                         >
                           <MenuItem key={1} value={1}>
@@ -276,9 +275,6 @@ export default function CrearPregunta() {
                           </MenuItem>
                           <MenuItem key={2} value={2}>
                             SELECCION MULTIPLE
-                          </MenuItem>
-                          <MenuItem key={3} value={3}>
-                            COMPARACION
                           </MenuItem>
                         </TextField>
                       </Grid>
@@ -295,7 +291,6 @@ export default function CrearPregunta() {
                               label="Estado de la Pregunta"
                               value={pregunta.estado}
                               variant="outlined"
-                              maxLength="1"
                               onChange={handleChange}
                             >
                               <MenuItem key={1} value={'A'}>
@@ -320,7 +315,7 @@ export default function CrearPregunta() {
                         </Form.Group>
                       </Grid>
                       <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                        <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                        <Button onClick={() => { navigate("/UFPSaberPRO/a/preguntas") }} size="large" className="btn btn-danger m-2">
                           Volver
                         </Button>
                       </Grid>

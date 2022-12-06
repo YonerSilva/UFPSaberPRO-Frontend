@@ -5,7 +5,6 @@ import { logout_firebase } from "../util/firebase";
 import { alert_error, alert_logout } from "../util/functions";
 
 const ProtectedRoutes = () => {
-
   async function validateToken() {
     try {
       let token = service.getUserToken();

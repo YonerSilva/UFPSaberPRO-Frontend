@@ -133,7 +133,7 @@ export default function CrearSubCategoria() {
                   fullWidth
                   autoComplete="given-name"
                   variant="outlined"
-                  maxLength="100"
+                  inputProps={{ maxLength: 100 }}
                   onChange={handleChange}
                 />
               </Grid>
@@ -149,16 +149,16 @@ export default function CrearSubCategoria() {
                   fullWidth
                   autoComplete="given-name"
                   variant="outlined"
-                  maxLength="256"
+                  inputProps={{ maxLength: 256 }}
                   onChange={handleChange}
                 />
               </Grid>
               <Grid
                 item
                 xs
-                sx={{ display: "flex", justifyContent: "end" }}
+                sx={{ display: "flex", justifyContent: "center" }}
               >
-                <Button onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2">
+                <Button onClick={() => { navigate("/UFPSaberPRO/a/subcategorias/" + id_categoria) }} size="large" className="btn btn-danger m-2">
                   Volver
                 </Button>
                 <Button type='submit' size='medium' className='btn btn-danger m-2'>

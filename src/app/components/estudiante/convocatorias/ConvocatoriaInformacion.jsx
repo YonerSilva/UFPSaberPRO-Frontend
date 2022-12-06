@@ -177,7 +177,7 @@ const ConvocatoriaInformacion = () => {
                                                   </Grid>
                                                   <hr></hr>
                                                   <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                                                       <Button type='button' onClick={() => { navigate(-1) }} size="large" className="btn btn-danger m-2 flex-start">
+                                                       <Button type='button' onClick={() => { navigate("/UFPSaberPRO/e/convocatorias") }} size="large" className="btn btn-danger m-2 flex-start">
                                                             Volver
                                                        </Button>
                                                   </Grid>
