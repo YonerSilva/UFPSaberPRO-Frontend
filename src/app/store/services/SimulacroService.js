@@ -153,7 +153,7 @@ export const presentar_simulacro = async (simu_usu, preguntas) => {
     },
     body: JSON.stringify({
       "simu_usu_presentado": simu_usu.presentado,
-      "simu_usu_codigo": String(simu_usu.codigo).trim(),
+      "simu_usu_codigo": String(simu_usu.codigo+usuario.usu_codigo).trim(),
       "simulacro": parseInt(simu_usu.simulacro),
       "usuario": parseInt(usuario.id_usuario),
       "preguntas_respondidas": preguntas

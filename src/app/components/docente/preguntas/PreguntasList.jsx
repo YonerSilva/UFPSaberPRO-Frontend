@@ -80,8 +80,6 @@ const PreguntasListDocente = () => {
                               return <span>VERDADERO O FALSO</span>
                          case 2:
                               return <span>SELECCION MULTIPLE</span>
-                         case 3:
-                              return <span>COMPARACION</span>
                          default:
                               return <></>;
                     }

@@ -53,3 +53,14 @@ export const actualizar = async (subcategoria, id_categoria) => {
     }),
   })).json();
 }
+
+export const getSubcategoria = async (id_subcategoria) => {
+  const token = await getUserToken();
+  return await (await fetch(API_URL + API.SUBCATEGORIA.GET + "/?id_subcategoria=" + id_subcategoria, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}

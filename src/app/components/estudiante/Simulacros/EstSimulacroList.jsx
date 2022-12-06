@@ -70,7 +70,6 @@ const ListaSimulacrosE = () => {
                          return (
                               <div className='row-cols-2 row-cols-md-auto' align='center'>
                                    <IconButton onClick={() => { presentarSimulacro(row) }} title='Presentar Simulacro' style={{ color: "blue" }}><HistoryEduIcon /></IconButton>
-                                   <IconButton onClick={() => { navigate() }} title="Ver Resultados" style={{ color: "gray" }}><BarChartIcon /></IconButton>
                               </div>
                          )
                     }
@@ -169,7 +168,6 @@ const ListaSimulacrosE = () => {
                                                                                 noDataIndication='No hay registros disponibles.' />
                                                                       )
                                                                  }
-
                                                             })()
                                                        }
                                                   </div>
@@ -177,7 +175,6 @@ const ListaSimulacrosE = () => {
                                         } else {
                                              return (<Cargador />)
                                         }
-
                                    })()
                               }
                          </>

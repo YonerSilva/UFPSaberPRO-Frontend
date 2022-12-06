@@ -59,8 +59,8 @@ export default function HomeDoc() {
                             </Typography>
                         </Grid>                    
                     </Grid>
-                    <div class="contenedor-responsivo">
-                        <iframe class="iframe-responsivo" src='https://www.youtube.com/embed/JkQ05tONYNY' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    <div className="contenedor-responsivo">
+                        <iframe className="iframe-responsivo" src='https://www.youtube.com/embed/JkQ05tONYNY' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                     </div>
                 </Paper>
             </Container>

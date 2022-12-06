@@ -39,6 +39,7 @@ const API = {
           ACTUALIZAR: "api/categorias/actualizarCategoria"
      },
      SUBCATEGORIA: {
+          GET: "api/subcategorias/getSubcategoria",
           GENERAL: "api/subcategorias/general",
           GUARDAR: "api/subcategorias/guardarSubcategoria",
           ACTUALIZAR: "api/subcategorias/actualizarSubcategoria"

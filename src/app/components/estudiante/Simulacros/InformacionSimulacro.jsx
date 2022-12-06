@@ -31,7 +31,7 @@ const InformacionSimulacro = () => {
     }
 
     useEffect(() => {
-        if (Object.keys(formEditionSimu).length === 0) {
+        if (Object.keys(formEditionSimu).length === 0 && formEditionSimu.id_simulacro === undefined) {
             navigate("/UFPSaberPRO/e/simulacros");
         }
     }, []);
@@ -56,9 +56,10 @@ const InformacionSimulacro = () => {
                                                     {(()=>{
                                                         let fecha_inicio = moment(formEditionSimu.simu_fecha_inicial);
                                                         let fecha_final = moment(formEditionSimu.simu_fecha_final);
-                                                        var diff = fecha_final.diff(fecha_inicio, 'minutes');
-                                                        diff /= 60;
-                                                        return " "+diff + " horas";
+                                                        var diff_minutes = fecha_final.diff(fecha_inicio, 'minutes');
+                                                        var diff_hours = fecha_final.diff(fecha_inicio, 'hours');
+                                                        diff_minutes -= diff_hours*60;
+                                                        return " "+diff_hours + " horas y "+diff_minutes+" minutos";
                                                     })()}
                                                 </b></li>
                                             <li>Puede intentar el cuestionario cualquier cantidad de veces</li>

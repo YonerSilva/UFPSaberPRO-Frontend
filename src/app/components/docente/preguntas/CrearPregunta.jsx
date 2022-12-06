@@ -276,9 +276,6 @@ export default function CrearPreguntaDocente() {
                           <MenuItem key={2} value={2}>
                             SELECCION MULTIPLE
                           </MenuItem>
-                          <MenuItem key={3} value={2}>
-                            COMPARACION
-                          </MenuItem>
                         </TextField>
                       </Grid>
                       <Grid item xs={12}>
