@@ -47,7 +47,7 @@ export default function HomeE() {
                         </Grid>
                     </Grid>
                     <div className="contenedor-responsivo">
-                        <iframe width="560" height="315" src="https://www.youtube.com/embed/7yHcu6fNK_8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe className="iframe-responsivo" src='https://www.youtube.com/embed/7yHcu6fNK_8' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                     </div>
                 </Paper>
             </Container>
