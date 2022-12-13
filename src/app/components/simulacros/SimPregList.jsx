@@ -10,9 +10,8 @@ import { useDispatch, useStore } from '../../store/Provider/storeProvider';
 import * as serviceSimulacro from '../../store/services/SimulacroService';
 import { alert_error, alert_loading, alert_success } from '../../util/functions';
 import NoPreguntas from './NoPreguntasS';
-import { Grid, IconButton, Link } from '@mui/material';
+import { Grid, Link } from '@mui/material';
 import { Button } from 'react-bootstrap';
-import { Delete } from '@mui/icons-material';
 
 const SimPregList = () => {
      const { formEditionSimu } = useStore();
