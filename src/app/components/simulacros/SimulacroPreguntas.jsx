@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
@@ -20,6 +20,7 @@ import MenuItem from "@mui/material/MenuItem";
 import { Button, Card, Form } from 'react-bootstrap';
 import cellEditFactory from 'react-bootstrap-table2-editor';
 import Swal from 'sweetalert2';
+import { Link } from '@mui/material';
 
 const SimulacroPreguntasList = () => {
      const dispatch = useDispatch();
