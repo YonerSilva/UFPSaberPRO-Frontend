@@ -52,7 +52,7 @@ export default function Home() {
                         </Grid>
                     </Grid>
                             <div className="contenedor-responsivo">
-                            <iframe className="iframe-responsivo" src='https://www.youtube.com/embed/7yHcu6fNK_8' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                            <iframe className="iframe-responsivo" src='https://www.youtube.com/embed/3ArTfxFwe6U' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                             </div>
                 </Paper>
             </Container>
