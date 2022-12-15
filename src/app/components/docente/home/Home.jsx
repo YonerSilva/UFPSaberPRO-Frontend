@@ -5,23 +5,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
 
 export default function HomeDoc() {
-
-    const isWeekend = (date) => {
-        const day = date.day();
-
-        return day === 0 || day === 6;
-    };
-
-    const [value, setValue] = React.useState(null);
-
-    const navigate = useNavigate();
     const theme = createTheme();
 
     return (
@@ -60,7 +46,7 @@ export default function HomeDoc() {
                         </Grid>                    
                     </Grid>
                     <div className="contenedor-responsivo">
-                    <iframe className="iframe-responsivo" src='https://www.youtube.com/embed/7yHcu6fNK_8' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+                    <iframe className="iframe-responsivo" src='https://www.youtube.com/embed/yxcocZKWzFI' gesture="media" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
                     </div>
                 </Paper>
             </Container>
