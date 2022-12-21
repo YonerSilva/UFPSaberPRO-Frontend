@@ -22,7 +22,7 @@ export default function NoOpciones() {
                     <Grid container sx={{ display: "flex", justifyContent: "center" }}>
                         <img className="" src={process.env.PUBLIC_URL + '/images/error.png'} alt="" height={200} />
                         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-                            <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas/opciones_list") }} size="large" className="btn btn-danger m-2">
+                            <Button onClick={() => { navigate("/UFPSaberPRO/d/preguntas") }} size="large" className="btn btn-danger m-2">
                                 Volver
                             </Button>
                             <Button onClick={() => { navigate('/UFPSaberPRO/d/opciones/crear_opcion') }} size="large" className="btn btn-danger m-2">

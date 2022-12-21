@@ -113,7 +113,7 @@ export default function CrearOpcionDoc() {
   const listarOpciones = (response) => {
     if (response.error === null) {
       alert_success(response.message, "Se ha guardado la opcion.");
-      setTimeout(() => { navigate("/UFPSaberPRO/a/pregunta/opciones") }, 2000);
+      setTimeout(() => { navigate("/UFPSaberPRO/d/preguntas/opciones_list") }, 2000);
     } else {
       alert_error("¡Error!", response.message);
     }
@@ -126,7 +126,7 @@ export default function CrearOpcionDoc() {
   useEffect(() => {
     // Anything in here is fired on component mount.
     if (Object.keys(formEditionPreg).length === 0) {
-      navigate('/UFPSaberPRO/a/preguntas');
+      navigate('/UFPSaberPRO/d/preguntas');
     }
     if (Object.keys(formEditionOpc).length !== 0) {
       setUpdate(true);
