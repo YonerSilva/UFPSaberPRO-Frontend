@@ -1,15 +1,21 @@
 # pull official base image
-FROM node:lts-alpine
+FROM node:lts-alpine as builder
 
 # set working directory
 WORKDIR /app
+
+# add app
+COPY . ./
 
 # install app dependencies
 COPY package.json .
 RUN npm install --legacy-peer-deps
 
-# add app
-COPY . ./
+RUN npm run build
 
-# start app
-CMD ["npm", "start"]
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/build /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]
