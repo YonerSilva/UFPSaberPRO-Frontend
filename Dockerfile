@@ -9,7 +9,7 @@ COPY . ./
 
 # install app dependencies
 COPY package.json .
-RUN npm install --force
+RUN npm install --legacy-peer-deps
 
 RUN npm run build
 
