@@ -131,6 +131,18 @@ export const getSimulacrosConvo = async () => {
   })).json();
 }
 
+export const getSimulacrosUsu = async () => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+  return await (await fetch(API_URL + API.SIMULACRO.SIMULACROS_USU + "?id_usuario=" + usuario.id_usuario, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
+
 export const getPreguntasOpcionesSimu = async (id_simulacro) => {
   const token = await getUserToken();
   return await (await fetch(API_URL + API.SIMULACRO.PREGUNTAS_OPCIONES + "?id_simulacro=" + id_simulacro, {

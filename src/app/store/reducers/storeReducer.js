@@ -18,6 +18,7 @@ const initialState = {
      lista_convocatorias_usuario: [],
      lista_convocatorias_activa: [],
      lista_simulacros_usuario: [],
+     lista_simulacros_activo: [],
      lista_simulacros_estudiantes: [],
 
      formSimulacro: {}
@@ -136,6 +137,12 @@ export const storeReducer = (state, action) => {
                return {
                     ...state,
                     lista_simulacros_usuario: payload
+               };
+          case ACCION.SET_LISTA_SIMULACROS_ACTIVO:
+               console.log(action);
+               return {
+                    ...state,
+                    lista_simulacros_activo: payload
                };
           case ACCION.SET_LISTA_SIMULACROS_ESTUDIANTES:
                console.log(action);
