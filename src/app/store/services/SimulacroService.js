@@ -163,8 +163,7 @@ export const presentar_simulacro = async (simu_usu, preguntas) => {
 
 export const getEstudiantesSimu = async (id_simulacro) => {
   const token = await getUserToken();
-  const usuario = await getUser();
-  return await (await fetch(API_URL + API.SIMULACRO.SIMULACRO_ESTUDIANTES + "/?id_simulacro=" + id_simulacro + "&id_usuario=" + usuario.id_usuario, {
+  return await (await fetch(API_URL + API.SIMULACRO.SIMULACRO_ESTUDIANTES + "/?id_simulacro=" + id_simulacro, {
     method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,
