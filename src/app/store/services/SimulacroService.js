@@ -168,7 +168,8 @@ export const presentar_simulacro = async (simu_usu, preguntas) => {
       "simu_usu_codigo": String(simu_usu.codigo+usuario.usu_codigo).trim(),
       "simulacro": parseInt(simu_usu.simulacro),
       "usuario": parseInt(usuario.id_usuario),
-      "preguntas_respondidas": preguntas
+      "preguntas_respondidas": preguntas,
+      "convocatoria": parseInt(simu_usu.convocatoria)
     }),
   })).json();
 }
@@ -176,6 +177,19 @@ export const presentar_simulacro = async (simu_usu, preguntas) => {
 export const getEstudiantesSimu = async (id_simulacro) => {
   const token = await getUserToken();
   return await (await fetch(API_URL + API.SIMULACRO.SIMULACRO_ESTUDIANTES + "/?id_simulacro=" + id_simulacro, {
+    method: "GET",
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json',
+    },
+  })).json();
+}
+
+export const getEstadisticasSimu = async (simulacro) => {
+  const token = await getUserToken();
+  const usuario = await getUser();
+
+  return await (await fetch(API_URL + API.SIMULACRO.ESTADISTICAS_SIMULACRO + "/?id_simulacro="+simulacro.id_simulacro+"&id_usuario="+usuario.id_usuario+"&id_convocatoria="+simulacro.convocatoria, {
     method: "GET",
     headers: {
       'Authorization': 'Bearer ' + token,

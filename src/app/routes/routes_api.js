@@ -32,7 +32,8 @@ const API = {
           ELIMINAR_PREGUNTAS: "api/simu_preg/eliminarPreguntas",
           PREGUNTAS_OPCIONES: "api/simulacros/getPregOpcSimu",
           SIMULACRO_ESTUDIANTES: "api/simu_usu/getUsuariosSimu",
-          PRESENTAR_SIMULACRO: "api/simulacros/presentarSimulacro"
+          PRESENTAR_SIMULACRO: "api/simulacros/presentarSimulacro",
+          ESTADISTICAS_SIMULACRO: "api/simulacros/getEstadisticasSimuUsu"
      },
      CATEGORIA: {
           GENERAL: "api/categorias/general",

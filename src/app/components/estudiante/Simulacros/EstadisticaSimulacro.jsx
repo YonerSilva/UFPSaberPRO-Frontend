@@ -1,97 +1,115 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ResponsiveContainer } from 'recharts';
 import Typography from '@mui/material/Typography';
 import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import { Button } from 'react-bootstrap';
-import Swal from 'sweetalert2';
 import { useDispatch, useStore } from '../../../store/Provider/storeProvider';
-import { useState } from 'react';
-import moment from 'moment';
+import * as serviceSimulacro from '../../../store/services/SimulacroService';
+import { alert_error, alert_loading } from '../../../util/functions';
+import Cargador from '../../extra/CargadorEventos';
+import Container from '@mui/material/Container';
+import { Box, Unstable_Grid2 as Grid } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import { Avatar, Card, CardContent, Stack, SvgIcon } from '@mui/material';
 
 const EstadisticaSimulacro = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { formEditionSimu } = useStore();
+    const [estadisticas, setEstadisticas] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-    const empezarSimulacro = () => {
-        Swal.fire({
-            title: '¿Quieres comenzar el examen?',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Empezar',
-            icon: 'info'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                navigate("/UFPSaberPRO/e/presentar_simulacro");
-            }
-        });
+
+    const listarEstadisticas = () => {
+        try {
+            serviceSimulacro.getEstadisticasSimu(formEditionSimu).then(response => {
+                if (response.error === null) {
+                    alert_loading(response.message);
+                    setEstadisticas();
+                } else {
+                    alert_error("¡Error!", response.message);
+                }
+                setLoading(false);
+            });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     useEffect(() => {
         if (Object.keys(formEditionSimu).length === 0 && formEditionSimu.id_simulacro === undefined) {
             navigate("/UFPSaberPRO/e/simulacros");
+        } else {
+            listarEstadisticas();
         }
     }, []);
 
+    const cantPreguntasBuenas = () => {
+        return estadisticas.filter(item => item.puntaje_obtenido > 0).length;
+    }
+
+    const cantPreguntasMalas = () => {
+        return estadisticas.filter(item => item.puntaje_obtenido == 0).length;
+    }
+
     return (
         <React.Fragment>
-            <ResponsiveContainer>
-                <div className="container">
-                    <div className="container-fluid">
-                        <>
-                            <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
-                                <Grid container spacing={3} sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-                                    <Grid item xs={12} md={12} >
-                                        <Typography component="h4" variant="h4" color="dark" gutterBottom sx={{ textAlign: "center" }}>
-                                            Lea las Instrucciones de esta pagina cuidadosamente!
-                                        </Typography>
-                                        <h1>Instrucciones importantes</h1>
-                                        <hr></hr>
-                                        <ul>
-                                            <li>Tienes que enviar el cuestionario en 
-                                                <b>
-                                                    {(()=>{
-                                                        let fecha_inicio = moment(formEditionSimu.simu_fecha_inicial);
-                                                        let fecha_final = moment(formEditionSimu.simu_fecha_final);
-                                                        var diff_minutes = fecha_final.diff(fecha_inicio, 'minutes');
-                                                        var diff_hours = fecha_final.diff(fecha_inicio, 'hours');
-                                                        diff_minutes -= diff_hours*60;
-                                                        return " "+diff_hours + " horas y "+diff_minutes+" minutos";
-                                                    })()}
-                                                </b></li>
-                                            <li>Puede intentar el cuestionario cualquier cantidad de veces</li>
-                                            <li>Hay puntajes diferentes por pregunta</li>
-                                        </ul>
-                                        <hr></hr>
-                                        <h1>Intentos de la prueba</h1>
-                                        <ul>
-                                            <li>Presione el boton <b>Empezar</b> para iniciar el examen</li>
-                                            <li>El tiempo comenzará en el momento en que haga click en el botón de inicio</li>
-                                            <li>No puede reanudar este cuestionario si se interrumpe por algún motivo</li>
-                                            <li>Desplácese hacia abajo para pasar a la siguiente pregunta</li>
-                                            <li>Haga clic en el botón enviar cuestionario al finalizar el cuestionario</li>
-                                        </ul>
-                                    </Grid>
-                                    <Grid item xs sx={{ display: "flex", justifyContent: "end" }}>
-                                        <Button type='button' onClick={() => { navigate("/UFPSaberPRO/e/simulacros") }} size="large" className="btn btn-danger m-2 flex-start">
-                                            Volver
-                                        </Button>
-                                    </Grid>
-                                    <Grid item xs sx={{ display: "flex", justifyContent: "start" }}>
-                                        <Button type='submit' onClick={() => { empezarSimulacro() }} size="large" className="btn btn-danger m-2 flex-end">
-                                            Empezar
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
-                        </>
-                    </div>
-                </div>
-            </ResponsiveContainer >
-        </React.Fragment >
+            <Container component="main" sx={{ mb: 4 }}>
+                {
+                    (() => {
+                        if (!loading) {
+                            return (
+                                <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+                                    <Typography component="h1" variant="h4" align="center" p={2}>
+                                        Estadisticas del Simulacro
+                                    </Typography>
+                                    <Box component="main" sx={{ flexGrow: 1, py: 8 }}>
+                                        <Container maxWidth="xl">
+                                            <Grid container spacing={3}>
+                                                <Grid xs={12} sm={6} lg={3}>
+                                                    <Card difference={12} sx={{ height: '100%' }}>
+                                                        <CardContent>
+                                                            <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={3}>
+                                                                <Stack spacing={1}>
+                                                                    <Typography color="text.secondary" variant="overline">{()=>{cantPreguntasBuenas()}}</Typography>
+                                                                    <Typography variant="h4">Preguntas Buenas</Typography>
+                                                                </Stack>
+                                                                <Avatar sx={{ backgroundColor: 'primary.main', height: 56, width: 56 }}>
+                                                                    <SvgIcon><CheckCircleIcon /></SvgIcon>
+                                                                </Avatar>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
+                                                <Grid xs={12} sm={6} lg={3}>
+                                                    <Card difference={12} sx={{ height: '100%' }}>
+                                                        <CardContent>
+                                                            <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={3}>
+                                                                <Stack spacing={1}>
+                                                                    <Typography color="text.secondary" variant="overline">{()=>{cantPreguntasMalas()}}</Typography>
+                                                                    <Typography variant="h4">Preguntas Malas</Typography>
+                                                                </Stack>
+                                                                <Avatar sx={{ backgroundColor: 'primary.main', height: 56, width: 56 }}>
+                                                                    <SvgIcon><HighlightOffIcon /></SvgIcon>
+                                                                </Avatar>
+                                                            </Stack>
+                                                        </CardContent>
+                                                    </Card>
+                                                </Grid>
+                                            </Grid>
+                                        </Container>
+                                    </Box>
+                                </Paper>
+                            )
+                        } else {
+                            return (<Cargador />)
+                        }
+                    })()
+                }
+            </Container>
+        </React.Fragment>
     );
 };
 

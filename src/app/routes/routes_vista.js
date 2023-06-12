@@ -39,6 +39,8 @@ import Home from '../components/home/Home';
 import ListaConvocatoriasE from '../components/estudiante/convocatorias/EstConvocatoriaList';
 import ListaSimulacrosE from '../components/estudiante/Simulacros/EstSimulacroList';
 import ConvocatoriaInformacion from '../components/estudiante/convocatorias/ConvocatoriaInformacion';
+import EstadisticaSimulacro from '../components/estudiante/Simulacros/EstadisticaSimulacro';
+
 //Home
 import HomeE from '../components/estudiante/home/Home';
 
@@ -115,6 +117,7 @@ const routes =  {
                          <Route path="/UFPSaberPRO/e/simulacros" key="simE" element={<Dashboard contenedor={<ListaSimulacrosE/>} />} />
                          <Route path="/UFPSaberPRO/e/informacion_simulacro" key="simE" element={<Dashboard contenedor={<InformacionSimulacroE/>} />} />
                          <Route path="/UFPSaberPRO/e/presentar_simulacro" key="preSimE" element={<Dashboard contenedor={<Start_Examen/>} />} />
+                         <Route path="/UFPSaberPRO/e/estadisticas_simulacro" key="simE" element={<Dashboard contenedor={<EstadisticaSimulacro/>} />} />
                     </Route> 
 
                {/* DOCENTE */}

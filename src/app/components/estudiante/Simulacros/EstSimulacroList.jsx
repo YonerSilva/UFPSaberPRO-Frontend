@@ -93,9 +93,18 @@ const ListaSimulacrosE = () => {
                sort: true,
           },
           {
-               text: "PUNTAJE MAX",
-               dataField: "simu_puntaje_maximo",
+               text: "CÓDIGO",
+               dataField: "simu_codigo",
                align: 'center',
+               sort: true,
+          },
+          {
+               text: "PUNTAJE OBTENIDO",
+               dataField: "simu_puntaje_obtenido",
+               align: 'center',
+               formatter: (cell, row) => {
+                    return (row.simu_puntaje_obtenido+"/"+row.simu_puntaje_maximo)
+               },
                sort: true,
           },
           {
@@ -136,6 +145,9 @@ const ListaSimulacrosE = () => {
           try {
                serviceSimulacro.getSimulacrosConvo().then(response => {
                     if (response.error === null) {
+                         response.simulacros.forEach((element,i) => {
+                              element["id"] = i;
+                         });
                          dispatch({
                               type: "SET_LISTA_SIMULACROS_ACTIVO",
                               payload: response.simulacros
@@ -155,6 +167,9 @@ const ListaSimulacrosE = () => {
           try {
                serviceSimulacro.getSimulacrosUsu().then(response => {
                     if (response.error === null) {
+                         response.simulacros.forEach((element,i) => {
+                              element["id"] = i;
+                         });
                          dispatch({
                               type: "SET_LISTA_SIMULACROS_USUARIO",
                               payload: response.simulacros
@@ -183,12 +198,12 @@ const ListaSimulacrosE = () => {
                type: "SET_FORM_EDITION_SIMU",
                payload: item
           });
-          navigate("/UFPSaberPRO/e/informacion_simulacro");
+          navigate("/UFPSaberPRO/e/estadisticas_simulacro");
      }
 
      const handleBuscarA = (data) => {
           if (busqueda === "") {
-               return lista_simulacros_usuario;
+               return lista_simulacros_activo;
           } else {
                return data.filter(
                     (item) =>
@@ -266,7 +281,7 @@ const ListaSimulacrosE = () => {
                                                                                 striped
                                                                                 bordered
                                                                                 hover
-                                                                                keyField='id_simulacro'
+                                                                                keyField='id'
                                                                                 data={handleBuscarA(lista_simulacros_activo)}
                                                                                 columns={columnasA}
                                                                                 pagination={paginationFactory()}
@@ -323,7 +338,7 @@ const ListaSimulacrosE = () => {
                                                                                 striped
                                                                                 bordered
                                                                                 hover
-                                                                                keyField='id_simulacro'
+                                                                                keyField='id'
                                                                                 data={handleBuscarU(lista_simulacros_usuario)}
                                                                                 columns={columnasU}
                                                                                 pagination={paginationFactory()}
