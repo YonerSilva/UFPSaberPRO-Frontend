@@ -18,7 +18,7 @@ const Rutas = () => {
                     {routes.public.map(({ path, element, name }) => (
                          <Route exact path={path} element={element} key={name} />
                     ))}
-                    <Route path="*" element={<NotFound/>}/>
+                    <Route path="/*" element={<NotFound/>}/>
                </Routes>
           </Router>
      );

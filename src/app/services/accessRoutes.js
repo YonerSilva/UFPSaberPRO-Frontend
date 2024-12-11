@@ -34,7 +34,7 @@ const ProtectedRoutes = () => {
   return (
     <div>
       {
-        isAuth ? <Outlet /> : <Navigate to="/" />
+        isAuth ? <Outlet /> : <Navigate to="/UFPSaberPRO/login" />
       }
     </div>
   );

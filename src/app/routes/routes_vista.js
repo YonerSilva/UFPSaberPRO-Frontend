@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Navigate, Route } from 'react-router-dom';
 import LoginR from '../components/user/LoginR';
 import RegistroUsuario from '../components/user/RegistroUsuario';
 
@@ -126,7 +126,7 @@ const routes =  {
                          <Route path="/UFPSaberPRO/d/Inicio" key="homedoc" element={<Dashboard contenedor={<HomeDoc/>} />} />
                     </Route> 
                      {/* FUNCIONALIDADES */} 
-                     <Route key="menuDoc" element={<RequireAuth allowedRoles={[ROLES.DOCENTE]} />}>
+                    <Route key="menuDoc" element={<RequireAuth allowedRoles={[ROLES.DOCENTE]} />}>
                          <Route path="/UFPSaberPRO/d/preguntas" key="predoc" element={<Dashboard contenedor={<PreguntasListDocente/>} />} />
                          <Route path="/UFPSaberPRO/d/preguntas/crear_pregunta" key="crepredoc" element={<Dashboard contenedor={<CrearPreguntaDocente/>} />} />
                          <Route path="/UFPSaberPRO/d/opciones/crear_opcion" key="creopcdoc" element={<Dashboard contenedor={<CrearOpcionDoc/>} />} />
@@ -138,11 +138,16 @@ const routes =  {
           public: [
                {
                     path: "/",
+                    name: "login_replace",
+                    element: <Navigate to="/UFPSaberPRO/login" replace />
+               },
+               {
+                    path: "/UFPSaberPRO/login",
                     name: "login",
                     element: <LoginR/>
                },
                {
-                    path: "/sign_up",
+                    path: "/UFPSaberPRO/sign_up",
                     name: "sign_up",
                     element: <RegistroUsuario/>
                },

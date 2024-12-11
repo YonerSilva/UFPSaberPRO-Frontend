@@ -77,7 +77,7 @@ const PersistAuth = () => {
                                    return <Outlet />
                               } else {
                                    logout_firebase();
-                                   return <Navigate to='/' state={{ from: location }} replace />
+                                   return <Navigate to='/UFPSaberPRO/login' state={{ from: location }} replace />
                               }
                          } else {
                               return <Cargador />
